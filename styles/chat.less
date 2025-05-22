@@ -1,0 +1,212 @@
+.daggerheart.chat {
+    &.downtime {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .downtime-title-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .downtime-subtitle {
+                font-size: 17px;
+            }
+        }
+
+        .downtime-image {
+            width: 80px;
+        }
+
+        .downtime-refresh-container {
+            margin-top: @fullMargin;
+            width: 100%;
+
+            .refresh-title {
+                font-weight: bold;
+            }
+        }
+    }
+
+    &.roll {
+        .dice-tooltip {
+            .dice-rolls {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+
+                .dice-hope-container {
+                    display: flex;
+
+                    .roll.die:not(:last-of-type) {
+                        margin-right: @fullMargin;
+                    }
+                }
+
+                .modifiers-container {
+                    display: flex;
+
+                    .modifier-value:not(:last-of-type) {
+                        margin-right: @fullMargin;
+                    }
+                }
+
+                .roll.die {
+                    &.hope {
+                        color: white;
+                        -webkit-text-stroke-color: @hope;
+                        -webkit-text-stroke-width: 1.5px;
+                        font-weight: 400;
+                    }
+                    &.fear {
+                        color: white;
+                        -webkit-text-stroke-color: @fear;
+                        -webkit-text-stroke-width: 1.5px;
+                        font-weight: 400;
+                    }
+                    &.disadvantage {
+                        color: white;
+                        -webkit-text-stroke-color: @disadvantage;
+                        -webkit-text-stroke-width: 1.5px;
+                        font-weight: 400; 
+                    }
+                    &.advantage {
+                        color: white;
+                        -webkit-text-stroke-color: @advantage;
+                        -webkit-text-stroke-width: 1.5px;
+                        font-weight: 400;
+                    }
+                    //V1.3
+                    // &.advantage {
+                    //     filter: drop-shadow(0 -4px 4px gold);
+                    //     cursor: pointer;
+                    // }
+
+                    &.unused {
+                        opacity: 0.3;
+                    }
+                }
+
+                .modifier-value {
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .dice-total {
+            .dice-total-value {
+                .hope {
+                    color: @hope;
+                }
+                .fear {
+                    color: @fear;
+                }
+                .critical {
+                    color: @critical;
+                }
+            }
+        }
+
+        .dice-total-label {
+            font-size: 12px;
+            font-weight: bold;
+            font-variant: all-small-caps;
+            margin: -@fullMargin 0;
+        }
+
+        .target-section {
+            margin-top: 5px;
+        
+            .target-container {
+                display: flex;
+                transition: all 0.2s ease-in-out;
+
+                &:hover {
+                    filter: drop-shadow(0 0 3px @secondaryShadow);
+                    border-color: gold;
+                }
+
+                &.hidden {
+                    display: none;
+                    border: 0;
+                }
+
+                &.hit {
+                    background: @hit;
+                }
+
+                &.miss {
+                    background: @miss;
+                }
+
+                img {
+                    flex: 0;
+                    width: 22px;
+                    height: 22px;
+                    margin-left: 8px;
+                    align-self: center;  
+                    border-color: transparent;   
+                }
+
+                .target-inner-container {
+                    flex: 1;
+                    display: flex;
+                    justify-content: center;
+                    margin-right: @hugeMargin;
+                }
+            }
+        }
+
+        .roll-damage-button {
+            margin-top: 5px;
+        }
+    }
+
+    &.domain-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .domain-card-title {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            div {
+                font-size: 20px;
+                font-variant: small-caps;
+                font-weight: bold;
+            }
+
+            h2 {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .ability-card-footer {
+            display: flex;
+            width: 100%;
+            margin-top: @fullMargin;
+            flex-wrap: wrap;
+
+            button {
+                border-radius: 6px;
+                background: @positive;
+                border-color: black;
+                flex-basis: calc(50% - 2px);
+
+                &:nth-of-type(n+3){
+                    margin-top: @tinyMargin;
+                }
+            }
+        }
+
+        img {
+            width: 80px;
+        }
+    }
+}

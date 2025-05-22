@@ -1,0 +1,22 @@
+{
+    "dependencies": {
+        "@yaireo/tagify": "^4.17.9",
+        "gulp": "^4.0.2",
+        "gulp-less": "^5.0.0",
+        "rollup": "^4.40.0"
+    },
+    "scripts": {
+        "start": "concurrently \"rollup -c --watch\" \"node C:/FoundryDev/resources/app/main.js --dataPath=C:/FoundryDevFiles  --noupnp\"  \"gulp\"",
+        "start-test": "node C:/FoundryDev/resources/app/main.js --dataPath=C:/FoundryDevFiles && rollup -c --watch && gulp",
+        "pushLDBtoYML": "node ./tools/pushLDBtoYML.mjs",
+        "pullYMLtoLDB": "node ./tools/pullYMLtoLDB.mjs"
+    },
+    "devDependencies": {
+        "@foundryvtt/foundryvtt-cli": "^1.0.2",
+        "@rollup/plugin-commonjs": "^25.0.7",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "postcss": "^8.4.32",
+        "rollup-plugin-postcss": "^4.0.2",
+        "concurrently": "^8.2.2"
+    }
+}

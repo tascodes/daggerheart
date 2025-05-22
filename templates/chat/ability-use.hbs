@@ -1,0 +1,15 @@
+<div class="daggerheart chat domain-card">
+    <div class="domain-card-title">
+        <div>{{title}}</div>
+        <h2>{{name}}</h2>
+    </div>
+    <img src="{{img}}" />
+    <div>{{{description}}}</div>
+    <footer class="ability-card-footer">
+        {{#each actions as |action index|}}
+            <button class="ability-use-button" data-index="{{index}}">
+                {{action.name}}
+            </button>
+        {{/each}}
+    </footer>
+</div>

@@ -1,0 +1,75 @@
+<div>
+    <div class="roll-dialog-container">
+        <div class="flexcol">
+            <div class="roll-dialog-experience-container">
+                {{#each this.experiences}}
+                    {{#if this.description}}
+                        <div class="roll-dialog-chip {{#if this.selected}}selected{{/if}}" data-action="selectExperience" data-key="{{this.id}}">
+                            <span>{{this.description}}</span>
+                            <span>+{{this.value}}</span>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+            <div class="flexrow">
+                <button class="disadvantage flex1 {{#if this.advantage}}selected{{/if}}" data-action="setAdvantage">Advantage</button>
+                <button class="disadvantage flex1 {{#if this.disadvantage}}selected{{/if}}" data-action="setDisadvantage">Disadvantage</button>
+            </div>
+            {{!-- <div class="form-group">
+                <label>Advantage</label>
+                <div class="form-fields">
+                    <select name="advantage" {{#if this.disadvantage}}disabled{{/if}}>
+                        {{selectOptions this.diceOptions selected=this.advantage nameAttr="value" labelAttr="name" localize=true blank=""}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Disadvantage</label>
+                <div class="form-fields">
+                    <select name="disadvantage" {{#if this.advantage}}disabled{{/if}}>
+                        {{selectOptions this.diceOptions selected=this.disadvantage nameAttr="value" labelAttr="name" localize=true blank=""}}
+                    </select>
+                </div>
+            </div> --}}
+            {{#if (not this.isNpc)}}
+                <div class="form-group">
+                    <label>Hope</label>
+                    <div class="form-fields">
+                        <select name="hope">
+                            {{selectOptions this.diceOptions selected=this.hope nameAttr="value" labelAttr="name" localize=true}}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Fear</label>
+                    <div class="form-fields">
+                        <select name="fear">
+                            {{selectOptions this.diceOptions selected=this.fear nameAttr="value" labelAttr="name" localize=true}}
+                        </select>
+                    </div>
+                </div>
+            {{/if}}
+            {{#each this.bonusDamage as |damage index|}}
+                <div class="form-group">
+                    <label><strong>{{damage.description}}</strong></label>
+                    <div class="form-fields">
+                        <label>Enabled</label>
+                        <input style="align-self: baseline;" type="checkbox" name="bonusDamage.{{index}}.initiallySelected" {{checked damage.initiallySelected}} />
+                        {{#if (and damage.initiallySelected damage.hopeIncrease)}}
+
+                            <label>Hope</label>
+                            <div class="hope-container">
+                                <i data-action="decreaseHopeUse" data-index="{{index}}" class="fa-solid fa-caret-left icon-button {{#if (eq damage.hopeUses 0)}}disabled{{/if}}"></i>
+                                <div>{{damage.hopeUses}}</div>
+                                <i data-action="increaseHopeUse" data-index="{{index}}" class="fa-solid fa-caret-right icon-button {{#if (eq ../hopeUsed ../hopeResource)}}disabled{{/if}}"></i>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+        <footer>
+            <button data-action="finish">Roll</button>
+        </footer>
+    </div>
+</div>

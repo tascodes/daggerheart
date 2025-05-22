@@ -1,0 +1,16 @@
+<div class="daggerheart chat downtime">
+    <h2 class="downtime-title-container">
+        <div>{{this.player}} {{localize "DAGGERHEART.Chat.Downtime.Title"}}</div>
+        <div class="downtime-subtitle">{{this.title}}</div>
+    </h2>
+    <img class="downtime-image" src="{{this.img}}" />
+    <div>{{{this.description}}}</div>
+    <div class="downtime-refresh-container">
+        <div class="refresh-title">Refreshed Features</div>
+        {{#each this.refreshedFeatures}}
+            <div class="refresh-inner-container">
+                <div>{{this.name}}</div>
+            </div>
+        {{/each}} 
+    </div>
+</div>

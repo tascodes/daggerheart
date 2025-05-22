@@ -1,0 +1,132 @@
+@import "./variables/variables.less";
+@import "./class.less";
+@import "./pc.less";
+@import "./ui.less";
+@import "./chat.less";
+@import "./item.less";
+@import "./application.less";
+@import "./sheets//sheets.less";
+@import "./components.less";
+@import "./dialog.less";
+@import "../node_modules/@yaireo/tagify/dist/tagify.css";
+
+#logo {
+    content: url(../assets/DaggerheartLogo.webp);
+    height: 50px;
+    width: 50px;
+    position: relative;
+    left: 25px;
+}
+
+.daggerheart {
+    .vertical-separator {
+        border-left: 2px solid black;
+        height: 56px;
+        flex: 0;
+        align-self: center;
+    }
+
+    /* Flex */
+    .flex-centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .flex-col-centered {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex-spaced {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .flex-min {
+        display: flex;
+        flex: 0;
+    }
+
+    /****/
+    img[data-edit="img"] {
+        min-width: 64px;
+        min-height: 64px;
+    }
+
+    .editor {
+        height: 200px;
+    }
+
+    button {
+        i {
+            margin: 0;
+        }
+    }
+
+    .icon-button {
+        &.spaced {
+            margin-left: @halfMargin;
+        }
+
+        &.active {
+            filter: drop-shadow(0 0 3px @mainShadow);
+
+            &.secondary {
+                filter: drop-shadow(0 0 3px @secondaryShadow);
+            }
+        }
+
+        &.disabled {
+            opacity: 0.6;
+        }
+
+
+        &:hover:not(.disabled){
+            cursor: pointer;
+            filter: drop-shadow(0 0 3px @mainShadow);
+
+            &.secondary {
+                filter: drop-shadow(0 0 3px @secondaryShadow);
+            }
+        }
+    }
+
+    // .window-content {
+    //     background: crimson;
+
+    //     > form, >div {
+    //         background: url(../ui/parchment.jpg) repeat;
+    //     }
+    // }
+}
+
+#players {
+    h3 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+
+        .players-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .fear-control {
+            font-size: 10px;
+            
+            &.disabled {
+                opacity: 0.4;
+            }
+            
+            &:hover:not(.disabled) {
+                cursor: pointer;
+                filter: drop-shadow(0 0 3px @mainShadow);
+            }
+        }
+    }
+}
