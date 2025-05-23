@@ -13,4 +13,5 @@ or darrington press.
 
 [Foundry VTT Website][1]
 
-[1][https://foundryvtt.com/]
+
+[1]: [https://foundryvtt.com/]
