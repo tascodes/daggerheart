@@ -12,6 +12,9 @@ or darrington press.
 # Developer Guide
 #### Setup
 - Open a terminal in the directory with the repo `cd <path>/<to>/<repo>`
+- NOTE: The repo should be placed in the system files are or somewhere else and a link (if on linux) is placed in the system directory 
+- NOTE: Linux link can be made using `ln -snf <path to development folder> daggerheart` inside the system folder
+  
 - Install npm `npm install`
 - Update package.json to match your profile
 ```
