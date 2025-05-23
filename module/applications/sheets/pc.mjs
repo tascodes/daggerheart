@@ -331,11 +331,11 @@ export default class PCSheet extends DaggerheartSheet(ActorSheetV2) {
         this.render();
     }
 
-    static async rollAttribute(_, event){
-        const { roll, hope, fear, advantage, disadvantage, modifiers } = await this.document.dualityRoll({ title: 'Attribute Bonus', value: event.currentTarget.dataset.value }, event.shiftKey);
+    static async rollAttribute(event, target) {
+        const { roll, hope, fear, advantage, disadvantage, modifiers } = await this.document.dualityRoll({ title: 'Attribute Bonus', value: event.target.dataset.value }, event.shiftKey);
 
         const cls = getDocumentClass("ChatMessage");
-        const msg = new cls({
+        const msgData = {
             type: 'dualityRoll',
             system: {
                 roll: roll._formula,
@@ -348,9 +348,9 @@ export default class PCSheet extends DaggerheartSheet(ActorSheetV2) {
             user: game.user.id,
             content: "systems/daggerheart/templates/chat/duality-roll.hbs",
             rolls: [roll]
-        });
+        };
 
-        await cls.create(msg.toObject());
+        await cls.create(msgData);
     }
 
     static async toggleMarks(_, button){
