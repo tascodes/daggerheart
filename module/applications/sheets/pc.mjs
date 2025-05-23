@@ -5,6 +5,22 @@ import DhpLevelup from '../levelup.mjs';
 import AncestrySelectionDialog from '../ancestrySelectionDialog.mjs';
 import DaggerheartSheet from './daggerheart-sheet.mjs';
 
+function computeDamageThresholds(armor, currentLevel) {
+    if (!armor) {
+        return {
+            major: currentLevel,
+            severe: currentLevel * 2
+        };
+    }
+    const {
+        baseThresholds: { major = 0, severe = 0 }
+    } = armor.system;
+    return {
+        major: major + currentLevel,
+        severe: severe + currentLevel
+    };
+}
+
 const { ActorSheetV2 } = foundry.applications.sheets;
 export default class PCSheet extends DaggerheartSheet(ActorSheetV2) {
     constructor(options = {}) {
@@ -285,6 +301,11 @@ export default class PCSheet extends DaggerheartSheet(ActorSheetV2) {
         if (context.inventory.length === 0) {
             context.inventory = Array(1).fill(Array(5).fill([]));
         }
+
+        this.document.damageThresholds = computeDamageThresholds(
+            context.source.items.find(x => x.type === 'armor'),
+            context.source.system.levelData.currentLevel
+        );
 
         context.classFeatures = (
             this.multiclassFeatureSetSelected

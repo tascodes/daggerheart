@@ -23,10 +23,6 @@ const levelUpTier = () => ({
     experiences: new MappingField(new fields.ArrayField(new fields.StringField({}))),
     proficiency: new MappingField(new fields.BooleanField()),
     armorOrEvasionSlot: new MappingField(new fields.StringField({})),
-    majorDamageThreshold2: new MappingField(new fields.BooleanField()),
-    severeDamageThreshold2: new MappingField(new fields.BooleanField()),
-    severeDamageThreshold3: new MappingField(new fields.BooleanField()),
-    severeDamageThreshold4: new MappingField(new fields.BooleanField()),
     subclass: new MappingField(
         new fields.SchemaField({
             multiclass: new fields.BooleanField(),
@@ -91,11 +87,6 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
                 value: new fields.NumberField({ initial: 1, integer: true }),
                 min: new fields.NumberField({ initial: 1, integer: true }),
                 max: new fields.NumberField({ initial: 6, integer: true })
-            }),
-            damageThresholds: new fields.SchemaField({
-                minor: new fields.NumberField({ initial: 0, integer: true }),
-                major: new fields.NumberField({ initial: 0, integer: true }),
-                severe: new fields.NumberField({ initial: 0, integer: true })
             }),
             evasion: new fields.NumberField({ initial: 0, integer: true }),
             // armor: new fields.SchemaField({
@@ -389,7 +380,6 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
 
         this.evasion = this.class?.system?.evasion ?? 0;
         // this.armor.value = this.activeArmor?.baseScore ?? 0;
-        this.damageThresholds = this.class?.system?.damageThresholds ?? { minor: 0, major: 0, severe: 0 };
 
         this.applyLevels();
         this.applyEffects();
@@ -400,10 +390,7 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
             stressBonus = 0,
             proficiencyBonus = 0,
             evasionBonus = 0,
-            armorBonus = 0,
-            minorThresholdBonus = 0,
-            majorThresholdBonus = 0,
-            severeThresholdBonus = 0;
+            armorBonus = 0;
         let experienceBonuses = {};
         let advancementFirst = null,
             advancementSecond = null;
@@ -439,11 +426,6 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
                     armorBonus += Object.keys(tierData.armorOrEvasionSlot).filter(
                         x => tierData.armorOrEvasionSlot[x] === 'armor'
                     ).length;
-
-                    majorThresholdBonus += Object.keys(tierData.majorDamageThreshold2).length * 2;
-                    severeThresholdBonus += Object.keys(tierData.severeDamageThreshold2).length * 2;
-                    severeThresholdBonus += Object.keys(tierData.severeDamageThreshold3).length * 3;
-                    severeThresholdBonus += Object.keys(tierData.severeDamageThreshold4).length * 4;
                 }
             }
         }
@@ -456,9 +438,6 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
             max: this.armor ? this.armor.system.marks.max + armorBonus : 0,
             value: this.armor ? this.armor.system.marks.value : 0
         };
-        this.damageThresholds.minor += minorThresholdBonus;
-        this.damageThresholds.major += majorThresholdBonus;
-        this.damageThresholds.severe += severeThresholdBonus;
 
         this.experiences = this.experiences.map(x => ({ ...x, value: x.value + (experienceBonuses[x.id] ?? 0) }));
 
@@ -494,20 +473,6 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
             if (tier !== 'tier0') {
                 this.domainData.maxLoadout = Math.min(this.domainData.maxLoadout + 1, 5);
                 this.domainData.maxCards += 1;
-            }
-
-            switch (tier) {
-                case 'tier1':
-                    this.damageThresholds.severe += 2;
-                    break;
-                case 'tier2':
-                    this.damageThresholds.major += 1;
-                    this.damageThresholds.severe += 3;
-                    break;
-                case 'tier3':
-                    this.damageThresholds.major += 2;
-                    this.damageThresholds.severe += 4;
-                    break;
             }
         }
     }
