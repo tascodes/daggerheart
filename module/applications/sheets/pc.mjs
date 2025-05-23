@@ -64,6 +64,17 @@ export default class PCSheet extends DaggerheartSheet(ActorSheetV2) {
             useAdvancementAbility: this.useAdvancementAbility,
             selectFeatureSet: this.selectFeatureSet,
         },
+        window: {
+            //frame: boolean;
+            //positioned: boolean;
+            //title: string;
+            //icon: string | false;
+            //controls: ApplicationHeaderControlsEntry[];
+            minimizable: false,
+            resizable: true
+            //contentTag: string;
+            //contentClasses: string[];
+        },
         form: {
             handler: this.updateForm,
             submitOnChange: true,
