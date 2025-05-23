@@ -4,8 +4,8 @@ This is a repo for a Foundry VTT implementation of daggerheart. It is not associ
 or darrington press.
 
 # Table Of Contents
-- [Overview](#Overview)
-- [Developer Guide](#Developer-Guide)
+- [Overview](#overview)
+- [Developer Guide](#developer-guide)
 
 # Overview
 
