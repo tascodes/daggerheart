@@ -15,6 +15,9 @@ or darrington press.
 # Developer Guide
 
 #### Coding Practises
+##### Style Code
+The project is set up for Prettify. Make sure you've run `npm install` since it was added.
+There is a pre-commit hook that will automatically run prettify on the files you've changed whenever you do a commit to maintain the formating.
 
 ##### Branches And Pull Requests
 
