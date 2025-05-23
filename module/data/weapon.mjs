@@ -18,7 +18,7 @@ export default class DhpWeapon extends foundry.abstract.TypeDataModel {
       }
     }
 
-  prepareDerivedData() {
+    prepareDerivedData() {
       if(this.parent.parent){
         this.applyEffects();
       }
