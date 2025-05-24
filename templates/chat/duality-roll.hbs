@@ -2,7 +2,6 @@
     <div class="dice-flavor">{{this.title}}</div>
     <div class="dice-result">
         <div class="dice-formula">{{roll}}</div>
-
         <div class="dice-tooltip">
             <div class="wrapper">
                 <section class="tooltip-part">
@@ -55,26 +54,6 @@
                 </section>
             </div>
         </div>
-
-        {{!-- <div class="dice-tooltip {{#if advantage.value}}expanded{{/if}}">
-            <ol class="dice-rolls duality">
-                <div class="dice-hope-container">
-                    <li id="hope" class="roll die {{hope.dice}} hope" title="{{localize "DAGGERHEART.General.Hope"}}">{{hope.value}}</li>
-                    <li class="roll die {{fear.dice}} fear" title="{{localize "DAGGERHEART.General.Fear"}}">{{fear.value}}</li>
-                    {{#if advantage.value}}
-                        <li class="roll die {{advantage.dice}} advantage" title="{{localize "DAGGERHEART.General.Advantage.Full"}}">{{ advantage.value}}</li>
-                    {{/if}}
-                    {{#if disadvantage.value}}
-                        <li class="roll die {{disadvantage.dice}} disadvantage" title="{{localize "DAGGERHEART.General.Disadvantage.Full"}}">{{disadvantage.value}}</li>
-                    {{/if}}
-                </div>
-                <div class="modifiers-container">
-                    {{#each modifiers}}
-                        <li class="modifier-value" data-value="{{this.value}}" title="{{this.title}}">{{this.label}}</li>
-                    {{/each}}
-                </div>
-            </ol>
-        </div> --}}
         <div class="dice-total">
             <div class="dice-total-label">{{totalLabel}}</div>
             <div class="dice-total-value">

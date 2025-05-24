@@ -51,18 +51,6 @@ export default class DhpAdversaryRoll extends foundry.abstract.TypeDataModel {
             }));
         }
 
-        // const highestIndex = 0;
-        // for (var index in diceKeys) {
-        //     const resultIndex = Number.parseInt(index);
-        //     if (highestIndex === resultIndex) continue;
-
-        //     const current = this.dice.rolls[resultIndex];
-        //     const highest = this.dice.rolls[highestIndex];
-
-        //     if (current.value > highest.value) this.dice.rolls[highestIndex].discarded = true;
-        //     else this.dice.rolls[resultIndex].discarded = true;
-        // }
-
         this.targets.forEach(target => {
             target.hit = target.difficulty ? this.total >= target.difficulty : this.total >= target.evasion;
         });

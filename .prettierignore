@@ -4,3 +4,4 @@ package.json
 .github
 *.hbs
 styles/daggerheart.css
+src/packs
