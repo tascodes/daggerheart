@@ -4,37 +4,75 @@
     "_id": "aacMxI9mOTmLO4cj",
     "img": "systems/daggerheart/assets/icons/classes/sorcerer.png",
     "system": {
-        "domains": [],
+        "domains": ["arcana", "midnight"],
         "classItems": [],
         "damageThresholds": {
             "minor": 0,
             "major": 0,
             "severe": 0
         },
-        "evasion": 0,
-        "features": [],
+        "evasion": 10,
+        "features": [
+            {
+                "name": "Volatile Magic",
+                "img": "icons/svg/item-bag.svg",
+                "uuid": "Compendium.daggerheart.class-features.Item.J3TdB5ZsmyJ68rxZ"
+            },
+            {
+                "name": "Arcane Sense",
+                "img": "icons/svg/item-bag.svg",
+                "uuid": "Compendium.daggerheart.class-features.Item.D5HUGwdizhBVZ0RW"
+            },
+            {
+                "name": "Minor Illusion",
+                "img": "icons/svg/item-bag.svg",
+                "uuid": "Compendium.daggerheart.class-features.Item.qFq7kynAZhbWTbT5"
+            },
+            {
+                "img": "icons/svg/item-bag.svg",
+                "name": "Channel Raw Power",
+                "uuid": "Compendium.daggerheart.class-features.Item.ovxuqhl01XZSwx2n"
+            }
+        ],
         "subclasses": [],
         "inventory": {
             "take": [],
             "choiceA": [],
             "choiceB": [],
-            "extra": null
+            "extra": {
+                "title": "",
+                "description": ""
+            }
         },
         "characterGuide": {
             "suggestedTraits": {
                 "agility": 0,
-                "strength": 0,
-                "finesse": 0,
-                "instinct": 0,
-                "presence": 0,
+                "strength": -1,
+                "finesse": 1,
+                "instinct": 2,
+                "presence": 1,
                 "knowledge": 0
             },
             "suggestedPrimaryWeapon": null,
             "suggestedSecondaryWeapon": null,
             "suggestedArmor": null,
-            "characterDescription": {},
-            "backgroundQuestions": ["", "", ""],
-            "connections": ["", "", ""]
+            "characterDescription": {
+                "clothes": "",
+                "eyes": "",
+                "body": "",
+                "color": "",
+                "attitude": ""
+            },
+            "backgroundQuestions": [
+                "What did you do that made the people in your community wary of you?",
+                "What mentor taught you to control your untamed magic, and why are they no longer able to guide you?",
+                "You have a deep fear you hide from everyone. What is it, and why does it scare you?"
+            ],
+            "connections": [
+                "Why do you trust me so deeply?",
+                "What did I do that makes you cautious around me?",
+                "Why do we keep our shared past a secret?"
+            ]
         },
         "multiclass": null,
         "description": ""
@@ -55,8 +93,8 @@
         "systemId": "daggerheart",
         "systemVersion": "0.0.1",
         "createdTime": 1747946940010,
-        "modifiedTime": 1747946943869,
-        "lastModifiedBy": "NqO2eQGMjrvUO6v9"
+        "modifiedTime": 1748033881134,
+        "lastModifiedBy": "ei8OkswTzyDp4IGC"
     },
     "_key": "!items!aacMxI9mOTmLO4cj"
 }

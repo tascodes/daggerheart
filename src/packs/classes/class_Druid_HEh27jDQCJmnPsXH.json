@@ -4,37 +4,70 @@
     "_id": "HEh27jDQCJmnPsXH",
     "img": "systems/daggerheart/assets/icons/classes/druid.png",
     "system": {
-        "domains": [],
+        "domains": ["sage", "arcana"],
         "classItems": [],
         "damageThresholds": {
             "minor": 0,
             "major": 0,
             "severe": 0
         },
-        "evasion": 0,
-        "features": [],
+        "evasion": 10,
+        "features": [
+            {
+                "name": "Evolution",
+                "img": "icons/svg/item-bag.svg",
+                "uuid": "Compendium.daggerheart.class-features.Item.bZxfyPTZ6rsakyA2"
+            },
+            {
+                "name": "Beastform",
+                "img": "icons/svg/item-bag.svg",
+                "uuid": "Compendium.daggerheart.class-features.Item.NkSKDXGNNiOUlFqm"
+            },
+            {
+                "img": "icons/svg/item-bag.svg",
+                "name": "Wildtouch",
+                "uuid": "Compendium.daggerheart.class-features.Item.Dy0lco20C0Nk6yQo"
+            }
+        ],
         "subclasses": [],
         "inventory": {
             "take": [],
             "choiceA": [],
             "choiceB": [],
-            "extra": null
+            "extra": {
+                "title": "",
+                "description": ""
+            }
         },
         "characterGuide": {
             "suggestedTraits": {
-                "agility": 0,
+                "agility": 1,
                 "strength": 0,
-                "finesse": 0,
-                "instinct": 0,
-                "presence": 0,
+                "finesse": 1,
+                "instinct": 2,
+                "presence": -1,
                 "knowledge": 0
             },
             "suggestedPrimaryWeapon": null,
             "suggestedSecondaryWeapon": null,
             "suggestedArmor": null,
-            "characterDescription": {},
-            "backgroundQuestions": ["", "", ""],
-            "connections": ["", "", ""]
+            "characterDescription": {
+                "clothes": "",
+                "eyes": "",
+                "body": "",
+                "color": "",
+                "attitude": ""
+            },
+            "backgroundQuestions": [
+                "Why was the community you grew up in so reliant on nature and its creatures?",
+                "Who was the first wild animal you bonded with? Why did your bond end?",
+                "Who has been trying to hunt you down? What do they want from you?"
+            ],
+            "connections": [
+                "What did you confide in me that makes me leap into danger for you every time?",
+                "What animal do I say you remind me of?",
+                "What affectionate nickname have you given me?"
+            ]
         },
         "multiclass": null,
         "description": ""
@@ -55,8 +88,8 @@
         "systemId": "daggerheart",
         "systemVersion": "0.0.1",
         "createdTime": 1747946822837,
-        "modifiedTime": 1747946826150,
-        "lastModifiedBy": "NqO2eQGMjrvUO6v9"
+        "modifiedTime": 1748029712119,
+        "lastModifiedBy": "ei8OkswTzyDp4IGC"
     },
     "_key": "!items!HEh27jDQCJmnPsXH"
 }

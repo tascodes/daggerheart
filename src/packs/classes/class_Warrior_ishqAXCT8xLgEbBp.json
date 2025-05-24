@@ -4,37 +4,70 @@
     "_id": "ishqAXCT8xLgEbBp",
     "img": "systems/daggerheart/assets/icons/classes/warrior.png",
     "system": {
-        "domains": [],
+        "domains": ["blade", "bone"],
         "classItems": [],
         "damageThresholds": {
             "minor": 0,
             "major": 0,
             "severe": 0
         },
-        "evasion": 0,
-        "features": [],
+        "evasion": 11,
+        "features": [
+            {
+                "name": "No Mercy",
+                "img": "icons/svg/item-bag.svg",
+                "uuid": "Compendium.daggerheart.class-features.Item.t3tLoq4h9wgQD7E9"
+            },
+            {
+                "name": "Attack of Opportunity",
+                "img": "icons/svg/item-bag.svg",
+                "uuid": "Compendium.daggerheart.class-features.Item.VfUbJwGU4Cka0xLP"
+            },
+            {
+                "img": "icons/svg/item-bag.svg",
+                "name": "Combat Training",
+                "uuid": "Compendium.daggerheart.class-features.Item.elb6ZVertgu6OdKA"
+            }
+        ],
         "subclasses": [],
         "inventory": {
             "take": [],
             "choiceA": [],
             "choiceB": [],
-            "extra": null
+            "extra": {
+                "title": "",
+                "description": ""
+            }
         },
         "characterGuide": {
             "suggestedTraits": {
-                "agility": 0,
-                "strength": 0,
+                "agility": 2,
+                "strength": 1,
                 "finesse": 0,
-                "instinct": 0,
-                "presence": 0,
+                "instinct": 1,
+                "presence": -1,
                 "knowledge": 0
             },
             "suggestedPrimaryWeapon": null,
             "suggestedSecondaryWeapon": null,
             "suggestedArmor": null,
-            "characterDescription": {},
-            "backgroundQuestions": ["", "", ""],
-            "connections": ["", "", ""]
+            "characterDescription": {
+                "clothes": "",
+                "eyes": "",
+                "body": "",
+                "color": "",
+                "attitude": ""
+            },
+            "backgroundQuestions": [
+                "Who taught you to fight, and why did they stay behind when you left home?",
+                "Somebody defeated you in battle years ago and left you to die. Who was it, and how did they betray you?",
+                "What legendary place have you always wanted to visit, and why is it so special?"
+            ],
+            "connections": [
+                "We knew each other long before this party came together. How?",
+                "What mundane task do you usually help me with off the battlefield",
+                "What fear am I helping you overcome?"
+            ]
         },
         "multiclass": null,
         "description": ""
@@ -55,8 +88,8 @@
         "systemId": "daggerheart",
         "systemVersion": "0.0.1",
         "createdTime": 1747946965065,
-        "modifiedTime": 1747946967544,
-        "lastModifiedBy": "NqO2eQGMjrvUO6v9"
+        "modifiedTime": 1748034254542,
+        "lastModifiedBy": "ei8OkswTzyDp4IGC"
     },
     "_key": "!items!ishqAXCT8xLgEbBp"
 }
