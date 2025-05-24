@@ -68,7 +68,6 @@ export default class DhpActor extends Actor {
     }
 
     async npcRoll(modifier, shiftKey) {
-        let nrDice = 1;
         let advantage = null;
 
         const modifiers = [
@@ -84,7 +83,6 @@ export default class DhpActor extends Actor {
             });
             const result = await dialogClosed;
 
-            nrDice = result.nrDice;
             advantage = result.advantage;
             result.experiences.forEach(x =>
                 modifiers.push({
@@ -95,13 +93,20 @@ export default class DhpActor extends Actor {
             );
         }
 
-        const roll = new Roll(
-            `${nrDice}d20${advantage === true ? 'kh' : advantage === false ? 'kl' : ''} ${modifiers.map(x => `+ ${x.value}`).join(' ')}`
+        const roll = Roll.create(
+            `${advantage === true || advantage === false ? 2 : 1}d20${advantage === true ? 'kh' : advantage === false ? 'kl' : ''} ${modifiers.map(x => `+ ${x.value}`).join(' ')}`
         );
         let rollResult = await roll.evaluate();
-        const diceResults = rollResult.dice.flatMap(x => x.results.flatMap(result => ({ value: result.result })));
+        const dice = [];
+        for (var i = 0; i < rollResult.terms.length; i++) {
+            const term = rollResult.terms[i];
+            if (term.faces) {
+                dice.push({ type: `d${term.faces}`, rolls: term.results.map(x => ({ value: x.result })) });
+            }
+        }
 
-        return { roll, diceResults: diceResults, modifiers: modifiers };
+        // There is Only ever one dice term here
+        return { roll, dice: dice[0], modifiers, advantageState: advantage === true ? 1 : advantage === false ? 2 : 0 };
     }
 
     async dualityRoll(modifier, shiftKey, bonusDamage = []) {
@@ -245,14 +250,12 @@ export default class DhpActor extends Actor {
         };
     }
 
-    async damageRoll(damage, shiftKey) {
+    async damageRoll(damage, targets, shiftKey) {
         let rollString = damage.value;
         let bonusDamage = damage.bonusDamage?.filter(x => x.initiallySelected) ?? [];
         if (!shiftKey) {
             const dialogClosed = new Promise((resolve, _) => {
-                new DamageSelectionDialog(rollString, bonusDamage, this.system.resources.hope.value, resolve).render(
-                    true
-                );
+                new DamageSelectionDialog(rollString, bonusDamage, resolve).render(true);
             });
             const result = await dialogClosed;
             bonusDamage = result.bonusDamage;
@@ -274,23 +277,30 @@ export default class DhpActor extends Actor {
         for (var i = 0; i < rollResult.terms.length; i++) {
             const term = rollResult.terms[i];
             if (term.faces) {
-                dice.push({ type: `d${term.faces}`, value: term.total });
+                dice.push({ type: `d${term.faces}`, rolls: term.results.map(x => x.result) });
             } else if (term.operator) {
             } else if (term.number) {
                 const operator = i === 0 ? '' : rollResult.terms[i - 1].operator;
-                modifiers.push(`${operator}${term.number}`);
+                modifiers.push({ value: term.number, operator: operator });
             }
         }
 
         const cls = getDocumentClass('ChatMessage');
         const msg = new cls({
+            type: 'damageRoll',
             user: game.user.id,
-            content: await renderTemplate('systems/daggerheart/templates/chat/damage-roll.hbs', {
+            sound: CONFIG.sounds.dice,
+            system: {
                 roll: rollString,
-                total: rollResult.total,
+                damage: {
+                    total: rollResult.total,
+                    type: damage.type
+                },
                 dice: dice,
-                modifiers: modifiers
-            }),
+                modifiers: modifiers,
+                targets: targets
+            },
+            content: 'systems/daggerheart/templates/chat/damage-roll.hbs',
             rolls: [roll]
         });
 

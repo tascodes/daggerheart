@@ -30,7 +30,7 @@
 
     &.roll {
         .dice-tooltip {
-            .dice-rolls {
+            .dice-rolls.duality {
                 display: flex;
                 align-items: center;
                 justify-content: space-around;
@@ -92,6 +92,11 @@
                     font-weight: bold;
                     font-size: 16px;
                 }
+            }
+
+            .attack-roll-advantage-container {
+                text-align: end;
+                font-weight: bold;
             }
         }
 
@@ -159,8 +164,20 @@
             }
         }
 
-        .roll-damage-button {
-            margin-top: 5px;
+        .dice-actions {
+            display: flex;
+            gap: 4px;
+
+            button {
+                flex: 1;
+            }
+        }
+
+        .dice-result {
+            .roll-damage-button,
+            .damage-button {
+                margin-top: 5px;
+            }
         }
     }
 

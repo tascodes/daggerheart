@@ -6,7 +6,6 @@ export default class NpcRollSelectionDialog extends FormApplication {
         this.resolve = resolve;
         this.selectedExperiences = [];
         this.data = {
-            nrDice: 1,
             advantage: null
         };
     }
@@ -19,7 +18,7 @@ export default class NpcRollSelectionDialog extends FormApplication {
         const defaults = super.defaultOptions;
         const overrides = {
             height: 'auto',
-            width: 400,
+            width: 500,
             id: 'roll-selection',
             template: 'systems/daggerheart/templates/views/npcRollSelection.hbs',
             closeOnSubmit: false,
@@ -34,11 +33,11 @@ export default class NpcRollSelectionDialog extends FormApplication {
 
     async getData() {
         const context = super.getData();
-        context.nrDice = this.data.nrDice;
         context.advantage = this.data.advantage;
-        context.experiences = this.experiences.map(x => ({
+        context.experiences = Object.values(this.experiences).map(x => ({
             ...x,
-            selected: this.selectedExperiences.find(selected => selected.id === x.id)
+            selected: this.selectedExperiences.find(selected => selected.id === x.id),
+            value: `${x.value >= 0 ? '+' : '-'}${x.value}`
         }));
 
         return context;
@@ -47,17 +46,10 @@ export default class NpcRollSelectionDialog extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
 
-        html.find('.increase').click(_ => this.updateNrDice(1));
-        html.find('.decrease').click(_ => this.updateNrDice(-1));
         html.find('.advantage').click(_ => this.updateIsAdvantage(true));
         html.find('.disadvantage').click(_ => this.updateIsAdvantage(false));
         html.find('.roll-button').click(this.finish.bind(this));
-        html.find('.roll-dialog-chip').click(this.selectExperience.bind(this));
-    }
-
-    updateNrDice(value) {
-        this.data.nrDice += value;
-        this.render();
+        html.find('.experience-chip').click(this.selectExperience.bind(this));
     }
 
     updateIsAdvantage(advantage) {
@@ -66,9 +58,9 @@ export default class NpcRollSelectionDialog extends FormApplication {
     }
 
     selectExperience(event) {
-        const experience = this.experiences[event.currentTarget.dataset.key];
-        this.selectedExperiences = this.selectedExperiences.find(x => x.name === experience.name)
-            ? this.selectedExperiences.filter(x => x.name !== experience.name)
+        const experience = Object.values(this.experiences).find(experience => experience.id === event.currentTarget.id);
+        this.selectedExperiences = this.selectedExperiences.find(x => x.id === experience.id)
+            ? this.selectedExperiences.filter(x => x.id !== experience.id)
             : [...this.selectedExperiences, experience];
 
         this.render();

@@ -3,6 +3,7 @@ export default class DhpAdversaryRoll extends foundry.abstract.TypeDataModel {
         const fields = foundry.data.fields;
 
         return {
+            origin: new fields.StringField({ required: true }),
             roll: new fields.StringField({}),
             total: new fields.NumberField({ integer: true }),
             modifiers: new fields.ArrayField(
@@ -12,12 +13,8 @@ export default class DhpAdversaryRoll extends foundry.abstract.TypeDataModel {
                     title: new fields.StringField({})
                 })
             ),
-            diceResults: new fields.ArrayField(
-                new fields.SchemaField({
-                    value: new fields.NumberField({ integer: true }),
-                    discarded: new fields.BooleanField({ initial: false })
-                })
-            ),
+            advantageState: new fields.NumberField({ required: true, choices: [0, 1, 2], initial: 0 }),
+            dice: new fields.EmbeddedDataField(DhpAdversaryRollDice),
             targets: new fields.ArrayField(
                 new fields.SchemaField({
                     id: new fields.StringField({}),
@@ -39,21 +36,41 @@ export default class DhpAdversaryRoll extends foundry.abstract.TypeDataModel {
     }
 
     prepareDerivedData() {
-        const diceKeys = Object.keys(this.diceResults);
+        const diceKeys = Object.keys(this.dice.rolls);
         const highestIndex = 0;
         for (var index in diceKeys) {
             const resultIndex = Number.parseInt(index);
             if (highestIndex === resultIndex) continue;
 
-            const current = this.diceResults[resultIndex];
-            const highest = this.diceResults[highestIndex];
+            const current = this.dice.rolls[resultIndex];
+            const highest = this.dice.rolls[highestIndex];
 
-            if (current.value > highest.value) this.diceResults[highestIndex].discarded = true;
-            else this.diceResults[resultIndex].discarded = true;
+            if (current.value > highest.value) this.dice.rolls[highestIndex].discarded = true;
+            else this.dice.rolls[resultIndex].discarded = true;
         }
 
         this.targets.forEach(target => {
             target.hit = target.difficulty ? this.total >= target.difficulty : this.total >= target.evasion;
         });
+    }
+}
+
+class DhpAdversaryRollDice extends foundry.abstract.DataModel {
+    static defineSchema() {
+        const fields = foundry.data.fields;
+
+        return {
+            type: new fields.StringField({ required: true }),
+            rolls: new fields.ArrayField(
+                new fields.SchemaField({
+                    value: new fields.NumberField({ required: true, integer: true }),
+                    discarded: new fields.BooleanField({ initial: false })
+                })
+            )
+        };
+    }
+
+    get rollTotal() {
+        return this.rolls.reduce((acc, roll) => acc + roll.value, 0);
     }
 }

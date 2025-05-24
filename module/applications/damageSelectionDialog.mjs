@@ -1,7 +1,7 @@
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export default class DamageSelectionDialog extends HandlebarsApplicationMixin(ApplicationV2) {
-    constructor(rollString, bonusDamage, hope, resolve) {
+    constructor(rollString, bonusDamage, resolve, hope = 0) {
         super({});
 
         this.data = {
