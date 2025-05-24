@@ -207,10 +207,9 @@ export default class DhpActor extends Actor {
         }
 
         const hope = rollResult.dice[0].results[0].result;
-        const advantage = advantageDice ? rollResult.dice[1].results[0].result : null;
-        const disadvantage = disadvantageDice ? rollResult.dice[1].results[0].result : null;
-        const fear =
-            advantage || disadvantage ? rollResult.dice[2].results[0].result : rollResult.dice[1].results[0].result;
+        const fear = rollResult.dice[1].results[0].result;
+        const advantage = advantageDice ? rollResult.dice[2].results[0].result : null;
+        const disadvantage = disadvantageDice ? rollResult.dice[2].results[0].result : null;
 
         if (disadvantage) {
             rollResult = { ...rollResult, total: rollResult.total - Math.max(hope, disadvantage) };
@@ -250,7 +249,7 @@ export default class DhpActor extends Actor {
         };
     }
 
-    async damageRoll(damage, targets, shiftKey) {
+    async damageRoll(title, damage, targets, shiftKey) {
         let rollString = damage.value;
         let bonusDamage = damage.bonusDamage?.filter(x => x.initiallySelected) ?? [];
         if (!shiftKey) {
@@ -291,6 +290,7 @@ export default class DhpActor extends Actor {
             user: game.user.id,
             sound: CONFIG.sounds.dice,
             system: {
+                title: game.i18n.format('DAGGERHEART.Chat.DamageRoll.Title', { damage: title }),
                 roll: rollString,
                 damage: {
                     total: rollResult.total,

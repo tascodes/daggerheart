@@ -1,4 +1,5 @@
 <div class="dice-roll daggerheart chat roll" data-action="expandRoll">
+    <div class="dice-flavor">{{localize "DAGGERHEART.Chat.AttackRoll.Title" attack=this.title}}</div>
     <div class="dice-result">
         <div class="dice-formula">{{roll}}</div>
         <div class="dice-tooltip">
@@ -7,7 +8,7 @@
                     <div class="dice">
                         <header class="part-header flexrow">
                             <span class="part-formula">{{this.dice.rolls.length}}{{this.dice.type}}</span>
-                            <span class="part-total">{{this.total}}</span>
+                            <span class="part-total">{{this.dice.rollTotal}}</span>
                         </header>
                         <div class="flexrow">
                             <ol class="dice-rolls">
@@ -23,7 +24,7 @@
         </div>
 
         <div class="dice-total">
-            <div class="dice-total-value">{{total}}</div>
+            <div class="dice-total-value">{{this.total}}</div>
         </div>
         {{#if (gt targets.length 0)}}
             <div class="target-section">

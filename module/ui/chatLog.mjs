@@ -55,6 +55,7 @@ export default class DhpChatLog extends foundry.applications.sidebar.tabs.ChatLo
         if (!actor || !game.user.isGM) return true;
 
         await actor.damageRoll(
+            message.system.title,
             message.system.damage,
             message.system.targets.filter(x => x.hit).map(x => ({ id: x.id, name: x.name, img: x.img })),
             event.shiftKey

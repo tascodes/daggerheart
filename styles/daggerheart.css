@@ -1760,10 +1760,13 @@
 .daggerheart.chat.downtime .downtime-refresh-container .refresh-title {
     font-weight: bold;
 }
+.daggerheart.chat.roll .dice-flavor {
+    text-align: center;
+    font-weight: bold;
+}
 .daggerheart.chat.roll .dice-tooltip .dice-rolls.duality {
     display: flex;
     align-items: center;
-    justify-content: space-around;
 }
 .daggerheart.chat.roll .dice-tooltip .dice-rolls.duality .dice-hope-container {
     display: flex;
@@ -1783,11 +1786,17 @@
     -webkit-text-stroke-width: 1.5px;
     font-weight: 400;
 }
+.daggerheart.chat.roll .dice-tooltip .dice-rolls.duality .roll.die.hope:not(.discarded) {
+    filter: none;
+}
 .daggerheart.chat.roll .dice-tooltip .dice-rolls.duality .roll.die.fear {
     color: white;
     -webkit-text-stroke-color: #430070;
     -webkit-text-stroke-width: 1.5px;
     font-weight: 400;
+}
+.daggerheart.chat.roll .dice-tooltip .dice-rolls.duality .roll.die.fear:not(.discarded) {
+    filter: none;
 }
 .daggerheart.chat.roll .dice-tooltip .dice-rolls.duality .roll.die.disadvantage {
     color: white;

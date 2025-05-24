@@ -3,6 +3,7 @@ export default class DhpDamageRoll extends foundry.abstract.TypeDataModel {
         const fields = foundry.data.fields;
 
         return {
+            title: new fields.StringField(),
             roll: new fields.StringField({ required: true }),
             damage: new fields.SchemaField({
                 total: new fields.NumberField({ required: true, integer: true }),

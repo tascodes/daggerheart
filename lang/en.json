@@ -735,9 +735,13 @@
         },
         "Chat": {
             "DualityRoll": {
-                "AdvantageChooseTitle": "Select Hope Dice"
+                "AbilityCheckTitle": "{ability} Check"
+            },
+            "AttackRoll": {
+                "Title": "Attack - {attack}"
             },
             "DamageRoll": {
+                "Title": "Damage - {damage}",
                 "DealDamageToTargets": "Damage Hit Targets",
                 "DealDamage": "Deal Damage"
             },

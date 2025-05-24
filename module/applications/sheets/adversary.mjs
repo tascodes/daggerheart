@@ -367,6 +367,7 @@ export default class AdversarySheet extends DaggerheartSheet(ActorSheetV2) {
             type: 'adversaryRoll',
             sound: CONFIG.sounds.dice,
             system: {
+                title: button.dataset.name,
                 origin: this.document.id,
                 roll: roll._formula,
                 advantageState,
