@@ -711,6 +711,9 @@
                 "Title": "{actor} - Death Move",
                 "TakeMove": "Take Death Move"
             },
+            "RollSelection": {
+                "Title": "Roll Options"
+            },
             "Settings": {
                 "Title": "Daggerheart Settings"
             },
