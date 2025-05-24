@@ -380,9 +380,27 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
 
         this.evasion = this.class?.system?.evasion ?? 0;
         // this.armor.value = this.activeArmor?.baseScore ?? 0;
+        this.damageThresholds = this.computeDamageThresholds();
 
         this.applyLevels();
         this.applyEffects();
+    }
+
+    computeDamageThresholds() {
+        // TODO: missing weapon features and domain cards calculation
+        if (!this.armor) {
+            return {
+                major: this.levelData.currentLevel,
+                severe: this.levelData.currentLevel * 2
+            };
+        }
+        const {
+            baseThresholds: { major = 0, severe = 0 }
+        } = this.armor.system;
+        return {
+            major: major + this.levelData.currentLevel,
+            severe: severe + this.levelData.currentLevel
+        };
     }
 
     applyLevels() {
