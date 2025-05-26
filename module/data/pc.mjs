@@ -242,21 +242,43 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
     }
 
     get armor() {
-        return this.parent.items.find(x => x.type === 'armor');
+        return this.parent.items.find(x => x.type === 'armor' && x.system.equipped);
     }
 
-    get activeWeapons() {
+    get equippedWeapons() {
         const primaryWeapon = this.parent.items.find(
-            x => x.type === 'weapon' && x.system.active && !x.system.secondary
+            x => x.type === 'weapon' && x.system.equipped && !x.system.secondary
         );
         const secondaryWeapon = this.parent.items.find(
-            x => x.type === 'weapon' && x.system.active && x.system.secondary
+            x => x.type === 'weapon' && x.system.equipped && x.system.secondary
         );
         return {
             primary: this.#weaponData(primaryWeapon),
             secondary: this.#weaponData(secondaryWeapon),
             burden: this.getBurden(primaryWeapon, secondaryWeapon)
         };
+    }
+
+    static async unequipBeforeEquip(itemToEquip) {
+        const equippedWeapons = this.equippedWeapons;
+
+        if (itemToEquip.system.secondary) {
+            if (equippedWeapons.primary && equippedWeapons.primary.burden === SYSTEM.GENERAL.burden.twoHanded.value) {
+                await this.parent.items.get(equippedWeapons.primary.id).update({ 'system.equipped': false });
+            }
+
+            if (equippedWeapons.secondary) {
+                await this.parent.items.get(equippedWeapons.secondary.id).update({ 'system.equipped': false });
+            }
+        } else {
+            if (equippedWeapons.secondary && itemToEquip.system.burden === SYSTEM.GENERAL.burden.twoHanded.value) {
+                await this.parent.items.get(equippedWeapons.secondary.id).update({ 'system.equipped': false });
+            }
+
+            if (equippedWeapons.primary) {
+                await this.parent.items.get(equippedWeapons.primary.id).update({ 'system.equipped': false });
+            }
+        }
     }
 
     get inventoryWeapons() {
@@ -325,16 +347,19 @@ export default class DhpPC extends foundry.abstract.TypeDataModel {
         );
     }
 
+    //Should not be done in data?
     #weaponData(weapon) {
         return weapon
             ? {
+                  id: weapon.id,
                   name: weapon.name,
-                  trait: CONFIG.daggerheart.ACTOR.abilities[weapon.system.trait].name, //Should not be done in data?
+                  trait: game.i18n.localize(CONFIG.daggerheart.ACTOR.abilities[weapon.system.trait].label),
                   range: CONFIG.daggerheart.GENERAL.range[weapon.system.range],
                   damage: {
                       value: weapon.system.damage.value,
                       type: CONFIG.daggerheart.GENERAL.damageTypes[weapon.system.damage.type]
                   },
+                  burden: weapon.system.burden,
                   feature: CONFIG.daggerheart.ITEM.weaponFeatures[weapon.system.feature],
                   img: weapon.img,
                   uuid: weapon.uuid
