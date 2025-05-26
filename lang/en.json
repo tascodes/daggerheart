@@ -680,10 +680,13 @@
         },
         "Feature": {
             "Type": {
-                "Ancestry": "Ancestry",
-                "Community": "Community",
-                "Class": "Class",
-                "Subclass": "Subclass"
+                "ancestry": "Ancestry",
+                "community": "Community",
+                "class": "Class",
+                "subclass": "Subclass",
+                "classHope": "Class Hope",
+                "domainCard": "Domain Card",
+                "equipment": "Equipment"
             },
             "ValueType": {
                 "Normal": "Normal",
@@ -995,9 +998,18 @@
                 "Tabs": {
                     "Features": "Features",
                     "Effects": "Effects",
-                    "Actions": "Actions"
+                    "Settings": "Settings",
+                    "Actions": "Actions",
+                    "Description": "Description"
                 },
-                "Description": "Description"
+                "Description": "Description",
+                "effects": {
+                    "addEffect": "Add Effect",
+                    "applyLocation": "Apply Location",
+                    "value": "Value",
+                    "initiallySelected": "Initially Selected",
+                    "hopeIncrease": "Hope Increase"
+                }
             },
             "Consumable": {
                 "Quantity": "Quantity",
@@ -1036,16 +1048,16 @@
         },
         "Effects": {
             "Types": {
-                "Health": {
+                "health": {
                     "Name": "Health"
                 },
-                "Stress": {
+                "stress": {
                     "Name": "Stress"
                 },
-                "Reach": {
+                "reach": {
                     "Name": "Reach"
                 },
-                "Damage": {
+                "damage": {
                     "Name": "Damage"
                 }
             },

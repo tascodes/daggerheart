@@ -1562,7 +1562,6 @@
   align-items: baseline;
 }
 .daggerheart.sheet .item-sidebar {
-  border-right: 1px groove darkgray;
   min-width: 160px;
   flex: 0;
   padding: 4px;
@@ -2541,6 +2540,369 @@ div.daggerheart.views.multiclass {
 .item-button .item-icon.checked {
   opacity: 1;
 }
+.application.sheet.daggerheart.dh-style.feature .item-sheet-header {
+  display: flex;
+}
+.application.sheet.daggerheart.dh-style.feature .item-sheet-header .profile {
+  height: 130px;
+  width: 130px;
+}
+.application.sheet.daggerheart.dh-style.feature section.tab {
+  height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: light-dark(#18162e, #f3c267) transparent;
+}
+.application.sheet.daggerheart.dh-style.feature .tab.actions .actions-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  gap: 5px;
+}
+.application.sheet.daggerheart.dh-style.feature .tab.actions .actions-list .action-item {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 4fr 1fr;
+  cursor: pointer;
+}
+.application.sheet.daggerheart.dh-style.feature .tab.actions .actions-list .action-item h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: lighter;
+  color: #efe6d8;
+}
+.application.sheet.daggerheart.dh-style.feature .tab.actions .actions-list .action-item .image {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: none;
+}
+.application.sheet.daggerheart.dh-style.feature .tab.actions .actions-list .action-item .controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.application.sheet.daggerheart.dh-style.feature .tab.actions .actions-list .action-item .controls a {
+  text-shadow: none;
+}
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gtR-kwKxNvkNOjw-tbnTYo.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gtR-kwKxNvkNOjw-jHgTYo.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Cinzel Decorative';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/cinzeldecorative/v17/daaHSScvJGqLYhG8nNt8KPPswUAPniZoaelD.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/montserrat/v29/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Ew-.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/montserrat/v29/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu170w-.ttf) format('truetype');
+}
+.application.sheet.daggerheart.dh-style h1 {
+  font-family: 'Cinzel Decorative', serif;
+  margin: 0;
+  border: none;
+  font-weight: normal;
+}
+.application.sheet.daggerheart.dh-style h2,
+.application.sheet.daggerheart.dh-style h3 {
+  font-family: 'Cinzel', serif;
+  margin: 0;
+  border: none;
+  font-weight: normal;
+}
+.application.sheet.daggerheart.dh-style h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  border: none;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: none;
+  color: #f3c267;
+  font-weight: normal;
+}
+.application.sheet.daggerheart.dh-style h5 {
+  font-size: 14px;
+  color: #f3c267;
+  margin: 0;
+  font-weight: normal;
+}
+.application.sheet.daggerheart.dh-style p,
+.application.sheet.daggerheart.dh-style span {
+  font-family: 'Montserrat', sans-serif;
+}
+.application.sheet.daggerheart.dh-style small {
+  font-family: 'Montserrat', sans-serif;
+  opacity: 0.8;
+}
+.application.sheet.dh-style .window-header {
+  background: transparent;
+  border-bottom: none;
+  justify-content: end;
+}
+.application.sheet.dh-style .window-header h1 {
+  color: light-dark(#18162e, #efe6d8);
+  font-family: 'Montserrat', sans-serif;
+}
+.application.sheet.dh-style .window-header button {
+  background: light-dark(transparent, #0e0d15);
+  color: light-dark(#18162e, #efe6d8);
+  border: 1px solid light-dark(#18162e, transparent);
+  padding: 0;
+}
+.application.sheet.dh-style .window-header button:hover {
+  border: 1px solid light-dark(#18162e, #f3c267);
+  color: light-dark(#18162e, #f3c267);
+}
+.application.sheet.dh-style:not(.minimized) .window-title,
+.application.sheet.dh-style:not(.minimized) .window-icon {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.application.sheet.dh-style.minimized .window-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+.application.sheet.dh-style:not(.minimized) .window-content {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.application.sheet.dh-style .window-content {
+  overflow: initial;
+  backdrop-filter: none;
+  padding: 0;
+}
+.theme-dark .application.sheet.dh-style {
+  backdrop-filter: blur(4px);
+}
+.theme-light .application.sheet.dh-style {
+  background-image: url('../assets/parchments/dh-parchment-light.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.application.sheet.daggerheart.dh-style .window-content {
+  position: relative;
+  top: -36px;
+}
+.application.sheet.daggerheart.dh-style .window-content .tab {
+  padding: 0 10px;
+}
+.application.sheet.dh-style {
+  border: 1px solid light-dark(#18162e, #f3c267);
+}
+.application.sheet.dh-style input[type='text'],
+.application.sheet.dh-style input[type='number'] {
+  background: light-dark(transparent, transparent);
+  border-radius: 6px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(9.5px);
+  -webkit-backdrop-filter: blur(9.5px);
+  outline: none;
+  color: light-dark(#18162e, #f3c267);
+  border: 1px solid light-dark(#222, #efe6d8);
+}
+.application.sheet.dh-style input[type='text']:hover[type='text'],
+.application.sheet.dh-style input[type='number']:hover[type='text'],
+.application.sheet.dh-style input[type='text']:hover[type='number'],
+.application.sheet.dh-style input[type='number']:hover[type='number'],
+.application.sheet.dh-style input[type='text']:focus[type='text'],
+.application.sheet.dh-style input[type='number']:focus[type='text'],
+.application.sheet.dh-style input[type='text']:focus[type='number'],
+.application.sheet.dh-style input[type='number']:focus[type='number'] {
+  background: light-dark(rgba(0, 0, 0, 0.05), rgba(24, 22, 46, 0.33));
+  box-shadow: none;
+  outline: 2px solid light-dark(#222, #efe6d8);
+}
+.application.sheet.dh-style input[type='checkbox']:checked::after {
+  color: light-dark(#18162e, #f3c267);
+}
+.application.sheet.dh-style input[type='checkbox']::before {
+  color: light-dark(#f3c267, #18162e);
+}
+.application.sheet.dh-style button {
+  background: light-dark(transparent, #f3c267);
+  border: 1px solid light-dark(#18162e, #18162e);
+  color: light-dark(#18162e, #18162e);
+  outline: none;
+  box-shadow: none;
+}
+.application.sheet.dh-style button:hover {
+  background: light-dark(rgba(0, 0, 0, 0.3), #18162e);
+  color: light-dark(#18162e, #f3c267);
+}
+.application.sheet.dh-style select {
+  background: light-dark(transparent, transparent);
+  color: light-dark(#222, #efe6d8);
+  font-family: 'Montserrat', sans-serif;
+  outline: 2px solid transparent;
+  border: 1px solid light-dark(#222, #efe6d8);
+}
+.application.sheet.dh-style select:focus,
+.application.sheet.dh-style select:hover {
+  outline: 2px solid light-dark(#222, #efe6d8);
+  box-shadow: none;
+}
+.application.sheet.dh-style select option {
+  color: #efe6d8;
+  background-color: #18162e;
+  border-radius: 6px;
+}
+.application.sheet.dh-style p {
+  margin: 0;
+}
+.application.sheet.dh-style ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.application.sheet.dh-style li {
+  margin: 0;
+}
+.application.sheet.dh-style fieldset {
+  align-items: center;
+  margin-top: 5px;
+  border-radius: 6px;
+  border-color: light-dark(#18162e, #f3c267);
+}
+.application.sheet.dh-style fieldset.one-column {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+  min-height: 64px;
+}
+.application.sheet.dh-style fieldset.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+}
+.application.sheet.dh-style fieldset legend {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: light-dark(#18162e, #f3c267);
+}
+.application.sheet.dh-style fieldset legend a {
+  text-shadow: none;
+}
+.application.sheet.dh-style fieldset input[type='text'],
+.application.sheet.dh-style fieldset input[type='number'] {
+  color: light-dark(#222, #efe6d8);
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s ease;
+  outline: 2px solid transparent;
+}
+.application.sheet.dh-style fieldset input[type='text']:focus,
+.application.sheet.dh-style fieldset input[type='number']:focus,
+.application.sheet.dh-style fieldset input[type='text']:hover,
+.application.sheet.dh-style fieldset input[type='number']:hover {
+  outline: 2px solid light-dark(#222, #efe6d8);
+}
+.application.sheet.dh-style fieldset .nest-inputs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.application.sheet.dh-style line-div {
+  display: block;
+  height: 1px;
+  width: 100%;
+  border-bottom: 1px solid light-dark(#18162e, #f3c267);
+  mask-image: linear-gradient(270deg, transparent 0%, black 50%, transparent 100%);
+}
+.application.sheet.dh-style .item-description {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+.application.sheet.dh-style .item-description.invisible {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-20px);
+  transform-origin: top;
+}
+.sheet.daggerheart.dh-style .tab-navigation {
+  margin: 5px 0;
+  height: 40px;
+}
+.sheet.daggerheart.dh-style .tab-navigation .feature-tab {
+  border: none;
+  gap: 5px;
+}
+.sheet.daggerheart.dh-style .tab-navigation .feature-tab a {
+  color: light-dark(#18162e, #f3c267);
+  text-shadow: none;
+  font-family: 'Montserrat', sans-serif;
+}
+.application.sheet.daggerheart.dh-style .item-sheet-header {
+  display: flex;
+}
+.application.sheet.daggerheart.dh-style .item-sheet-header .profile {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+  border-right: 1px solid light-dark(#18162e, #f3c267);
+  border-bottom: 1px solid light-dark(#18162e, #f3c267);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.application.sheet.daggerheart.dh-style .item-sheet-header .item-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 36px;
+  text-align: center;
+  width: 80%;
+}
+.application.sheet.daggerheart.dh-style .item-sheet-header .item-info .item-name input[type='text'] {
+  font-size: 32px;
+  height: 42px;
+  text-align: center;
+  width: 90%;
+  transition: all 0.3s ease;
+  outline: 2px solid transparent;
+  border: 1px solid transparent;
+}
+.application.sheet.daggerheart.dh-style .item-sheet-header .item-info .item-name input[type='text']:hover[type='text'],
+.application.sheet.daggerheart.dh-style .item-sheet-header .item-info .item-name input[type='text']:focus[type='text'] {
+  box-shadow: none;
+  outline: 2px solid light-dark(#18162e, #f3c267);
+}
+.application.sheet.daggerheart.dh-style .item-sheet-header .item-info .item-description {
+  display: flex;
+  gap: 10px;
+}
+.application.sheet.daggerheart.dh-style .item-sheet-header .item-info h3 {
+  font-size: 1rem;
+}
 #logo {
   content: url(../assets/DaggerheartLogo.webp);
   height: 50px;
@@ -2591,21 +2953,11 @@ div.daggerheart.views.multiclass {
 .daggerheart .icon-button.spaced {
   margin-left: 4px;
 }
-.daggerheart .icon-button.active {
-  filter: drop-shadow(0 0 3px red);
-}
-.daggerheart .icon-button.active.secondary {
-  filter: drop-shadow(0 0 3px gold);
-}
 .daggerheart .icon-button.disabled {
   opacity: 0.6;
 }
 .daggerheart .icon-button:hover:not(.disabled) {
   cursor: pointer;
-  filter: drop-shadow(0 0 3px red);
-}
-.daggerheart .icon-button:hover:not(.disabled).secondary {
-  filter: drop-shadow(0 0 3px gold);
 }
 #players h3 {
   display: flex;
