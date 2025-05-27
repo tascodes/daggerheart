@@ -247,6 +247,45 @@ export const diceTypes = {
     d20: 'd20'
 };
 
+export const getDiceSoNicePresets = () => {
+    const { diceSoNice } = game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.appearance);
+
+    return {
+        hope: {
+            ...diceSoNice.hope,
+            colorset: 'inspired',
+            texture: 'bloodmoon',
+            material: 'metal',
+            font: 'Arial Black',
+            system: 'standard'
+        },
+        fear: {
+            ...diceSoNice.fear,
+            colorset: 'bloodmoon',
+            texture: 'bloodmoon',
+            material: 'metal',
+            font: 'Arial Black',
+            system: 'standard'
+        },
+        advantage: {
+            ...diceSoNice.advantage,
+            colorset: 'bloodmoon',
+            texture: 'bloodmoon',
+            material: 'metal',
+            font: 'Arial Black',
+            system: 'standard'
+        },
+        disadvantage: {
+            ...diceSoNice.disadvantage,
+            colorset: 'bloodmoon',
+            texture: 'bloodmoon',
+            material: 'metal',
+            font: 'Arial Black',
+            system: 'standard'
+        }
+    };
+};
+
 export const refreshTypes = {
     session: {
         id: 'session',
