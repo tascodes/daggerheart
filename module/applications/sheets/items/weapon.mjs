@@ -14,10 +14,6 @@ export default class WeaponSheet extends DaggerheartSheet(ItemSheetV2) {
     };
 
     static PARTS = {
-        form: {
-            id: 'feature',
-            template: 'systems/daggerheart/templates/sheets/weapon.hbs'
-        },
         header: { template: 'systems/daggerheart/templates/sheets/items/weapon/header.hbs' },
         tabs: { template: 'systems/daggerheart/templates/sheets/global/tabs/tab-navigation.hbs' },
         description: { template: 'systems/daggerheart/templates/sheets/global/tabs/tab-description.hbs' },
