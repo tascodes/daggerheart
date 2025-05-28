@@ -3075,6 +3075,11 @@ div.daggerheart.views.multiclass {
   align-items: center;
   gap: 5px;
 }
+.application.sheet.dh-style fieldset .form-group label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: smaller;
+}
 .application.sheet.dh-style line-div {
   display: block;
   height: 1px;
@@ -3177,6 +3182,7 @@ div.daggerheart.views.multiclass {
 }
 .application.sheet.daggerheart.dh-style .item-sheet-header .item-info .item-description {
   display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 .application.sheet.daggerheart.dh-style .item-sheet-header .item-info h3 {
