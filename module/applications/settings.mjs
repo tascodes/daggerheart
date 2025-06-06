@@ -1,3 +1,5 @@
+import { DualityRollColor } from '../config/settingsConfig.mjs';
+import { defaultLevelTiers, DhLevelTiers } from '../data/levelTier.mjs';
 import DhAppearance from '../data/settings/Appearance.mjs';
 import DHAppearanceSettings from './settings/appearanceSettings.mjs';
 import DhVariantRules from '../data/settings/VariantRules.mjs';
@@ -266,6 +268,23 @@ export const registerDHSettings = () => {
         config: false,
         type: DhAppearance,
         default: DhAppearance.defaultSchema
+    });
+
+    game.settings.register(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.DualityRollColor, {
+        name: game.i18n.localize('DAGGERHEART.Settings.DualityRollColor.Name'),
+        hint: game.i18n.localize('DAGGERHEART.Settings.DualityRollColor.Hint'),
+        scope: 'world',
+        config: true,
+        type: Number,
+        choices: Object.values(DualityRollColor),
+        default: DualityRollColor.colorful.value
+    });
+
+    game.settings.register(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.LevelTiers, {
+        scope: 'world',
+        config: false,
+        type: DhLevelTiers,
+        default: defaultLevelTiers
     });
 
     game.settings.registerMenu(SYSTEM.id, SYSTEM.SETTINGS.menu.Automation.Name, {

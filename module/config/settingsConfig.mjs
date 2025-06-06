@@ -31,6 +31,19 @@ export const gameSettings = {
         AbilityArray: 'AbilityArray',
         RangeMeasurement: 'RangeMeasurement'
     },
+    DualityRollColor: 'DualityRollColor',
+    LevelTiers: 'LevelTiers',
     appearance: 'Appearance',
     variantRules: 'VariantRules'
+};
+
+export const DualityRollColor = {
+    colorful: {
+        value: 0,
+        label: 'DAGGERHEART.Settings.DualityRollColor.Options.Colorful'
+    },
+    normal: {
+        value: 1,
+        label: 'DAGGERHEART.Settings.DualityRollColor.Options.Normal'
+    }
 };
