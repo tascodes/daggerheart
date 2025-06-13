@@ -1,0 +1,87 @@
+import BaseDataItem from './base.mjs';
+import ForeignDocumentUUIDField from '../fields/foreignDocumentUUIDField.mjs';
+
+export default class DHClass extends BaseDataItem {
+    /** @inheritDoc */
+    static get metadata() {
+        return foundry.utils.mergeObject(super.metadata, {
+            label: 'TYPES.Item.class',
+            type: 'class',
+            hasDescription: true
+        });
+    }
+
+    /** @inheritDoc */
+    static defineSchema() {
+        const fields = foundry.data.fields;
+        return {
+            ...super.defineSchema(),
+            domains: new fields.ArrayField(new fields.StringField(), { max: 2 }),
+            classItems: new fields.ArrayField(new ForeignDocumentUUIDField({ type: 'Item' })),
+            evasion: new fields.NumberField({ initial: 0, integer: true }),
+            features: new fields.ArrayField(new ForeignDocumentUUIDField({ type: 'Item' })),
+            subclasses: new fields.ArrayField(
+                new ForeignDocumentUUIDField({ type: 'Item', required: false, nullable: true, initial: undefined })
+            ),
+            inventory: new fields.SchemaField({
+                take: new fields.ArrayField(
+                    new ForeignDocumentUUIDField({ type: 'Item', required: false, nullable: true, initial: undefined })
+                ),
+                choiceA: new fields.ArrayField(
+                    new ForeignDocumentUUIDField({ type: 'Item', required: false, nullable: true, initial: undefined })
+                ),
+                choiceB: new fields.ArrayField(
+                    new ForeignDocumentUUIDField({ type: 'Item', required: false, nullable: true, initial: undefined })
+                )
+            }),
+            characterGuide: new fields.SchemaField({
+                suggestedTraits: new fields.SchemaField({
+                    agility: new fields.NumberField({ initial: 0, integer: true }),
+                    strength: new fields.NumberField({ initial: 0, integer: true }),
+                    finesse: new fields.NumberField({ initial: 0, integer: true }),
+                    instinct: new fields.NumberField({ initial: 0, integer: true }),
+                    presence: new fields.NumberField({ initial: 0, integer: true }),
+                    knowledge: new fields.NumberField({ initial: 0, integer: true })
+                }),
+                suggestedPrimaryWeapon: new ForeignDocumentUUIDField({ type: 'Item' }),
+                suggestedSecondaryWeapon: new ForeignDocumentUUIDField({ type: 'Item' }),
+                suggestedArmor: new ForeignDocumentUUIDField({ type: 'Item' })
+            }),
+            isMulticlass: new fields.BooleanField({ initial: false })
+        };
+    }
+
+    async _preCreate(data, options, user) {
+        const allowed = await super._preCreate(data, options, user);
+        if (allowed === false) return;
+
+        if (this.actor?.type === 'character') {
+            const path = data.system.isMulticlass ? 'system.multiclass.value' : 'system.class.value';
+            if (foundry.utils.getProperty(this.actor, path)) {
+                ui.notifications.error(game.i18n.localize('DAGGERHEART.Item.Errors.ClassAlreadySelected'));
+                return false;
+            }
+        }
+    }
+
+    _onCreate(data, options, userId) {
+        super._onCreate(data, options, userId);
+        if (options.parent?.type === 'character') {
+            const path = `system.${data.system.isMulticlass ? 'multiclass.value' : 'class.value'}`;
+            options.parent.update({ [path]: `${options.parent.uuid}.Item.${data._id}` });
+        }
+    }
+
+    _onDelete(options, userId) {
+        super._onDelete(options, userId);
+
+        if (options.parent?.type === 'character') {
+            const path = `system.${this.isMulticlass ? 'multiclass' : 'class'}`;
+            options.parent.update({
+                [`${path}.value`]: null
+            });
+
+            foundry.utils.getProperty(options.parent, `${path}.subclass`)?.delete();
+        }
+    }
+}

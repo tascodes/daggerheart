@@ -1,9 +1,9 @@
-import DhpDualityRoll from '../data/dualityRoll.mjs';
 import { DualityRollColor } from '../data/settings/Appearance.mjs';
+import DHDualityRoll from '../data/chat-message/dualityRoll.mjs';
 
-export default class DhpChatMessage extends ChatMessage {
+export default class DhpChatMessage extends foundry.documents.ChatMessage {
     async renderHTML() {
-        if (this.type === 'dualityRoll' || this.type === 'adversaryRoll' || this.type === 'abilityUse') {
+        if (this.type === 'dualityRoll' || this.type === 'adversaryRoll') {
             this.content = await foundry.applications.handlebars.renderTemplate(this.content, this.system);
         }
 
@@ -17,8 +17,8 @@ export default class DhpChatMessage extends ChatMessage {
         ) {
             html.classList.add('duality');
             const dualityResult = this.system.dualityResult;
-            if (dualityResult === DhpDualityRoll.dualityResult.hope) html.classList.add('hope');
-            else if (dualityResult === DhpDualityRoll.dualityResult.fear) html.classList.add('fear');
+            if (dualityResult === DHDualityRoll.dualityResult.hope) html.classList.add('hope');
+            else if (dualityResult === DHDualityRoll.dualityResult.fear) html.classList.add('fear');
             else html.classList.add('critical');
         }
 

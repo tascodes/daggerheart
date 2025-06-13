@@ -1,25 +1,35 @@
 export const range = {
+    self: {
+        label: 'DAGGERHEART.Range.self.name',
+        description: 'DAGGERHEART.Range.self.description',
+        distance: 0
+    },
     melee: {
+        id: 'melee',
         label: 'DAGGERHEART.Range.melee.name',
         description: 'DAGGERHEART.Range.melee.description',
         distance: 1
     },
     veryClose: {
+        id: 'veryClose',
         label: 'DAGGERHEART.Range.veryClose.name',
         description: 'DAGGERHEART.Range.veryClose.description',
         distance: 3
     },
     close: {
+        id: 'close',
         label: 'DAGGERHEART.Range.close.name',
         description: 'DAGGERHEART.Range.close.description',
         distance: 10
     },
     far: {
+        id: 'far',
         label: 'DAGGERHEART.Range.far.name',
         description: 'DAGGERHEART.Range.far.description',
         distance: 20
     },
     veryFar: {
+        id: 'veryFar',
         label: 'DAGGERHEART.Range.veryFar.name',
         description: 'DAGGERHEART.Range.veryFar.description',
         distance: 30
@@ -175,31 +185,27 @@ export const deathMoves = {
 };
 
 export const tiers = {
-    0: {
-        key: 0,
-        id: 'tier0',
-        name: 'DAGGERHEART.General.Tier.0'
-    },
-    1: {
-        key: 1,
+    tier1: {
         id: 'tier1',
-        name: 'DAGGERHEART.General.Tier.1'
+        label: 'DAGGERHEART.Tiers.tier1'
     },
-    2: {
-        key: 2,
+    tier2: {
         id: 'tier2',
-        name: 'DAGGERHEART.General.Tier.2'
+        label: 'DAGGERHEART.Tiers.tier2'
     },
-    3: {
-        key: 3,
+    tier3: {
         id: 'tier3',
-        name: 'DAGGERHEART.General.Tier.3'
+        label: 'DAGGERHEART.Tiers.tier3'
+    },
+    tier4: {
+        id: 'tier4',
+        label: 'DAGGERHEART.Tiers.tier4'
     }
 };
 
 export const objectTypes = {
-    pc: {
-        name: 'TYPES.Actor.pc'
+    character: {
+        name: 'TYPES.Actor.character'
     },
     npc: {
         name: 'TYPES.Actor.npc'
@@ -245,6 +251,11 @@ export const diceTypes = {
     d8: 'd8',
     d12: 'd12',
     d20: 'd20'
+};
+
+export const multiplierTypes = {
+    proficiency: 'Proficiency',
+    spellcast: 'Spellcast'
 };
 
 export const getDiceSoNicePresets = () => {
@@ -309,5 +320,20 @@ export const abilityCosts = {
     stress: {
         id: 'stress',
         label: 'Stress'
+    }
+};
+
+export const rollTypes = {
+    weapon: {
+        id: 'weapon',
+        label: 'DAGGERHEART.RollTypes.weapon.name'
+    },
+    spellcast: {
+        id: 'spellcast',
+        label: 'DAGGERHEART.RollTypes.spellcast.name'
+    },
+    ability: {
+        id: 'ability',
+        label: 'DAGGERHEART.RollTypes.ability.name'
     }
 };

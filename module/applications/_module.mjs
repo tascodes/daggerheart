@@ -1,4 +1,4 @@
-export { default as DhpPCSheet } from './sheets/pc.mjs';
+export { default as DhCharacterSheet } from './sheets/character.mjs';
 export { default as DhpAdversarySheet } from './sheets/adversary.mjs';
 export { default as DhpClassSheet } from './sheets/items/class.mjs';
 export { default as DhpSubclass } from './sheets/items/subclass.mjs';
@@ -13,3 +13,5 @@ export { default as DhpArmor } from './sheets/items/armor.mjs';
 export { default as DhpChatMessage } from './chatMessage.mjs';
 export { default as DhpEnvironment } from './sheets/environment.mjs';
 export { default as DhActiveEffectConfig } from './sheets/activeEffectConfig.mjs';
+
+export * as pseudoDocumentSheet from './sheets/pseudo-documents/_module.mjs';

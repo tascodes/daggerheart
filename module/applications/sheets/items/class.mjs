@@ -1,5 +1,5 @@
+import { tagifyElement } from '../../../helpers/utils.mjs';
 import DaggerheartSheet from '../daggerheart-sheet.mjs';
-import Tagify from '@yaireo/tagify';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 const { TextEditor } = foundry.applications.ux;
@@ -11,8 +11,8 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
         actions: {
             removeSubclass: this.removeSubclass,
             viewSubclass: this.viewSubclass,
-            removeFeature: this.removeFeature,
-            viewFeature: this.viewFeature,
+            deleteFeature: this.deleteFeature,
+            editFeature: this.editFeature,
             removeItem: this.removeItem,
             viewItem: this.viewItem,
             removePrimaryWeapon: this.removePrimaryWeapon,
@@ -72,55 +72,14 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
         super._attachPartListeners(partId, htmlElement, options);
 
         const domainInput = htmlElement.querySelector('.domain-input');
-        const domainTagify = new Tagify(domainInput, {
-            tagTextProp: 'name',
-            enforceWhitelist: true,
-            whitelist: Object.keys(SYSTEM.DOMAIN.domains).map(key => {
-                const domain = SYSTEM.DOMAIN.domains[key];
-                return {
-                    value: key,
-                    name: game.i18n.localize(domain.label),
-                    src: domain.src,
-                    background: domain.background
-                };
-            }),
-            maxTags: 2,
-            callbacks: { invalid: this.onAddTag },
-            dropdown: {
-                mapValueTo: 'name',
-                searchKeys: ['name'],
-                enabled: 0,
-                maxItems: 20,
-                closeOnSelect: true,
-                highlightFirst: false
-            },
-            templates: {
-                tag(tagData) {
-                    //z-index: unset; background-image: ${tagData.background}; Maybe a domain specific background for the chips?
-                    return `<tag title="${tagData.title || tagData.value}"
-                        contenteditable='false'
-                        spellcheck='false'
-                        tabIndex="${this.settings.a11y.focusableTags ? 0 : -1}"
-                        class="${this.settings.classNames.tag} ${tagData.class ? tagData.class : ''}"
-                        ${this.getAttributes(tagData)}> 
-                <x class="${this.settings.classNames.tagX}" role='button' aria-label='remove tag'></x>
-                <div>
-                    <span class="${this.settings.classNames.tagText}">${tagData[this.settings.tagTextProp] || tagData.value}</span>
-                    <img src="${tagData.src}"></i>
-                </div>
-              </tag>`;
-                }
-            }
-        });
-
-        domainTagify.on('change', this.onDomainSelect.bind(this));
+        tagifyElement(domainInput, SYSTEM.DOMAIN.domains, this.onDomainSelect.bind(this));
     }
 
     async _prepareContext(_options) {
         const context = await super._prepareContext(_options);
         context.document = this.document;
         context.tabs = super._getTabs(this.constructor.TABS);
-        context.domains = this.document.system.domains.map(x => SYSTEM.DOMAIN.domains[x].label);
+        context.domains = this.document.system.domains;
 
         return context;
     }
@@ -136,8 +95,7 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
         }
     }
 
-    async onDomainSelect(event) {
-        const domains = event.detail?.value ? JSON.parse(event.detail.value) : [];
+    async onDomainSelect(domains) {
         await this.document.update({ 'system.domains': domains.map(x => x.value) });
         this.render(true);
     }
@@ -153,13 +111,13 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
         subclass.sheet.render(true);
     }
 
-    static async removeFeature(_, button) {
+    static async deleteFeature(_, button) {
         await this.document.update({
-            'system.features': this.document.system.features.filter(x => x.uuid !== button.dataset.feature)
+            'system.features': this.document.system.features.map(x => x.uuid).filter(x => x !== button.dataset.feature)
         });
     }
 
-    static async viewFeature(_, button) {
+    static async editFeature(_, button) {
         const feature = await fromUuid(button.dataset.feature);
         feature.sheet.render(true);
     }
@@ -198,71 +156,48 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
         const item = await fromUuid(data.uuid);
         if (item.type === 'subclass') {
             await this.document.update({
-                'system.subclasses': [
-                    ...this.document.system.subclasses,
-                    { img: item.img, name: item.name, uuid: item.uuid }
-                ]
+                'system.subclasses': [...this.document.system.subclasses.map(x => x.uuid), item.uuid]
             });
         } else if (item.type === 'feature') {
             await this.document.update({
-                'system.features': [
-                    ...this.document.system.features,
-                    { img: item.img, name: item.name, uuid: item.uuid }
-                ]
+                'system.features': [...this.document.system.features.map(x => x.uuid), item.uuid]
             });
         } else if (item.type === 'weapon') {
             if (event.currentTarget.classList.contains('primary-weapon-section')) {
                 if (!this.document.system.characterGuide.suggestedPrimaryWeapon && !item.system.secondary)
                     await this.document.update({
-                        'system.characterGuide.suggestedPrimaryWeapon': {
-                            img: item.img,
-                            name: item.name,
-                            uuid: item.uuid
-                        }
+                        'system.characterGuide.suggestedPrimaryWeapon': item.uuid
                     });
             } else if (event.currentTarget.classList.contains('secondary-weapon-section')) {
                 if (!this.document.system.characterGuide.suggestedSecondaryWeapon && item.system.secondary)
                     await this.document.update({
-                        'system.characterGuide.suggestedSecondaryWeapon': {
-                            img: item.img,
-                            name: item.name,
-                            uuid: item.uuid
-                        }
+                        'system.characterGuide.suggestedSecondaryWeapon': item.uuid
                     });
             }
         } else if (item.type === 'armor') {
             if (event.currentTarget.classList.contains('armor-section')) {
                 if (!this.document.system.characterGuide.suggestedArmor)
                     await this.document.update({
-                        'system.characterGuide.suggestedArmor': { img: item.img, name: item.name, uuid: item.uuid }
+                        'system.characterGuide.suggestedArmor': item.uuid
                     });
             }
         } else if (event.currentTarget.classList.contains('choice-a-section')) {
             if (item.type === 'miscellaneous' || item.type === 'consumable') {
                 if (this.document.system.inventory.choiceA.length < 2)
                     await this.document.update({
-                        'system.inventory.choiceA': [
-                            ...this.document.system.inventory.choiceA,
-                            { img: item.img, name: item.name, uuid: item.uuid }
-                        ]
+                        'system.inventory.choiceA': [...this.document.system.inventory.choiceA, item.uuid]
                     });
             }
         } else if (item.type === 'miscellaneous') {
             if (event.currentTarget.classList.contains('take-section')) {
                 if (this.document.system.inventory.take.length < 3)
                     await this.document.update({
-                        'system.inventory.take': [
-                            ...this.document.system.inventory.take,
-                            { img: item.img, name: item.name, uuid: item.uuid }
-                        ]
+                        'system.inventory.take': [...this.document.system.inventory.take, item.uuid]
                     });
             } else if (event.currentTarget.classList.contains('choice-b-section')) {
                 if (this.document.system.inventory.choiceB.length < 2)
                     await this.document.update({
-                        'system.inventory.choiceB': [
-                            ...this.document.system.inventory.choiceB,
-                            { img: item.img, name: item.name, uuid: item.uuid }
-                        ]
+                        'system.inventory.choiceB': [...this.document.system.inventory.choiceB, item.uuid]
                     });
             }
         }
