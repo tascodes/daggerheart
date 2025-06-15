@@ -825,7 +825,8 @@
                 "Input": "Input",
                 "Dice": "Dice"
             },
-            "Max": "Max"
+            "Max": "Max",
+            "NewEffect": "New Effect"
         },
         "FeatureType": {
             "Normal": "Normal",
@@ -1145,6 +1146,8 @@
                     "Appearance": "Appearance",
                     "settings": "Settings"
                 },
+                "HopeFeatures": "Hope Features",
+                "Class Features": "Class Features",
                 "Domains": "Domains",
                 "DamageThresholds": {
                     "Title": "Damage Thresholds",
@@ -1254,7 +1257,9 @@
                 "Description": "Description",
                 "SubclassFeature": {
                     "Description": "Description",
-                    "Abilities": "Abilities"
+                    "Abilities": "Abilities",
+                    "Actions": "Actions",
+                    "Effects": "Effects"
                 }
             },
             "Weapon": {
