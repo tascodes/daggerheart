@@ -3,7 +3,7 @@ export default class DhpRuler extends foundry.canvas.interaction.Ruler {
         const context = super._getWaypointLabelContext(waypoint, state);
         if (!context) return;
 
-        const range = game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.General.RangeMeasurement);
+        const range = game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.RangeMeasurement);
 
         if (range.enabled) {
             const distance = this.#getRangeLabel(waypoint.measurement.distance.toNearest(0.01), range);
@@ -16,19 +16,19 @@ export default class DhpRuler extends foundry.canvas.interaction.Ruler {
 
     #getRangeLabel(distance, settings) {
         if (distance <= settings.melee) {
-            return game.i18n.localize('DAGGERHEART.Range.Melee.Name');
+            return game.i18n.localize('DAGGERHEART.Range.melee.name');
         }
         if (distance <= settings.veryClose) {
-            return game.i18n.localize('DAGGERHEART.Range.VeryClose.Name');
+            return game.i18n.localize('DAGGERHEART.Range.veryClose.name');
         }
         if (distance <= settings.close) {
-            return game.i18n.localize('DAGGERHEART.Range.Close.Name');
+            return game.i18n.localize('DAGGERHEART.Range.close.name');
         }
         if (distance <= settings.far) {
-            return game.i18n.localize('DAGGERHEART.Range.Far.Name');
+            return game.i18n.localize('DAGGERHEART.Range.far.name');
         }
         if (distance <= settings.veryFar) {
-            return game.i18n.localize('DAGGERHEART.Range.VeryFar.Name');
+            return game.i18n.localize('DAGGERHEART.Range.veryFar.name');
         }
     }
 }
