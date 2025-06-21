@@ -42,7 +42,7 @@ export default class OwnershipSelection extends HandlebarsApplicationMixin(Appli
                 const user = game.users.get(x);
                 if (!user.isGM) {
                     acc[x] = {
-                        img: user.character?.img,
+                        img: user.character?.img ?? 'icons/svg/cowled.svg',
                         name: user.name,
                         ownership: this.ownership.players[x].value
                     };

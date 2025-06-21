@@ -1,3 +1,17 @@
+.theme-light .daggerheart.dh-style.dialog.character-creation {
+    .tab-navigation nav a .descriptor {
+        background: red;
+        background-image: url('../assets/parchments/dh-parchment-dark.png');
+    }
+    .main-selections-container {
+        .traits-container .suggested-traits-container .suggested-trait-container,
+        .creation-action-footer .footer-section nav a .descriptor,
+        .equipment-selection .simple-equipment-container .simple-equipment label {
+            background-image: url('../assets/parchments/dh-parchment-dark.png');
+        }
+    }
+}
+
 .daggerheart.dh-style.dialog.character-creation {
     .window-content {
         gap: 16px;
@@ -114,12 +128,12 @@
                     width: 110px;
                     min-height: unset;
                     border: 1px solid light-dark(@dark-blue, @golden);
-                    color: light-dark(@dark, @beige);
-                    background-color: var(--color-warm-3);
+                    color: light-dark(@beige, @beige);
+                    background-color: light-dark(var(--color-warm-3), var(--color-warm-3));
 
                     &:hover {
-                        background-color: var(--color-warm-2);
-                        filter: drop-shadow(0 0 3px var(--color-warm-2));
+                        background-color: light-dark(var(--color-warm-2), var(--color-warm-2));
+                        filter: drop-shadow(0 0 3px light-dark(var(--color-warm-2), var(--color-warm-2)));
                     }
                 }
             }

@@ -1,8 +1,8 @@
 <div>
     <div class="expanded-view {{#if minimized}}hidden{{/if}}">
-        <div class="flexrow">
-            {{#if canCreate}}<button data-action="addCountdown">{{localize "DAGGERHEART.Countdown.AddCountdown"}}</button>{{/if}}
-            {{#if isGM}}<button class="flex0" data-action="openOwnership" data-tooltip="{{localize "DAGGERHEART.Countdown.OpenOwnership"}}"><i class="fa-solid fa-users"></i></button>{{/if}}
+        <div class="countdowns-menu">
+            {{#if canCreate}}<button class="flex" data-action="addCountdown">{{localize "DAGGERHEART.Countdown.AddCountdown"}}</button>{{/if}}
+            {{#if isGM}}<button data-action="openOwnership" data-tooltip="{{localize "DAGGERHEART.Countdown.OpenOwnership"}}"><i class="fa-solid fa-users"></i></button>{{/if}}
         </div>
 
         <div class="countdowns-container">

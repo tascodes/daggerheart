@@ -2525,6 +2525,15 @@ div.daggerheart.views.multiclass {
 .item-button .item-icon.checked {
   opacity: 1;
 }
+.theme-light .daggerheart.dh-style.dialog.character-creation .tab-navigation nav a .descriptor {
+  background: red;
+  background-image: url('../assets/parchments/dh-parchment-dark.png');
+}
+.theme-light .daggerheart.dh-style.dialog.character-creation .main-selections-container .traits-container .suggested-traits-container .suggested-trait-container,
+.theme-light .daggerheart.dh-style.dialog.character-creation .main-selections-container .creation-action-footer .footer-section nav a .descriptor,
+.theme-light .daggerheart.dh-style.dialog.character-creation .main-selections-container .equipment-selection .simple-equipment-container .simple-equipment label {
+  background-image: url('../assets/parchments/dh-parchment-dark.png');
+}
 .daggerheart.dh-style.dialog.character-creation .window-content {
   gap: 16px;
 }
@@ -2625,12 +2634,12 @@ div.daggerheart.views.multiclass {
   width: 110px;
   min-height: unset;
   border: 1px solid light-dark(#18162e, #f3c267);
-  color: light-dark(#222, #efe6d8);
-  background-color: var(--color-warm-3);
+  color: light-dark(#efe6d8, #efe6d8);
+  background-color: light-dark(var(--color-warm-3), var(--color-warm-3));
 }
 .daggerheart.dh-style.dialog.character-creation .main-selections-container .section-container .section-inner-container .action-button:hover {
-  background-color: var(--color-warm-2);
-  filter: drop-shadow(0 0 3px var(--color-warm-2));
+  background-color: light-dark(var(--color-warm-2), var(--color-warm-2));
+  filter: drop-shadow(0 0 3px light-dark(var(--color-warm-2), var(--color-warm-2)));
 }
 .daggerheart.dh-style.dialog.character-creation .main-selections-container .traits-container {
   text-align: center;
@@ -3095,6 +3104,9 @@ div.daggerheart.views.multiclass {
   width: 40px;
   border-radius: 6px 0 0 6px;
 }
+.daggerheart.views.ownership-selection .ownership-outer-container .ownership-container select {
+  margin: 4px 0;
+}
 :root {
   --shadow-text-stroke: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   --fear-animation: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
@@ -3209,6 +3221,9 @@ div.daggerheart.views.multiclass {
 #resources:has(.fear-bar) {
   min-width: 200px;
 }
+.theme-light .daggerheart.dh-style.countdown.minimized .minimized-view .mini-countdown-container {
+  background-image: url('../assets/parchments/dh-parchment-dark.png');
+}
 .daggerheart.dh-style.countdown {
   overflow: hidden;
 }
@@ -3275,6 +3290,13 @@ div.daggerheart.views.multiclass {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-menu {
+  display: flex;
+  gap: 8px;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-menu .flex {
+  flex: 1;
 }
 .daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container {
   display: flex;
