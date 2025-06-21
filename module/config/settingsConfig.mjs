@@ -26,7 +26,8 @@ export const gameSettings = {
     Resources: {
         Fear: 'ResourcesFear'
     },
-    LevelTiers: 'LevelTiers'
+    LevelTiers: 'LevelTiers',
+    Countdowns: 'Countdowns'
 };
 
 export const DualityRollColor = {

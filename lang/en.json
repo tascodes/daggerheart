@@ -83,6 +83,10 @@
                     "actionPoints": {
                         "label": "Action Points",
                         "hint": "Automatically give and take Action Points as combatants take their turns."
+                    },
+                    "countdowns": {
+                        "label": "Countdowns",
+                        "hint": "Automatically progress non-custom countdowns"
                     }
                 }
             },
@@ -1026,6 +1030,45 @@
             "Downtime": {
                 "Title": "Downtime"
             }
+        },
+        "Countdown": {
+            "FIELDS": {
+                "countdowns": {
+                    "element": {
+                        "name": { "label": "Name" },
+                        "progress": {
+                            "current": { "label": "Current" },
+                            "max": { "label": "Max" },
+                            "type": {
+                                "value": { "label": "Value" },
+                                "label": { "label": "Label", "hint": "Used for custom" }
+                            }
+                        }
+                    }
+                }
+            },
+            "Type": {
+                "Spotlight": "Spotlight",
+                "Custom": "Custom",
+                "CharacterAttack": "Character Attack"
+            },
+            "NewCountdown": "New Countdown",
+            "AddCountdown": "Add Countdown",
+            "RemoveCountdownTitle": "Remove Countdown",
+            "RemoveCountdownText": "Are you sure you want to remove the countdown: {name}?",
+            "OpenOwnership": "Edit Player Ownership",
+            "Title": "{type} Countdowns",
+            "Types": {
+                "narrative": "Narrative",
+                "encounter": "Encounter"
+            },
+            "Notifications": {
+                "LimitedOwnershipMaximise": "You don't have permission to enter edit view"
+            }
+        },
+        "OwnershipSelection": {
+            "Title": "Ownership Selection - {name}",
+            "Default": "Default Ownership"
         },
         "Sheets": {
             "PC": {

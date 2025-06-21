@@ -19,16 +19,16 @@ export default class DHClass extends BaseDataItem {
         return {
             ...super.defineSchema(),
             domains: new fields.ArrayField(new fields.StringField(), { max: 2 }),
-            classItems: new ForeignDocumentUUIDArrayField({type: 'Item', required: false}),
+            classItems: new ForeignDocumentUUIDArrayField({ type: 'Item', required: false }),
 
             evasion: new fields.NumberField({ initial: 0, integer: true }),
             hopeFeatures: new foundry.data.fields.ArrayField(new ActionField()),
             classFeatures: new foundry.data.fields.ArrayField(new ActionField()),
-            subclasses: new ForeignDocumentUUIDArrayField({type: 'Item', required: false}),
+            subclasses: new ForeignDocumentUUIDArrayField({ type: 'Item', required: false }),
             inventory: new fields.SchemaField({
-                take: new ForeignDocumentUUIDArrayField({type: 'Item', required: false}),
-                choiceA: new ForeignDocumentUUIDArrayField({type: 'Item', required: false}),
-                choiceB: new ForeignDocumentUUIDArrayField({type: 'Item', required: false}),
+                take: new ForeignDocumentUUIDArrayField({ type: 'Item', required: false }),
+                choiceA: new ForeignDocumentUUIDArrayField({ type: 'Item', required: false }),
+                choiceB: new ForeignDocumentUUIDArrayField({ type: 'Item', required: false })
             }),
             characterGuide: new fields.SchemaField({
                 suggestedTraits: new fields.SchemaField({

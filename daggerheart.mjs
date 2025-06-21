@@ -4,7 +4,7 @@ import * as models from './module/data/_module.mjs';
 import * as documents from './module/documents/_module.mjs';
 import RegisterHandlebarsHelpers from './module/helpers/handlebarsHelper.mjs';
 import DhCombatTracker from './module/ui/combatTracker.mjs';
-import { GMUpdateEvent, handleSocketEvent, socketEvent } from './module/helpers/socket.mjs';
+import { handleSocketEvent, registerSocketHooks } from './module/helpers/socket.mjs';
 import { registerDHSettings } from './module/applications/settings.mjs';
 import DhpChatLog from './module/ui/chatLog.mjs';
 import DhpRuler from './module/ui/ruler.mjs';
@@ -13,11 +13,13 @@ import { DhDualityRollEnricher, DhTemplateEnricher } from './module/enrichers/_m
 import { getCommandTarget, rollCommandToJSON, setDiceSoNiceForDualityRoll } from './module/helpers/utils.mjs';
 import { abilities } from './module/config/actorConfig.mjs';
 import Resources from './module/applications/resources.mjs';
+import { NarrativeCountdowns, registerCountdownApplicationHooks } from './module/applications/countdowns.mjs';
 import DHDualityRoll from './module/data/chat-message/dualityRoll.mjs';
 import { DualityRollColor } from './module/data/settings/Appearance.mjs';
 import { DhMeasuredTemplate } from './module/placeables/_module.mjs';
 import { renderDualityButton } from './module/enrichers/DualityRollEnricher.mjs';
 import { renderMeasuredTemplate } from './module/enrichers/TemplateEnricher.mjs';
+import { registerCountdownHooks } from './module/data/countdowns.mjs';
 
 globalThis.SYSTEM = SYSTEM;
 
@@ -126,38 +128,19 @@ Hooks.on('ready', () => {
     ui.resources = new CONFIG.ui.resources();
     if (game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.appearance).displayFear !== 'hide')
         ui.resources.render({ force: true });
+
     document.body.classList.toggle(
         'theme-colorful',
         game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.appearance).dualityColorScheme ===
             DualityRollColor.colorful.value
     );
+
+    registerCountdownHooks();
+    registerSocketHooks();
+    registerCountdownApplicationHooks();
 });
 
 Hooks.once('dicesoniceready', () => {});
-
-Hooks.on(socketEvent.GMUpdate, async (action, uuid, update) => {
-    if (game.user.isGM) {
-        const document = uuid ? await fromUuid(uuid) : null;
-        switch (action) {
-            case GMUpdateEvent.UpdateDocument:
-                if (document && update) {
-                    await document.update(update);
-                }
-                break;
-            case GMUpdateEvent.UpdateFear:
-                if (game.user.isGM) {
-                    await game.settings.set(
-                        SYSTEM.id,
-                        SYSTEM.SETTINGS.gameSettings.Resources.Fear,
-                        Math.max(Math.min(update, 6), 0)
-                    );
-                    Hooks.callAll(socketEvent.DhpFearUpdate);
-                    await game.socket.emit(`system.${SYSTEM.id}`, { action: socketEvent.DhpFearUpdate });
-                }
-                break;
-        }
-    }
-});
 
 Hooks.on('renderChatMessageHTML', (_, element) => {
     element
@@ -261,6 +244,29 @@ Hooks.on('chatMessage', (_, message) => {
         }
 
         return false;
+    }
+});
+
+Hooks.on('renderJournalDirectory', async (tab, html, _, options) => {
+    if (tab.id === 'journal') {
+        if (options.parts && !options.parts.includes('footer')) return;
+
+        const buttons = tab.element.querySelector('.directory-footer.action-buttons');
+        const title = game.i18n.format('DAGGERHEART.Countdown.Title', {
+            type: game.i18n.localize('DAGGERHEART.Countdown.Types.narrative')
+        });
+        buttons.insertAdjacentHTML(
+            'afterbegin',
+            `
+            <button id="narrative-countdown-button">
+                <i class="fa-solid fa-stopwatch"></i>
+                <span style="font-weight: 400; font-family: var(--font-sans);">${title}</span>
+            </button>`
+        );
+
+        buttons.querySelector('#narrative-countdown-button').onclick = async () => {
+            new NarrativeCountdowns().open();
+        };
     }
 });
 

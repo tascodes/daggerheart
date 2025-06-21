@@ -1297,24 +1297,37 @@
 .combat-sidebar .encounter-controls.combat {
   justify-content: space-between;
 }
-.combat-sidebar .encounter-controls.combat .encounter-control-fear-container {
+.combat-sidebar .encounter-controls.combat .encounter-fear-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.combat-sidebar .encounter-controls.combat .encounter-fear-controls .encounter-fear-dice-container {
+  display: flex;
+  gap: 2px;
+}
+.combat-sidebar .encounter-controls.combat .encounter-fear-controls .encounter-fear-dice-container .encounter-control-fear-container {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
   color: black;
 }
-.combat-sidebar .encounter-controls.combat .encounter-control-fear-container .dice {
-  height: 24px;
+.combat-sidebar .encounter-controls.combat .encounter-fear-controls .encounter-fear-dice-container .encounter-control-fear-container .dice {
+  height: 22px;
+  width: 22px;
 }
-.combat-sidebar .encounter-controls.combat .encounter-control-fear-container .encounter-control-fear {
+.combat-sidebar .encounter-controls.combat .encounter-fear-controls .encounter-fear-dice-container .encounter-control-fear-container .encounter-control-fear {
   position: absolute;
   font-size: 16px;
 }
-.combat-sidebar .encounter-controls.combat .encounter-control-fear-container .encounter-control-counter {
+.combat-sidebar .encounter-controls.combat .encounter-fear-controls .encounter-fear-dice-container .encounter-control-fear-container .encounter-control-counter {
   position: absolute;
   right: -10px;
   color: var(--color-text-secondary);
+}
+.combat-sidebar .encounter-controls.combat .encounter-fear-controls .encounter-countdowns {
+  color: var(--content-link-icon-color);
 }
 .combat-sidebar .encounter-controls.combat .control-buttons {
   width: min-content;
@@ -3064,6 +3077,24 @@ div.daggerheart.views.multiclass {
 .daggerheart.levelup .levelup-footer {
   display: flex;
 }
+.daggerheart.views.ownership-selection .ownership-outer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.daggerheart.views.ownership-selection .ownership-outer-container .ownership-container {
+  display: flex;
+  border: 2px solid light-dark(#18162e, #f3c267);
+  border-radius: 6px;
+  padding: 0 4px 0 0;
+  align-items: center;
+  gap: 8px;
+}
+.daggerheart.views.ownership-selection .ownership-outer-container .ownership-container img {
+  height: 40px;
+  width: 40px;
+  border-radius: 6px 0 0 6px;
+}
 :root {
   --shadow-text-stroke: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   --fear-animation: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
@@ -3177,6 +3208,116 @@ div.daggerheart.views.multiclass {
 }
 #resources:has(.fear-bar) {
   min-width: 200px;
+}
+.daggerheart.dh-style.countdown {
+  overflow: hidden;
+}
+.daggerheart.dh-style.countdown fieldset {
+  align-items: center;
+  margin-top: 5px;
+  border-radius: 6px;
+  border-color: light-dark(#18162e, #f3c267);
+}
+.daggerheart.dh-style.countdown fieldset legend {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: light-dark(#18162e, #f3c267);
+}
+.daggerheart.dh-style.countdown fieldset legend a {
+  text-shadow: none;
+}
+.daggerheart.dh-style.countdown.minimized {
+  height: auto !important;
+  max-height: unset !important;
+  max-width: 740px !important;
+  width: auto !important;
+}
+.daggerheart.dh-style.countdown.minimized .window-content {
+  display: flex;
+  padding: 4px 8px;
+  justify-content: center;
+}
+.daggerheart.dh-style.countdown.minimized .minimized-view {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.daggerheart.dh-style.countdown.minimized .minimized-view .mini-countdown-container {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid light-dark(#18162e, #f3c267);
+  border-radius: 6px;
+  padding: 0 4px 0 0;
+  background-image: url('../assets/parchments/dh-parchment-light.png');
+  color: light-dark(#efe6d8, #222);
+  cursor: pointer;
+}
+.daggerheart.dh-style.countdown.minimized .minimized-view .mini-countdown-container.disabled {
+  cursor: initial;
+}
+.daggerheart.dh-style.countdown.minimized .minimized-view .mini-countdown-container img {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px 0 0 6px;
+}
+.daggerheart.dh-style.countdown.minimized .minimized-view .mini-countdown-container .mini-countdown-name {
+  white-space: nowrap;
+}
+.daggerheart.dh-style.countdown .hidden {
+  display: none;
+}
+.daggerheart.dh-style.countdown .window-content > div {
+  height: 100%;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  overflow: auto;
+  max-height: 100%;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container .countdown-fieldset {
+  width: 340px;
+  height: min-content;
+  position: relative;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container .countdown-fieldset .ownership-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 18px;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container .countdown-fieldset .countdown-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container .countdown-fieldset .countdown-container img {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container .countdown-fieldset .countdown-container img.disabled {
+  cursor: initial;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container .countdown-fieldset .countdown-container .countdown-inner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container .countdown-fieldset .countdown-container .countdown-inner-container .countdown-value-container {
+  display: flex;
+  gap: 4px;
+}
+.daggerheart.dh-style.countdown .window-content > div .expanded-view .countdowns-container .countdown-fieldset .countdown-container .countdown-inner-container .countdown-value-container input {
+  max-width: 80px;
 }
 .daggerheart.dh-style.setting fieldset {
   display: flex;
