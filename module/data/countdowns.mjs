@@ -89,7 +89,7 @@ class DhCountdown extends foundry.abstract.DataModel {
                 current: new fields.NumberField({
                     required: true,
                     integer: true,
-                    initial: 0,
+                    initial: 1,
                     label: 'DAGGERHEART.Countdown.FIELDS.countdowns.element.progress.current.label'
                 }),
                 max: new fields.NumberField({

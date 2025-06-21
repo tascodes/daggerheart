@@ -300,9 +300,9 @@ export default class DhCharacterCreation extends HandlebarsApplicationMixin(Appl
         return {
             armor: characterGuide.suggestedArmor ?? null,
             primaryWeapon: characterGuide.suggestedPrimaryWeapon ?? null,
-            secondaryWeapon:
-                { ...characterGuide.suggestedSecondaryWeapon, uuid: characterGuide.suggestedSecondaryWeapon.uuid } ??
-                null,
+            secondaryWeapon: characterGuide.suggestedSecondaryWeapon
+                ? { ...characterGuide.suggestedSecondaryWeapon, uuid: characterGuide.suggestedSecondaryWeapon.uuid }
+                : null,
             inventory: {
                 take: inventory.take ?? [],
                 choiceA:
@@ -399,11 +399,19 @@ export default class DhCharacterCreation extends HandlebarsApplicationMixin(Appl
         const data = TextEditor.getDragEventData(event);
         const item = await foundry.utils.fromUuid(data.uuid);
         if (item.type === 'ancestry' && event.target.closest('.ancestry-card')) {
-            this.setup.ancestry = { ...item, uuid: item.uuid };
+            this.setup.ancestry = {
+                ...item,
+                effects: Array.from(item.effects).map(x => x.toObject()),
+                uuid: item.uuid
+            };
         } else if (item.type === 'community' && event.target.closest('.community-card')) {
-            this.setup.community = { ...item, uuid: item.uuid };
+            this.setup.community = {
+                ...item,
+                effects: Array.from(item.effects).map(x => x.toObject()),
+                uuid: item.uuid
+            };
         } else if (item.type === 'class' && event.target.closest('.class-card')) {
-            this.setup.class = { ...item, uuid: item.uuid };
+            this.setup.class = { ...item, effects: Array.from(item.effects).map(x => x.toObject()), uuid: item.uuid };
             this.setup.subclass = {};
             this.setup.domainCards = {
                 [foundry.utils.randomID()]: {},
@@ -417,7 +425,11 @@ export default class DhCharacterCreation extends HandlebarsApplicationMixin(Appl
                 return;
             }
 
-            this.setup.subclass = { ...item, uuid: item.uuid };
+            this.setup.subclass = {
+                ...item,
+                effects: Array.from(item.effects).map(x => x.toObject()),
+                uuid: item.uuid
+            };
         } else if (item.type === 'domainCard' && event.target.closest('.domain-card')) {
             if (!this.setup.class.uuid) {
                 ui.notifications.error(game.i18n.localize('DAGGERHEART.CharacterCreation.Notifications.MissingClass'));

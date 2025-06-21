@@ -302,7 +302,7 @@ export class EncounterCountdowns extends Countdowns {
 }
 
 export const registerCountdownApplicationHooks = () => {
-    const updateCountdowns = async shouldIncrease => {
+    const updateCountdowns = async shouldProgress => {
         if (game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.Automation).countdowns) {
             const countdownSetting = game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.Countdowns);
             for (let countdownCategoryKey in countdownSetting) {
@@ -310,10 +310,10 @@ export const registerCountdownApplicationHooks = () => {
                 for (let countdownKey in countdownCategory.countdowns) {
                     const countdown = countdownCategory.countdowns[countdownKey];
 
-                    if (shouldIncrease(countdown)) {
+                    if (shouldProgress(countdown)) {
                         await countdownSetting.updateSource({
                             [`${countdownCategoryKey}.countdowns.${countdownKey}.progress.current`]:
-                                countdown.progress.current + 1
+                                countdown.progress.current - 1
                         });
                         await game.settings.set(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.Countdowns, countdownSetting);
                         foundry.applications.instances.get(`${countdownCategoryKey}-countdowns`)?.render();
@@ -326,18 +326,14 @@ export const registerCountdownApplicationHooks = () => {
     Hooks.on(SYSTEM.HOOKS.characterAttack, async () => {
         updateCountdowns(countdown => {
             return (
-                countdown.progress.type.value === countdownTypes.characterAttack.id &&
-                countdown.progress.current < countdown.progress.max
+                countdown.progress.type.value === countdownTypes.characterAttack.id && countdown.progress.current > 0
             );
         });
     });
 
     Hooks.on(SYSTEM.HOOKS.spotlight, async () => {
         updateCountdowns(countdown => {
-            return (
-                countdown.progress.type.value === countdownTypes.spotlight.id &&
-                countdown.progress.current < countdown.progress.max
-            );
+            return countdown.progress.type.value === countdownTypes.spotlight.id && countdown.progress.current > 0;
         });
     });
 };
