@@ -1,4 +1,5 @@
 import { defaultLevelTiers, DhLevelTiers } from '../data/levelTier.mjs';
+import DhCountdowns from '../data/countdowns.mjs';
 import {
     DhAppearance,
     DhAutomation,
@@ -129,5 +130,11 @@ const registerNonConfigSettings = () => {
             if (ui.resources) ui.resources.render({ force: true });
             ui.combat.render({ force: true });
         }
+    });
+
+    game.settings.register(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.Countdowns, {
+        scope: 'world',
+        config: false,
+        type: DhCountdowns
     });
 };
