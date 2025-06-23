@@ -1,15 +1,14 @@
+import DHBaseItemSheet from '../api/base-item.mjs';
 import { actionsTypes } from '../../../data/_module.mjs';
 import { tagifyElement } from '../../../helpers/utils.mjs';
 import DHActionConfig from '../../config/Action.mjs';
-import DaggerheartSheet from '../daggerheart-sheet.mjs';
 
-const { ItemSheetV2 } = foundry.applications.sheets;
 const { TextEditor } = foundry.applications.ux;
 
-export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
+export default class ClassSheet extends DHBaseItemSheet {
     static DEFAULT_OPTIONS = {
         tag: 'form',
-        classes: ['daggerheart', 'sheet', 'item', 'dh-style', 'class'],
+        classes: ['class'],
         position: { width: 700 },
         actions: {
             removeSubclass: this.removeSubclass,
@@ -22,11 +21,6 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
             removePrimaryWeapon: this.removePrimaryWeapon,
             removeSecondaryWeapon: this.removeSecondaryWeapon,
             removeArmor: this.removeArmor
-        },
-        form: {
-            handler: this.updateForm,
-            submitOnChange: true,
-            closeOnSubmit: false
         },
         dragDrop: [
             { dragSelector: '.suggested-item', dropSelector: null },
@@ -53,24 +47,17 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
         }
     };
 
+    /** @inheritdoc */
     static TABS = {
-        features: {
-            active: true,
-            cssClass: '',
-            group: 'primary',
-            id: 'features',
-            icon: null,
-            label: 'DAGGERHEART.Sheets.Class.Tabs.Features'
-        },
-        settings: {
-            active: false,
-            cssClass: '',
-            group: 'primary',
-            id: 'settings',
-            icon: null,
-            label: 'DAGGERHEART.Sheets.Class.Tabs.settings'
+        primary: {
+            tabs: [
+                { id: 'description' },
+                { id: 'settings' },
+            ],
+            initial: "description",
+            labelPrefix: "DAGGERHEART.Sheets.Feature.Tabs"
         }
-    };
+    }
 
     _attachPartListeners(partId, htmlElement, options) {
         super._attachPartListeners(partId, htmlElement, options);
@@ -81,17 +68,10 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
 
     async _prepareContext(_options) {
         const context = await super._prepareContext(_options);
-        context.document = this.document;
-        context.tabs = super._getTabs(this.constructor.TABS);
         context.domains = this.document.system.domains;
-
         return context;
     }
 
-    static async updateForm(event, _, formData) {
-        await this.document.update(formData.object);
-        this.render();
-    }
 
     onAddTag(e) {
         if (e.detail.index === 2) {
@@ -157,9 +137,9 @@ export default class ClassSheet extends DaggerheartSheet(ItemSheetV2) {
 
     async selectActionType() {
         const content = await foundry.applications.handlebars.renderTemplate(
-                'systems/daggerheart/templates/views/actionType.hbs',
-                { types: SYSTEM.ACTIONS.actionTypes }
-            ),
+            'systems/daggerheart/templates/views/actionType.hbs',
+            { types: SYSTEM.ACTIONS.actionTypes }
+        ),
             title = 'Select Action Type',
             type = 'form',
             data = {};

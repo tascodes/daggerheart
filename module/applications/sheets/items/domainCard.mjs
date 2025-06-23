@@ -1,7 +1,6 @@
-import DHItemSheetV2 from '../item.mjs';
+import DHBaseItemSheet from '../api/base-item.mjs';
 
-const { ItemSheetV2 } = foundry.applications.sheets;
-export default class DomainCardSheet extends DHItemSheetV2(ItemSheetV2) {
+export default class DomainCardSheet extends DHBaseItemSheet {
     static DEFAULT_OPTIONS = {
         classes: ['domain-card'],
         position: { width: 450, height: 700 }

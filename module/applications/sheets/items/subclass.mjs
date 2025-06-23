@@ -1,12 +1,10 @@
+import DHBaseItemSheet from '../api/base-item.mjs';
 import { actionsTypes } from '../../../data/_module.mjs';
 import DHActionConfig from '../../config/Action.mjs';
-import DhpApplicationMixin from '../daggerheart-sheet.mjs';
 
-const { ItemSheetV2 } = foundry.applications.sheets;
-export default class SubclassSheet extends DhpApplicationMixin(ItemSheetV2) {
+export default class SubclassSheet extends DHBaseItemSheet {
     static DEFAULT_OPTIONS = {
-        tag: 'form',
-        classes: ['daggerheart', 'sheet', 'item', 'dh-style', 'subclass'],
+        classes: ['subclass'],
         position: { width: 600 },
         window: { resizable: false },
         actions: {
@@ -14,11 +12,6 @@ export default class SubclassSheet extends DhpApplicationMixin(ItemSheetV2) {
             editFeature: this.editFeature,
             deleteFeature: this.deleteFeature
         },
-        form: {
-            handler: this.updateForm,
-            submitOnChange: true,
-            closeOnSubmit: false
-        }
     };
 
     static PARTS = {
@@ -35,45 +28,17 @@ export default class SubclassSheet extends DhpApplicationMixin(ItemSheetV2) {
         }
     };
 
+    /** @inheritdoc */
     static TABS = {
-        description: {
-            active: true,
-            cssClass: '',
-            group: 'primary',
-            id: 'description',
-            icon: null,
-            label: 'DAGGERHEART.Sheets.Feature.Tabs.Description'
-        },
-        features: {
-            active: false,
-            cssClass: '',
-            group: 'primary',
-            id: 'features',
-            icon: null,
-            label: 'DAGGERHEART.Sheets.Feature.Tabs.Features'
-        },
-        settings: {
-            active: false,
-            cssClass: '',
-            group: 'primary',
-            id: 'settings',
-            icon: null,
-            label: 'DAGGERHEART.Sheets.Feature.Tabs.Settings'
+        primary: {
+            tabs: [
+                { id: 'description' },
+                { id: 'features' },
+                { id: 'settings' }
+            ],
+            initial: "description",
+            labelPrefix: "DAGGERHEART.Sheets.TABS"
         }
-    };
-
-    async _prepareContext(_options) {
-        const context = await super._prepareContext(_options);
-        context.document = this.document;
-        context.config = CONFIG.daggerheart;
-        context.tabs = super._getTabs(this.constructor.TABS);
-
-        return context;
-    }
-
-    static async updateForm(event, _, formData) {
-        await this.document.update(formData.object);
-        this.render();
     }
 
     static addFeature(_, target) {
@@ -93,9 +58,9 @@ export default class SubclassSheet extends DhpApplicationMixin(ItemSheetV2) {
 
     async #selectActionType() {
         const content = await foundry.applications.handlebars.renderTemplate(
-                'systems/daggerheart/templates/views/actionType.hbs',
-                { types: SYSTEM.ACTIONS.actionTypes }
-            ),
+            'systems/daggerheart/templates/views/actionType.hbs',
+            { types: SYSTEM.ACTIONS.actionTypes }
+        ),
             title = 'Select Action Type',
             type = 'form',
             data = {};

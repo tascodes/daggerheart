@@ -1028,6 +1028,13 @@
             }
         },
         "Sheets": {
+            "TABS": {
+                "features": "Features",
+                "effects": "Effects",
+                "settings": "Settings",
+                "actions": "Actions",
+                "description": "Description"
+            },
             "PC": {
                 "Name": "Name",
                 "Pronouns": "Pronouns",
