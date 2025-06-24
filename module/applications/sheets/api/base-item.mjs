@@ -1,4 +1,6 @@
 import DHApplicationMixin from "./application-mixin.mjs";
+import { actionsTypes } from "../../../data/_module.mjs";
+import DHActionConfig from "../../config/Action.mjs";
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -77,13 +79,11 @@ export default class DHBaseItemSheet extends DHApplicationMixin(ItemSheetV2) {
   * @param {HTMLElement} _button - The capturing HTML element which defines the [data-action="addAction"]
   */
   static async #addAction(_event, _button) {
-    const actionType = await DHBaseItemSheet.selectActionType(),
-      actionIndexes = this.document.system.actions.map(x => x._id.split('-')[2]).sort((a, b) => a - b);
+    const actionType = await DHBaseItemSheet.selectActionType()
     try {
       const cls = actionsTypes[actionType?.type] ?? actionsTypes.attack,
         action = new cls(
           {
-            // id: `${this.document.id}-Action-${actionIndexes.length > 0 ? actionIndexes[0] + 1 : 1}`
             _id: foundry.utils.randomID(),
             type: actionType.type,
             name: game.i18n.localize(SYSTEM.ACTIONS.actionTypes[actionType.type].name),
@@ -94,9 +94,7 @@ export default class DHBaseItemSheet extends DHApplicationMixin(ItemSheetV2) {
           }
         );
       await this.document.update({ 'system.actions': [...this.document.system.actions, action] });
-      await new DHActionConfig(this.document.system.actions[this.document.system.actions.length - 1]).render(
-        true
-      );
+      await new DHActionConfig(this.document.system.actions[this.document.system.actions.length - 1]).render({force: true});
     } catch (error) {
       console.log(error);
     }

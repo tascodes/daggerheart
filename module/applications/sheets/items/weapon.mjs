@@ -50,6 +50,6 @@ export default class WeaponSheet extends DHBaseItemSheet {
      */
     static async onFeatureSelect(selectedOptions) {
         await this.document.update({ 'system.features': selectedOptions.map(x => ({ value: x.value })) });
-        this.render({ force: false, parts: ["settings"] });
+        this.render({ force: false, parts: ['settings'] });
     }
 }

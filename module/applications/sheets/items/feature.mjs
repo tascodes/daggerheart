@@ -42,24 +42,18 @@ export default class FeatureSheet extends DHBaseItemSheet {
     /**@override */
     static TABS = {
         primary: {
-            tabs: [
-                { id: 'description' },
-                { id: 'actions' },
-                { id: 'settings' },
-                { id: 'effects' }
-            ],
-            initial: "description",
-            labelPrefix: "DAGGERHEART.Sheets.TABS"
+            tabs: [{ id: 'description' }, { id: 'actions' }, { id: 'settings' }, { id: 'effects' }],
+            initial: 'description',
+            labelPrefix: 'DAGGERHEART.Sheets.TABS'
         }
     };
 
     /**@inheritdoc*/
     _attachPartListeners(partId, htmlElement, options) {
         super._attachPartListeners(partId, htmlElement, options);
-        if (partId === "effects")
+        if (partId === 'effects')
             htmlElement.querySelector('.effect-select')?.addEventListener('change', this._effectSelect.bind(this));
     }
-
 
     /**
      * Handles selection of a new effect type.
@@ -68,7 +62,7 @@ export default class FeatureSheet extends DHBaseItemSheet {
     _effectSelect(event) {
         const value = event.currentTarget.value;
         this._selectedEffectType = value;
-        this.render({ parts: ["effects"] });
+        this.render({ parts: ['effects'] });
     }
 
     /**@inheritdoc */
@@ -83,12 +77,11 @@ export default class FeatureSheet extends DHBaseItemSheet {
         return context;
     }
 
-
     /**
      * Adds a new effect to the item, based on the selected effect type.
      * @param {PointerEvent} _event - The originating click event
      * @param {HTMLElement} _target - The capturing HTML element which defines the [data-action]
-     * @returns 
+     * @returns
      */
     static async addEffect(_event, _target) {
         const type = this._selectedEffectType;
@@ -107,7 +100,7 @@ export default class FeatureSheet extends DHBaseItemSheet {
      * Removes an effect from the item.
      * @param {PointerEvent} _event - The originating click event
      * @param {HTMLElement} target - The capturing HTML element which defines the [data-action]
-     * @returns 
+     * @returns
      */
     static async removeEffect(_event, target) {
         const path = `system.effects.-=${target.dataset.effect}`;

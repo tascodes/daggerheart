@@ -11,7 +11,7 @@ export default class SubclassSheet extends DHBaseItemSheet {
             addFeature: this.addFeature,
             editFeature: this.editFeature,
             deleteFeature: this.deleteFeature
-        },
+        }
     };
 
     static PARTS = {
@@ -31,15 +31,11 @@ export default class SubclassSheet extends DHBaseItemSheet {
     /** @inheritdoc */
     static TABS = {
         primary: {
-            tabs: [
-                { id: 'description' },
-                { id: 'features' },
-                { id: 'settings' }
-            ],
-            initial: "description",
-            labelPrefix: "DAGGERHEART.Sheets.TABS"
+            tabs: [{ id: 'description' }, { id: 'features' }, { id: 'settings' }],
+            initial: 'description',
+            labelPrefix: 'DAGGERHEART.Sheets.TABS'
         }
-    }
+    };
 
     static addFeature(_, target) {
         if (target.dataset.type === 'action') this.addAction(target.dataset.level);
@@ -58,9 +54,9 @@ export default class SubclassSheet extends DHBaseItemSheet {
 
     async #selectActionType() {
         const content = await foundry.applications.handlebars.renderTemplate(
-            'systems/daggerheart/templates/views/actionType.hbs',
-            { types: SYSTEM.ACTIONS.actionTypes }
-        ),
+                'systems/daggerheart/templates/views/actionType.hbs',
+                { types: SYSTEM.ACTIONS.actionTypes }
+            ),
             title = 'Select Action Type',
             type = 'form',
             data = {};

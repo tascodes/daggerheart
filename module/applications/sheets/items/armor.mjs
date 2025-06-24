@@ -48,8 +48,8 @@ export default class ArmorSheet extends DHBaseItemSheet {
      * Callback function used by `tagifyElement`.
      * @param {Array<Object>} selectedOptions - The currently selected tag objects.
      */
-    static async onFeatureSelect(selectedOptions ) {
-        await this.document.update({ 'system.features': selectedOptions .map(x => ({ value: x.value })) });
-        this.render({force: false, parts: ["settings"]});
+    static async onFeatureSelect(selectedOptions) {
+        await this.document.update({ 'system.features': selectedOptions.map(x => ({ value: x.value })) });
+        this.render({ force: false, parts: ['settings'] });
     }
 }
