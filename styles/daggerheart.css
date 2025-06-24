@@ -8,6 +8,7 @@
 /* Background */
 /* Duality */
 /* Fear */
+@import '../node_modules/@yaireo/tagify/dist/tagify.css';
 .daggerheart.sheet.class .editor {
   height: 500px;
 }

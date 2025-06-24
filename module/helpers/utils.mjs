@@ -196,9 +196,7 @@ export const tagifyElement = (element, options, onChange, tagifyOptions = {}) =>
         const unusedDropDownItems = event.detail.tagify.suggestedListItems;
         const missingOptions = Object.keys(options).filter(x => !unusedDropDownItems.find(item => item.value === x));
         const removedItem = missingOptions.find(x => !selectedOptions.find(item => item.value === x));
-        const addedItem = removedItem
-            ? null
-            : selectedOptions.find(x => !missingOptions.find(item => item === x.value));
+        const addedItem = removedItem ? null : selectedOptions.find(x => missingOptions.find(item => item === x.value));
 
         const changedItem = { option: removedItem ?? addedItem.value, removed: Boolean(removedItem) };
 
