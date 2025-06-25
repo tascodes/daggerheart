@@ -50,14 +50,11 @@ export default class ClassSheet extends DHBaseItemSheet {
     /** @inheritdoc */
     static TABS = {
         primary: {
-            tabs: [
-                { id: 'description' },
-                { id: 'settings' },
-            ],
-            initial: "description",
-            labelPrefix: "DAGGERHEART.Sheets.Feature.Tabs"
+            tabs: [{ id: 'description' }, { id: 'settings' }],
+            initial: 'description',
+            labelPrefix: 'DAGGERHEART.Sheets.Feature.Tabs'
         }
-    }
+    };
 
     _attachPartListeners(partId, htmlElement, options) {
         super._attachPartListeners(partId, htmlElement, options);
@@ -71,7 +68,6 @@ export default class ClassSheet extends DHBaseItemSheet {
         context.domains = this.document.system.domains;
         return context;
     }
-
 
     onAddTag(e) {
         if (e.detail.index === 2) {
@@ -137,9 +133,9 @@ export default class ClassSheet extends DHBaseItemSheet {
 
     async selectActionType() {
         const content = await foundry.applications.handlebars.renderTemplate(
-            'systems/daggerheart/templates/views/actionType.hbs',
-            { types: SYSTEM.ACTIONS.actionTypes }
-        ),
+                'systems/daggerheart/templates/views/actionType.hbs',
+                { types: SYSTEM.ACTIONS.actionTypes }
+            ),
             title = 'Select Action Type',
             type = 'form',
             data = {};

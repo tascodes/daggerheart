@@ -1,7 +1,6 @@
-import DHHeritageSheetV2 from './heritage.mjs';
+import DHHeritageSheet from '../api/heritage-sheet.mjs';
 
-const { ItemSheetV2 } = foundry.applications.sheets;
-export default class AncestrySheet extends DHHeritageSheetV2(ItemSheetV2) {
+export default class AncestrySheet extends DHHeritageSheet {
     static DEFAULT_OPTIONS = {
         classes: ['ancestry']
     };
