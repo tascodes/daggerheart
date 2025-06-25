@@ -1,11 +1,13 @@
 import DHBaseItemSheet from '../api/base-item.mjs';
 
 export default class DomainCardSheet extends DHBaseItemSheet {
+    /**@inheritdoc */
     static DEFAULT_OPTIONS = {
         classes: ['domain-card'],
         position: { width: 450, height: 700 }
     };
 
+    /**@override */
     static PARTS = {
         header: { template: 'systems/daggerheart/templates/sheets/items/domainCard/header.hbs' },
         tabs: { template: 'systems/daggerheart/templates/sheets/global/tabs/tab-navigation.hbs' },

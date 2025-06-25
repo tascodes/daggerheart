@@ -23,7 +23,7 @@ export default class ClassSheet extends DHBaseItemSheet {
         },
         tagifyConfigs: [
             {
-                selector: 'domain-input',
+                selector: '.domain-input',
                 choices: () => CONFIG.daggerheart.DOMAIN.domains,
                 callback: ClassSheet.#onDomainSelect
             }
@@ -62,14 +62,19 @@ export default class ClassSheet extends DHBaseItemSheet {
         }
     };
 
+    /**@inheritdoc */
     async _prepareContext(_options) {
         const context = await super._prepareContext(_options);
         context.domains = this.document.system.domains;
         return context;
     }
 
-    static async #onDomainSelect(domains) {
-        await this.document.update({ 'system.domains': domains.map(x => x.value) });
+    /**
+     * Callback function used by `tagifyElement`.
+     * @param {Array<Object>} selectedOptions - The currently selected tag objects.
+     */
+    static async #onDomainSelect(selectedOptions) {
+        await this.document.update({ 'system.domains': selectedOptions.map(x => x.value) });
     }
 
     static async removeSubclass(_, button) {
@@ -125,9 +130,9 @@ export default class ClassSheet extends DHBaseItemSheet {
 
     async selectActionType() {
         const content = await foundry.applications.handlebars.renderTemplate(
-            'systems/daggerheart/templates/views/actionType.hbs',
-            { types: SYSTEM.ACTIONS.actionTypes }
-        ),
+                'systems/daggerheart/templates/views/actionType.hbs',
+                { types: SYSTEM.ACTIONS.actionTypes }
+            ),
             title = 'Select Action Type',
             type = 'form',
             data = {};
