@@ -1,6 +1,5 @@
 import DHBaseItemSheet from '../api/base-item.mjs';
 import { actionsTypes } from '../../../data/_module.mjs';
-import { tagifyElement } from '../../../helpers/utils.mjs';
 import DHActionConfig from '../../config/Action.mjs';
 
 const { TextEditor } = foundry.applications.ux;
@@ -22,6 +21,13 @@ export default class ClassSheet extends DHBaseItemSheet {
             removeSecondaryWeapon: this.removeSecondaryWeapon,
             removeArmor: this.removeArmor
         },
+        tagifyConfigs: [
+            {
+                selector: 'domain-input',
+                choices: () => CONFIG.daggerheart.DOMAIN.domains,
+                callback: ClassSheet.#onDomainSelect
+            }
+        ],
         dragDrop: [
             { dragSelector: '.suggested-item', dropSelector: null },
             { dragSelector: null, dropSelector: '.take-section' },
@@ -56,28 +62,14 @@ export default class ClassSheet extends DHBaseItemSheet {
         }
     };
 
-    _attachPartListeners(partId, htmlElement, options) {
-        super._attachPartListeners(partId, htmlElement, options);
-
-        const domainInput = htmlElement.querySelector('.domain-input');
-        tagifyElement(domainInput, SYSTEM.DOMAIN.domains, this.onDomainSelect.bind(this));
-    }
-
     async _prepareContext(_options) {
         const context = await super._prepareContext(_options);
         context.domains = this.document.system.domains;
         return context;
     }
 
-    onAddTag(e) {
-        if (e.detail.index === 2) {
-            ui.notifications.info(game.i18n.localize('DAGGERHEART.Notification.Info.ClassCanOnlyHaveTwoDomains'));
-        }
-    }
-
-    async onDomainSelect(domains) {
+    static async #onDomainSelect(domains) {
         await this.document.update({ 'system.domains': domains.map(x => x.value) });
-        this.render(true);
     }
 
     static async removeSubclass(_, button) {
@@ -133,9 +125,9 @@ export default class ClassSheet extends DHBaseItemSheet {
 
     async selectActionType() {
         const content = await foundry.applications.handlebars.renderTemplate(
-                'systems/daggerheart/templates/views/actionType.hbs',
-                { types: SYSTEM.ACTIONS.actionTypes }
-            ),
+            'systems/daggerheart/templates/views/actionType.hbs',
+            { types: SYSTEM.ACTIONS.actionTypes }
+        ),
             title = 'Select Action Type',
             type = 'form',
             data = {};

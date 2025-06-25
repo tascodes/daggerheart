@@ -1,11 +1,17 @@
 import DHBaseItemSheet from '../api/base-item.mjs';
-import { tagifyElement } from '../../../helpers/utils.mjs';
 
 export default class ArmorSheet extends DHBaseItemSheet {
     /**@inheritdoc */
     static DEFAULT_OPTIONS = {
         classes: ['armor'],
-        dragDrop: [{ dragSelector: null, dropSelector: null }]
+        dragDrop: [{ dragSelector: null, dropSelector: null }],
+        tagifyConfigs: [
+            {
+                selector: '.features-input',
+                options: () => CONFIG.daggerheart.ITEM.armorFeatures,
+                callback: ArmorSheet.#onFeatureSelect
+            }
+        ]
     };
 
     /**@override */
@@ -36,20 +42,11 @@ export default class ArmorSheet extends DHBaseItemSheet {
         return context;
     }
 
-    /**@inheritdoc */
-    _attachPartListeners(partId, htmlElement, options) {
-        super._attachPartListeners(partId, htmlElement, options);
-
-        const featureInput = htmlElement.querySelector('.features-input');
-        tagifyElement(featureInput, CONFIG.daggerheart.ITEM.armorFeatures, ArmorSheet.onFeatureSelect.bind(this));
-    }
-
     /**
      * Callback function used by `tagifyElement`.
      * @param {Array<Object>} selectedOptions - The currently selected tag objects.
      */
-    static async onFeatureSelect(selectedOptions) {
+    static async #onFeatureSelect(selectedOptions) {
         await this.document.update({ 'system.features': selectedOptions.map(x => ({ value: x.value })) });
-        this.render({ force: false, parts: ['settings'] });
     }
 }

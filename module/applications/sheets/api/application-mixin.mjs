@@ -1,14 +1,32 @@
 const { HandlebarsApplicationMixin } = foundry.applications.api;
+import { tagifyElement } from '../../../helpers/utils.mjs';
 
 /**
  * @typedef {object} DragDropConfig
- * @property {string|null} dragSelector - A CSS selector that identifies draggable elements.
- * @property {string|null} dropSelector - A CSS selector that identifies drop targets.
- */
-
-/**
+ * @property {string} [dragSelector] - A CSS selector that identifies draggable elements.
+ * @property {string} [dropSelector] - A CSS selector that identifies drop targets.
+ *
+ * @typedef {Object} TagOption
+ * @property {string} label
+ * @property {string} [src]
+ *
+ * @typedef {object} TagifyConfig
+ * @property {String} selector - The CSS selector for get the element to transform into a tag input
+ * @property {Record<string, TagOption> | (() => Record<string, TagOption>)} options - Available tag options as key-value pairs
+ * @property {TagChangeCallback} callback - Callback function triggered when tags change
+ * @property {TagifyOptions} [tagifyOptions={}] - Additional configuration for Tagify
+ *
+ * @callback TagChangeCallback
+ * @param {Array<{value: string, name: string, src?: string}>} selectedOptions - Current selected tags
+ * @param {{option: string, removed: boolean}} change - What changed (added/removed tag)
+ * @param {HTMLElement} inputElement - Original input element
+ *
+ *
+ * @typedef {Object} TagifyOptions
+ * @property {number} [maxTags] - Maximum number of allowed tags
+ *
  * @typedef {import("@client/applications/api/handlebars-application.mjs").HandlebarsRenderOptions} HandlebarsRenderOptions
- * @typedef {foundry.applications.types.ApplicationConfiguration & HandlebarsRenderOptions & { dragDrop?: DragDropConfig[] }} DHSheetV2Configuration
+ * @typedef {foundry.applications.types.ApplicationConfiguration & HandlebarsRenderOptions & { dragDrop?: DragDropConfig[], tagifyConfigs?: TagifyConfig[]  }} DHSheetV2Configuration
  */
 
 /**
@@ -45,7 +63,8 @@ export default function DHApplicationMixin(Base) {
                 editEffect: DHSheetV2.#editEffect,
                 removeEffect: DHSheetV2.#removeEffect
             },
-            dragDrop: []
+            dragDrop: [],
+            tagifyConfigs: []
         };
 
         /* -------------------------------------------- */
@@ -54,6 +73,49 @@ export default function DHApplicationMixin(Base) {
         _attachPartListeners(partId, htmlElement, options) {
             super._attachPartListeners(partId, htmlElement, options);
             this._dragDrop.forEach(d => d.bind(htmlElement));
+        }
+
+        /**@inheritdoc */
+        async _onRender(context, options) {
+            await super._onRender(context, options);
+            this._createTagifyElements(this.options.tagifyConfigs);
+        }
+
+        /**
+         * Creates Tagify elements from configuration objects
+         * @param {TagifyConfig[]} tagConfigs - Array of Tagify configuration objects
+         * @throws {TypeError} If tagConfigs is not an array
+         * @throws {Error} If required properties are missing in config objects
+         * @param {TagifyConfig[]} tagConfigs
+         */
+        _createTagifyElements(tagConfigs) {
+            if (!Array.isArray(tagConfigs)) throw new TypeError('tagConfigs must be an array');
+
+            tagConfigs.forEach(config => {
+                try {
+                    const { selector, options, callback, tagifyOptions = {} } = config;
+
+                    // Validate required fields
+                    if (!selector || !options || !callback) {
+                        console.warn('Invalid TagifyConfig - missing required properties', config);
+                        return;
+                    }
+
+                    // Find target element
+                    const element = rootEl.querySelector(selector);
+                    if (!element) {
+                        console.warn(`Element not found with selector: ${selector}`);
+                        return;
+                    }
+                    // Resolve dynamic options if function provided
+                    const resolvedOptions = typeof options === 'function' ? options.call(this) : options;
+
+                    // Initialize Tagify
+                    tagifyElement(element, resolvedOptions, callback.bind(this), tagifyOptions);
+                } catch (error) {
+                    console.error('Error initializing Tagify:', error, config);
+                }
+            });
         }
 
         /* -------------------------------------------- */
