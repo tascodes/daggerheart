@@ -36,6 +36,30 @@ export default class DHBaseItemSheet extends DHApplicationMixin(ItemSheetV2) {
     };
 
     /* -------------------------------------------- */
+    /*  Prepare Context                             */
+    /* -------------------------------------------- */
+
+    /**@inheritdoc */
+    async _preparePartContext(partId, context) {
+        await super._preparePartContext(partId, context);
+        const { TextEditor } = foundry.applications.ux;
+
+        switch (partId) {
+            case 'description':
+                const value = foundry.utils.getProperty(this.document, "system.description") ?? "";
+                context.enrichedDescription = await TextEditor.enrichHTML(value, {
+                    relativeTo: this.item,
+                    rollData: this.item.getRollData(),
+                    secrets: this.item.isOwner
+                })
+                break;
+        }
+
+        return context;
+    }
+
+
+    /* -------------------------------------------- */
     /*  Application Clicks Actions                  */
     /* -------------------------------------------- */
 
@@ -46,9 +70,9 @@ export default class DHBaseItemSheet extends DHApplicationMixin(ItemSheetV2) {
      */
     static async selectActionType() {
         const content = await foundry.applications.handlebars.renderTemplate(
-                'systems/daggerheart/templates/views/actionType.hbs',
-                { types: SYSTEM.ACTIONS.actionTypes }
-            ),
+            'systems/daggerheart/templates/views/actionType.hbs',
+            { types: SYSTEM.ACTIONS.actionTypes }
+        ),
             title = 'Select Action Type', //useless var
             type = 'form',
             data = {}; //useless var

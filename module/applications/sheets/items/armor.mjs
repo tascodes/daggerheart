@@ -31,7 +31,7 @@ export default class ArmorSheet extends DHBaseItemSheet {
 
     /**@inheritdoc */
     async _preparePartContext(partId, context) {
-        super._preparePartContext(partId, context);
+        await super._preparePartContext(partId, context);
 
         switch (partId) {
             case 'settings':
