@@ -48,6 +48,8 @@ export default class FeatureSheet extends DHBaseItemSheet {
         }
     };
 
+    /* -------------------------------------------- */
+
     /**@inheritdoc*/
     _attachPartListeners(partId, htmlElement, options) {
         super._attachPartListeners(partId, htmlElement, options);
@@ -65,6 +67,8 @@ export default class FeatureSheet extends DHBaseItemSheet {
         this.render({ parts: ['effects'] });
     }
 
+    /* -------------------------------------------- */
+
     /**@inheritdoc */
     async _prepareContext(_options) {
         const context = await super._prepareContext(_options);
@@ -76,6 +80,10 @@ export default class FeatureSheet extends DHBaseItemSheet {
 
         return context;
     }
+
+    /* -------------------------------------------- */
+    /*  Application Clicks Actions                  */
+    /* -------------------------------------------- */
 
     /**
      * Adds a new effect to the item, based on the selected effect type.

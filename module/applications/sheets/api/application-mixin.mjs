@@ -97,15 +97,13 @@ export default function DHApplicationMixin(Base) {
 
                     // Validate required fields
                     if (!selector || !options || !callback) {
-                        console.warn('Invalid TagifyConfig - missing required properties', config);
-                        return;
+                        throw new Error('Invalid TagifyConfig - missing required properties', config);
                     }
 
                     // Find target element
                     const element = this.element.querySelector(selector);
                     if (!element) {
-                        console.warn(`Element not found with selector: ${selector}`);
-                        return;
+                        throw new Error(`Element not found with selector: ${selector}`);
                     }
                     // Resolve dynamic options if function provided
                     const resolvedOptions = typeof options === 'function' ? options.call(this) : options;
@@ -113,7 +111,7 @@ export default function DHApplicationMixin(Base) {
                     // Initialize Tagify
                     tagifyElement(element, resolvedOptions, callback.bind(this), tagifyOptions);
                 } catch (error) {
-                    console.error('Error initializing Tagify:', error, config);
+                    console.error('Error initializing Tagify:', error);
                 }
             });
         }
@@ -141,7 +139,7 @@ export default function DHApplicationMixin(Base) {
          * @param {DragEvent} event
          * @protected
          */
-        _onDrop(event) {}
+        _onDrop(event) { }
 
         /* -------------------------------------------- */
         /*  Prepare Context                             */

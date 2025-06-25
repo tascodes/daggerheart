@@ -39,6 +39,8 @@ export default class SubclassSheet extends DHBaseItemSheet {
         }
     };
 
+    //TODO redo everything below this message
+
     static addFeature(_, target) {
         if (target.dataset.type === 'action') this.addAction(target.dataset.level);
         else this.addEffect(target.dataset.level);

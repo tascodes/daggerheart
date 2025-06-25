@@ -20,7 +20,7 @@ export default class ClassSheet extends DHBaseItemSheet {
         tagifyConfigs: [
             {
                 selector: '.domain-input',
-                choices: () => CONFIG.daggerheart.DOMAIN.domains,
+                options: () => CONFIG.daggerheart.DOMAIN.domains,
                 callback: ClassSheet.#onDomainSelect
             }
         ],
@@ -138,17 +138,32 @@ export default class ClassSheet extends DHBaseItemSheet {
     /*  Application Clicks Actions                  */
     /* -------------------------------------------- */
 
+    /**
+     * Removes an item from an class collection by UUID.
+     * @param {PointerEvent} event - The originating click event
+     * @param {HTMLElement} element - The capturing HTML element which defines the [data-action="removeItemFromCollection"]
+     */
     static async #removeItemFromCollection(_event, element) {
         const { uuid, target } = element.dataset;
         const prop = foundry.utils.getProperty(this.document.system, target);
         await this.document.update({ [target]: prop.filter(i => i.uuid !== uuid) });
     }
 
+    /**
+     * Removes an suggested item from the class.
+     * @param {PointerEvent} _event - The originating click event
+     * @param {HTMLElement} element - The capturing HTML element which defines the [data-action="removeSuggestedItem"]
+     */
     static async #removeSuggestedItem(_event, element) {
         const { target } = element.dataset;
         await this.document.update({ [`system.characterGuide.${target}`]: null });
     }
 
+    /**
+     * Open the sheet of a item by UUID.
+     * @param {PointerEvent} _event -
+     * @param {HTMLElement} button
+     */
     static async #viewDoc(_event, button) {
         const doc = await fromUuid(button.dataset.uuid);
         doc.sheet.render({ force: true });
