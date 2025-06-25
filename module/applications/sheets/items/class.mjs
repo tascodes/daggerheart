@@ -5,21 +5,17 @@ import DHActionConfig from '../../config/Action.mjs';
 const { TextEditor } = foundry.applications.ux;
 
 export default class ClassSheet extends DHBaseItemSheet {
+    /**@inheritdoc */
     static DEFAULT_OPTIONS = {
-        tag: 'form',
         classes: ['class'],
         position: { width: 700 },
         actions: {
-            removeSubclass: this.removeSubclass,
-            viewSubclass: this.viewSubclass,
+            removeItemFromCollection: ClassSheet.#removeItemFromCollection,
+            removeSuggestedItem: ClassSheet.#removeSuggestedItem,
+            viewDoc: ClassSheet.#viewDoc,
             addFeature: this.addFeature,
             editFeature: this.editFeature,
-            deleteFeature: this.deleteFeature,
-            removeItem: this.removeItem,
-            viewItem: this.viewItem,
-            removePrimaryWeapon: this.removePrimaryWeapon,
-            removeSecondaryWeapon: this.removeSecondaryWeapon,
-            removeArmor: this.removeArmor
+            deleteFeature: this.deleteFeature
         },
         tagifyConfigs: [
             {
@@ -40,9 +36,11 @@ export default class ClassSheet extends DHBaseItemSheet {
         ]
     };
 
+    /**@override */
     static PARTS = {
         header: { template: 'systems/daggerheart/templates/sheets/items/class/header.hbs' },
         tabs: { template: 'systems/daggerheart/templates/sheets/global/tabs/tab-navigation.hbs' },
+        description: { template: 'systems/daggerheart/templates/sheets/global/tabs/tab-description.hbs' },
         features: {
             template: 'systems/daggerheart/templates/sheets/items/class/features.hbs',
             scrollable: ['.features']
@@ -56,9 +54,9 @@ export default class ClassSheet extends DHBaseItemSheet {
     /** @inheritdoc */
     static TABS = {
         primary: {
-            tabs: [{ id: 'description' }, { id: 'settings' }],
+            tabs: [{ id: 'description' }, { id: 'features' }, { id: 'settings' }],
             initial: 'description',
-            labelPrefix: 'DAGGERHEART.Sheets.Feature.Tabs'
+            labelPrefix: 'DAGGERHEART.Sheets.TABS'
         }
     };
 
@@ -69,6 +67,8 @@ export default class ClassSheet extends DHBaseItemSheet {
         return context;
     }
 
+    /* -------------------------------------------- */
+
     /**
      * Callback function used by `tagifyElement`.
      * @param {Array<Object>} selectedOptions - The currently selected tag objects.
@@ -77,119 +77,7 @@ export default class ClassSheet extends DHBaseItemSheet {
         await this.document.update({ 'system.domains': selectedOptions.map(x => x.value) });
     }
 
-    static async removeSubclass(_, button) {
-        await this.document.update({
-            'system.subclasses': this.document.system.subclasses.filter(x => x.uuid !== button.dataset.subclass)
-        });
-    }
-
-    static async viewSubclass(_, button) {
-        const subclass = await fromUuid(button.dataset.subclass);
-        subclass.sheet.render(true);
-    }
-
-    static async deleteFeature(_, button) {
-        await this.document.update({
-            'system.features': this.document.system.features.map(x => x.uuid).filter(x => x !== button.dataset.feature)
-        });
-    }
-
-    static async editFeature(_, button) {
-        const feature = await fromUuid(button.dataset.feature);
-        feature.sheet.render(true);
-    }
-
-    static async removeItem(event, button) {
-        event.stopPropagation();
-        const type = button.dataset.type;
-        const path = `system.inventory.${type}`;
-        await this.document.update({
-            [path]: this.document.system.inventory[type].filter(x => x.uuid !== button.dataset.item)
-        });
-    }
-
-    static async viewItem(_, button) {
-        const item = await fromUuid(button.dataset.item);
-        item.sheet.render(true);
-    }
-
-    static async removePrimaryWeapon(event) {
-        event.stopPropagation();
-        await this.document.update({ 'system.characterGuide.suggestedPrimaryWeapon': null }, { diff: false });
-    }
-
-    static async removeSecondaryWeapon(event) {
-        event.stopPropagation();
-        await this.document.update({ 'system.characterGuide.suggestedSecondaryWeapon': null }, { diff: false });
-    }
-
-    static async removeArmor(event) {
-        event.stopPropagation();
-        await this.document.update({ 'system.characterGuide.suggestedArmor': null }, { diff: false });
-    }
-
-    async selectActionType() {
-        const content = await foundry.applications.handlebars.renderTemplate(
-                'systems/daggerheart/templates/views/actionType.hbs',
-                { types: SYSTEM.ACTIONS.actionTypes }
-            ),
-            title = 'Select Action Type',
-            type = 'form',
-            data = {};
-        return Dialog.prompt({
-            title,
-            label: title,
-            content,
-            type,
-            callback: html => {
-                const form = html[0].querySelector('form'),
-                    fd = new foundry.applications.ux.FormDataExtended(form);
-                foundry.utils.mergeObject(data, fd.object, { inplace: true });
-
-                return data;
-            },
-            rejectClose: false
-        });
-    }
-
-    getActionPath(type) {
-        return type === 'hope' ? 'hopeFeatures' : 'classFeatures';
-    }
-
-    static async addFeature(_, target) {
-        const actionPath = this.getActionPath(target.dataset.type);
-        const actionType = await this.selectActionType();
-        const cls = actionsTypes[actionType?.type] ?? actionsTypes.attack,
-            action = new cls(
-                {
-                    _id: foundry.utils.randomID(),
-                    systemPath: actionPath,
-                    type: actionType.type,
-                    name: game.i18n.localize(SYSTEM.ACTIONS.actionTypes[actionType.type].name),
-                    ...cls.getSourceConfig(this.document)
-                },
-                {
-                    parent: this.document
-                }
-            );
-        await this.document.update({ [`system.${actionPath}`]: [...this.document.system[actionPath], action] });
-    }
-
-    static async editFeature(_, target) {
-        const action = this.document.system[this.getActionPath(target.dataset.type)].find(
-            x => x._id === target.dataset.feature
-        );
-        await new DHActionConfig(action).render(true);
-    }
-
-    static async deleteFeature(_, target) {
-        const actionPath = this.getActionPath(target.dataset.type);
-        await this.document.update({
-            [`system.${actionPath}`]: this.document.system[actionPath].filter(
-                action => action._id !== target.dataset.feature
-            )
-        });
-    }
+    /* -------------------------------------------- */
 
     async _onDrop(event) {
         const data = TextEditor.getDragEventData(event);
@@ -244,5 +132,93 @@ export default class ClassSheet extends DHBaseItemSheet {
                     });
             }
         }
+    }
+
+    /* -------------------------------------------- */
+    /*  Application Clicks Actions                  */
+    /* -------------------------------------------- */
+
+    static async #removeItemFromCollection(_event, element) {
+        const { uuid, target } = element.dataset;
+        const prop = foundry.utils.getProperty(this.document.system, target);
+        await this.document.update({ [target]: prop.filter(i => i.uuid !== uuid) });
+    }
+
+    static async #removeSuggestedItem(_event, element) {
+        const { target } = element.dataset;
+        await this.document.update({ [`system.characterGuide.${target}`]: null });
+    }
+
+    static async #viewDoc(_event, button) {
+        const doc = await fromUuid(button.dataset.uuid);
+        doc.sheet.render({ force: true });
+    }
+
+    //TODO: redo this
+    async selectActionType() {
+        const content = await foundry.applications.handlebars.renderTemplate(
+                'systems/daggerheart/templates/views/actionType.hbs',
+                { types: SYSTEM.ACTIONS.actionTypes }
+            ),
+            title = 'Select Action Type',
+            type = 'form',
+            data = {};
+        return Dialog.prompt({
+            title,
+            label: title,
+            content,
+            type,
+            callback: html => {
+                const form = html[0].querySelector('form'),
+                    fd = new foundry.applications.ux.FormDataExtended(form);
+                foundry.utils.mergeObject(data, fd.object, { inplace: true });
+
+                return data;
+            },
+            rejectClose: false
+        });
+    }
+
+    //TODO: redo this
+    getActionPath(type) {
+        return type === 'hope' ? 'hopeFeatures' : 'classFeatures';
+    }
+
+    //TODO: redo this
+    static async addFeature(_, target) {
+        const actionPath = this.getActionPath(target.dataset.type);
+        const actionType = await this.selectActionType();
+        const cls = actionsTypes[actionType?.type] ?? actionsTypes.attack,
+            action = new cls(
+                {
+                    _id: foundry.utils.randomID(),
+                    systemPath: actionPath,
+                    type: actionType.type,
+                    name: game.i18n.localize(SYSTEM.ACTIONS.actionTypes[actionType.type].name),
+                    ...cls.getSourceConfig(this.document)
+                },
+                {
+                    parent: this.document
+                }
+            );
+        await this.document.update({ [`system.${actionPath}`]: [...this.document.system[actionPath], action] });
+    }
+
+    //TODO: redo this
+    static async editFeature(_, target) {
+        const action = this.document.system[this.getActionPath(target.dataset.type)].find(
+            x => x._id === target.dataset.feature
+        );
+        await new DHActionConfig(action).render(true);
+    }
+
+    //TODO: redo this
+    static async deleteFeature(_, target) {
+        const actionPath = this.getActionPath(target.dataset.type);
+        await this.document.update({
+            [`system.${actionPath}`]: this.document.system[actionPath].filter(
+                action => action._id !== target.dataset.feature
+            )
+        });
     }
 }
