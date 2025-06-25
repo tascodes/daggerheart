@@ -102,7 +102,7 @@ export default function DHApplicationMixin(Base) {
                     }
 
                     // Find target element
-                    const element = rootEl.querySelector(selector);
+                    const element = this.element.querySelector(selector);
                     if (!element) {
                         console.warn(`Element not found with selector: ${selector}`);
                         return;
