@@ -4071,6 +4071,9 @@ div.daggerheart.views.multiclass {
   gap: 10px;
   grid-template-columns: 1fr 1.5fr 1.5fr;
 }
+.application.sheet.daggerheart.dh-style.class .tab.settings .fieldsets-section .drop-section {
+  width: 100%;
+}
 .application.sheet.daggerheart.dh-style.class .tab.settings .list-items {
   margin-bottom: 10px;
   width: 100%;
