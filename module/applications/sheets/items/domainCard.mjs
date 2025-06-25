@@ -7,6 +7,15 @@ export default class DomainCardSheet extends DHBaseItemSheet {
         position: { width: 450, height: 700 }
     };
 
+    /** @override */
+    static TABS = {
+        primary: {
+            tabs: [{ id: 'description' }, { id: 'actions' }, { id: 'settings' }, { id: 'effects' }],
+            initial: 'description',
+            labelPrefix: 'DAGGERHEART.Sheets.TABS'
+        }
+    };
+
     /**@override */
     static PARTS = {
         header: { template: 'systems/daggerheart/templates/sheets/items/domainCard/header.hbs' },
@@ -19,6 +28,10 @@ export default class DomainCardSheet extends DHBaseItemSheet {
         settings: {
             template: 'systems/daggerheart/templates/sheets/items/domainCard/settings.hbs',
             scrollable: ['.settings']
+        },
+        effects: {
+            template: 'systems/daggerheart/templates/sheets/global/tabs/tab-effects.hbs',
+            scrollable: ['.effects']
         }
     };
 }
