@@ -409,8 +409,20 @@ export default class CharacterSheet extends DaggerheartSheet(ActorSheetV2) {
                     quantity: game.i18n.localize('DAGGERHEART.Sheets.PC.InventoryTab.QuantityTitle')
                 },
                 items: this.document.items.filter(x => x.type === 'armor')
+            },
+            currency: {
+                title: game.i18n.localize('DAGGERHEART.Sheets.PC.Gold.Title'),
+                coins: game.i18n.localize('DAGGERHEART.Sheets.PC.Gold.Coins'),
+                handfulls: game.i18n.localize('DAGGERHEART.Sheets.PC.Gold.Handfulls'),
+                bags: game.i18n.localize('DAGGERHEART.Sheets.PC.Gold.Bags'),
+                chests: game.i18n.localize('DAGGERHEART.Sheets.PC.Gold.Chests')
             }
         };
+
+        const homebrewCurrency = game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.Homebrew).currency;
+        if (homebrewCurrency.enabled) {
+            context.inventory.currency = homebrewCurrency;
+        }
 
         if (context.inventory.length === 0) {
             context.inventory = Array(1).fill(Array(5).fill([]));
