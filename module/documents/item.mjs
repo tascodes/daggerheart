@@ -79,23 +79,18 @@ export default class DHItem extends foundry.documents.Item {
 
     async selectActionDialog() {
         const content = await foundry.applications.handlebars.renderTemplate(
-            'systems/daggerheart/templates/views/actionSelect.hbs',
-            { actions: this.system.actions }
-        ),
-            title = 'Select Action',
-            type = 'div',
-            data = {};
-        return Dialog.prompt({
-            title,
-            // label: title,
+                'systems/daggerheart/templates/views/actionSelect.hbs',
+                { actions: this.system.actions }
+            ),
+            title = 'Select Action';
+        
+        return foundry.applications.api.DialogV2.prompt({
+            window: { title },
             content,
-            type,
-            callback: html => {
-                const form = html[0].querySelector('form'),
-                    fd = new foundry.applications.ux.FormDataExtended(form);
-                return this.system.actions.find(a => a._id === fd.object.actionId);
-            },
-            rejectClose: false
+            ok: {
+                label: title,
+                callback: (event, button, dialog) => this.system.actions.find(a => a._id === button.form.elements.actionId.value)
+            }
         });
     }
 

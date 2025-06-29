@@ -1,5 +1,5 @@
 import CostSelectionDialog from '../../applications/costSelectionDialog.mjs';
-import { DHActionDiceData, DHDamageData, DHDamageField } from './actionDice.mjs';
+import { DHActionDiceData, DHActionRollData, DHDamageData, DHDamageField } from './actionDice.mjs';
 import DhpActor from '../../documents/actor.mjs';
 import D20RollDialog from '../../dialogs/d20RollDialog.mjs';
 
@@ -69,12 +69,7 @@ export class DHBaseAction extends foundry.abstract.DataModel {
     static defineExtraSchema() {
         const extraFields = {
                 damage: new DHDamageField(),
-                roll: new fields.SchemaField({
-                    type: new fields.StringField({ nullable: true, initial: null, choices: SYSTEM.GENERAL.rollTypes }),
-                    trait: new fields.StringField({ nullable: true, initial: null, choices: SYSTEM.ACTOR.abilities }),
-                    difficulty: new fields.NumberField({ nullable: true, initial: null, integer: true, min: 0 }),
-                    bonus: new fields.NumberField({ nullable: true, initial: null, integer: true, min: 0 })
-                }),
+                roll: new fields.EmbeddedDataField(DHActionRollData),
                 save: new fields.SchemaField({
                     trait: new fields.StringField({ nullable: true, initial: null, choices: SYSTEM.ACTOR.abilities }),
                     difficulty: new fields.NumberField({ nullable: true, initial: 10, integer: true, min: 0 }),
@@ -158,20 +153,24 @@ export class DHBaseAction extends foundry.abstract.DataModel {
         return updateSource;
     }
 
-    getRollData() {
+    getRollData(data={}) {
         const actorData = this.actor.getRollData(false);
 
         // Remove when included directly in Actor getRollData
-        actorData.prof = actorData.proficiency?.value ?? 1,
-        actorData.cast = actorData.spellcast?.value ?? 1,
-        actorData.scale = this.cost.length
-                ? this.cost.reduce((a, c) => {
+        actorData.prof = actorData.proficiency?.value ?? 1;
+        actorData.cast = actorData.spellcast?.value ?? 1;
+        actorData.result = data.roll?.total ?? 1;
+        /* actorData.scale = data.costs?.length
+                ? data.costs.reduce((a, c) => {
                       a[c.type] = c.value;
                       return a;
                   }, {})
-                : 1,
-        actorData.roll = {}
-
+                : 1; */
+        actorData.scale = data.costs?.length                        // Right now only return the first scalable cost.
+                ? (data.costs.find(c => c.scalable)?.total ?? 1)
+                : 1;
+        actorData.roll = {};
+        
         return actorData;
     }
 
@@ -215,7 +214,7 @@ export class DHBaseAction extends foundry.abstract.DataModel {
         if ( Hooks.call(`${SYSTEM.id}.preUseAction`, this, config) === false ) return;
 
         // Display configuration window if necessary
-        if ( config.dialog.configure && this.requireConfigurationDialog(config) ) {
+        if ( config.dialog?.configure && this.requireConfigurationDialog(config) ) {
             config = await D20RollDialog.configure(config);
             if (!config) return;
         }
@@ -281,11 +280,8 @@ export class DHBaseAction extends foundry.abstract.DataModel {
             source: {
                 item: this.item._id,
                 action: this._id
-                // action: this
             },
-            dialog: {
-                configure: true
-            },
+            dialog: {},
             type: this.type,
             hasDamage: !!this.damage?.parts?.length,
             hasHealing: !!this.healing,
@@ -295,7 +291,7 @@ export class DHBaseAction extends foundry.abstract.DataModel {
     }
 
     requireConfigurationDialog(config) {
-        return !config.event.shiftkey && !this.hasRoll && (config.costs?.length || config.uses);
+        return !config.event.shiftKey && !this.hasRoll && (config.costs?.length || config.uses);
     }
 
     prepareCost() {
@@ -335,8 +331,11 @@ export class DHBaseAction extends foundry.abstract.DataModel {
             trait: this.roll?.trait,
             label: 'Attack',
             type: this.actionType,
-            difficulty: this.roll?.difficulty
+            difficulty: this.roll?.difficulty,
+            formula: this.roll.getFormula()
         };
+        if(this.roll?.type === 'diceSet') roll.lite = true; 
+        
         return roll;
     }
 
@@ -346,8 +345,9 @@ export class DHBaseAction extends foundry.abstract.DataModel {
 
     async consume(config) {
         const resources = config.costs.filter(c => c.enabled !== false).map(c => {
-            return { type: c.type, value: c.total * -1 };
+            return { type: c.type, value: (c.total ?? c.value) * -1 };
         });
+        
         await this.actor.modifyResource(resources);
         if(config.uses?.enabled) {
             const newActions = foundry.utils.getProperty(this.item.system, this.systemPath).map(x => x.toObject());
@@ -490,7 +490,7 @@ export class DHBaseAction extends foundry.abstract.DataModel {
             },
             data: target.actor.getRollData()
         }).then(async (result) => {
-            this.updateChatMessage(message, target.id, {result: result.roll.total, success: result.roll.success});
+            if(result) this.updateChatMessage(message, target.id, {result: result.roll.total, success: result.roll.success});
         })
     }
 
@@ -536,12 +536,15 @@ export class DHDamageAction extends DHBaseAction {
         let roll = { formula: formula, total: formula },
             bonusDamage = [];
         
+        if(isNaN(formula)) formula = Roll.replaceFormulaData(formula, this.getRollData(data.system ?? data));
+
         const config = {
             title: game.i18n.format('DAGGERHEART.Chat.DamageRoll.Title', { damage: this.name }),
-            formula,
+            roll: {formula},
             targets: (data.system?.targets.filter(t => t.hit) ?? data.targets),
             hasSave: this.hasSave,
-            source: data.system?.source
+            source: data.system?.source,
+            event
         };
         if(this.hasSave) config.onSave = this.save.damageMod;
         if(data.system) {
@@ -575,7 +578,7 @@ export class DHAttackAction extends DHDamageAction {
     getParentDamage() {
         return {
             value: {
-                multiplier: 'proficiency',
+                multiplier: 'prof',
                 dice: this.item?.system?.damage.value,
                 bonus: this.item?.system?.damage.bonus ?? 0
             },
@@ -610,10 +613,11 @@ export class DHHealingAction extends DHBaseAction {
             title: game.i18n.format('DAGGERHEART.Chat.HealingRoll.Title', {
                 healing: game.i18n.localize(SYSTEM.GENERAL.healingTypes[this.healing.type].label)
             }),
-            formula,
+            roll: {formula},
             targets: (data.system?.targets ?? data.targets).filter(t => t.hit),
             messageType: 'healing',
-            type: this.healing.type
+            type: this.healing.type,
+            event
         };
 
         roll = CONFIG.Dice.daggerheart.DamageRoll.build(config);
