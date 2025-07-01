@@ -484,6 +484,9 @@ export default class DhpActor extends Actor {
         let updates = { actor: { target: this, resources: {} }, armor: { target: this.system.armor, resources: {} } };
         resources.forEach(r => {
             switch (r.type) {
+                case 'fear':
+                    ui.resources.updateFear(game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.Resources.Fear) + r.value);
+                    break;
                 case 'armorStack':
                     updates.armor.resources['system.marks.value'] = Math.max(
                         Math.min(this.system.armor.system.marks.value + r.value, this.system.armorScore),
@@ -502,7 +505,6 @@ export default class DhpActor extends Actor {
             }
         });
         Object.values(updates).forEach(async u => {
-            console.log(updates, u);
             if (Object.keys(u.resources).length > 0) {
                 if (game.user.isGM) {
                     await u.target.update(u.resources);

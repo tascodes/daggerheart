@@ -1,3 +1,4 @@
+import DHDamageRoll from '../data/chat-message/damageRoll.mjs';
 import D20RollDialog from '../dialogs/d20RollDialog.mjs';
 import DamageDialog from '../dialogs/damageDialog.mjs';
 
@@ -53,12 +54,13 @@ export class DHRoll extends Roll {
     }
 
     static async buildPost(roll, config, message) {
+        console.log(config)
         for (const hook of config.hooks) {
             if (Hooks.call(`${SYSTEM.id}.postRoll${hook.capitalize()}`, config, message) === false) return null;
         }
 
         // Create Chat Message
-        if (message.data) {
+        if (config.source?.message) {
         } else {
             const messageData = {};
             config.message = await this.toMessage(roll, config);
@@ -393,7 +395,6 @@ export class DualityRoll extends D20Roll {
             total: roll.dHope.total + roll.dFear.total,
             label: roll.totalLabel
         };
-        console.log(roll, config);
     }
 }
 
@@ -409,5 +410,9 @@ export class DamageRoll extends DHRoll {
     static async postEvaluate(roll, config = {}) {
         super.postEvaluate(roll, config);
         config.roll.type = config.type;
+        if(config.source?.message) {
+            const chatMessage = ui.chat.collection.get(config.source.message);
+            chatMessage.update({'system.damage': config});
+        }
     }
 }
