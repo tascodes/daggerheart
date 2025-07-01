@@ -531,6 +531,29 @@ export class DHBaseAction extends foundry.abstract.DataModel {
         }
     }
     /* SAVE */
+
+    async toChat(origin) {
+        const cls = getDocumentClass('ChatMessage');
+        const systemData = {
+            title: game.i18n.localize('DAGGERHEART.ActionType.action'),
+            origin: origin,
+            img: this.img,
+            name: this.name,
+            description: this.description,
+            actions: []
+        };
+        const msg = new cls({
+            type: 'abilityUse',
+            user: game.user.id,
+            system: systemData,
+            content: await foundry.applications.handlebars.renderTemplate(
+                'systems/daggerheart/templates/chat/ability-use.hbs',
+                systemData
+            )
+        });
+
+        cls.create(msg.toObject());
+    }
 }
 
 export class DHDamageAction extends DHBaseAction {
