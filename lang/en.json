@@ -20,6 +20,11 @@
         }
     },
     "DAGGERHEART": {
+        "UI": {
+            "notifications": {
+                "adversaryMissing": "The linked adversary doesn't exist in the world."
+            }
+        },
         "Settings": {
             "Menu": {
                 "Automation": {
