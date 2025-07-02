@@ -1,6 +1,7 @@
 import DHDamageRoll from '../data/chat-message/damageRoll.mjs';
 import D20RollDialog from '../dialogs/d20RollDialog.mjs';
 import DamageDialog from '../dialogs/damageDialog.mjs';
+import { setDiceSoNiceForDualityRoll } from '../helpers/utils.mjs';
 
 /*
     - Damage & other resources roll
@@ -38,7 +39,7 @@ export class DHRoll extends Roll {
         if (config.dialog.configure !== false) {
             // Open Roll Dialog
             const DialogClass = config.dialog?.class ?? this.DefaultDialog;
-            console.log(roll, config)
+            console.log(roll, config);
             const configDialog = await DialogClass.configure(roll, config, message);
             if (!configDialog) return;
         }
@@ -96,7 +97,8 @@ export class DHRoll extends Roll {
     }
 
     static applyKeybindings(config) {
-        config.dialog.configure ??= !(config.event.shiftKey || config.event.altKey || config.event.ctrlKey);
+        if (config.event)
+            config.dialog.configure ??= !(config.event.shiftKey || config.event.altKey || config.event.ctrlKey);
     }
 
     formatModifier(modifier) {
@@ -108,7 +110,7 @@ export class DHRoll extends Roll {
     }
 
     getFaces(faces) {
-        return Number((faces.startsWith('d') ? faces.replace('d', '') : faces));
+        return Number(faces.startsWith('d') ? faces.replace('d', '') : faces);
     }
 
     constructFormula(config) {
@@ -131,7 +133,6 @@ export class DualityDie extends foundry.dice.terms.Die {
 }
 
 export class D20Roll extends DHRoll {
-
     constructor(formula, data = {}, options = {}) {
         super(formula, data, options);
         this.constructFormula();
@@ -177,18 +178,27 @@ export class D20Roll extends DHRoll {
     }
 
     static applyKeybindings(config) {
-        const keys = {
-            normal: config.event.shiftKey || config.event.altKey || config.event.ctrlKey,
-            advantage: config.event.altKey,
-            disadvantage: config.event.ctrlKey
+        let keys = {
+            normal: true,
+            advantage: false,
+            disadvantage: false
         };
+
+        if (config.event) {
+            keys = {
+                normal: config.event.shiftKey || config.event.altKey || config.event.ctrlKey,
+                advantage: config.event.altKey,
+                disadvantage: config.event.ctrlKey
+            };
+        }
 
         // Should the roll configuration dialog be displayed?
         config.dialog.configure ??= !Object.values(keys).some(k => k);
 
         // Determine advantage mode
-        const advantage = config.roll.advantage === this.ADV_MODE.ADVANTAGE || keys.advantage;
-        const disadvantage = config.roll.advantage === this.ADV_MODE.DISADVANTAGE || keys.disadvantage;
+        const advantage = config.roll.advantage === this.ADV_MODE.ADVANTAGE || keys.advantage || config.advantage;
+        const disadvantage =
+            config.roll.advantage === this.ADV_MODE.DISADVANTAGE || keys.disadvantage || config.disadvantage;
         if (advantage && !disadvantage) config.roll.advantage = this.ADV_MODE.ADVANTAGE;
         else if (!advantage && disadvantage) config.roll.advantage = this.ADV_MODE.DISADVANTAGE;
         else config.roll.advantage = this.ADV_MODE.NORMAL;
@@ -247,14 +257,24 @@ export class D20Roll extends DHRoll {
 
     applyBaseBonus() {
         this.options.roll.modifiers = [];
-        if(!this.options.roll.bonus) return;
-        this.options.roll.modifiers.push(
-            {
-                label: 'Bonus to Hit',
-                value: this.options.roll.bonus
-                // value: Roll.replaceFormulaData('@attackBonus', this.data)
-            }
-        );
+        if (!this.options.roll.bonus) return;
+        this.options.roll.modifiers.push({
+            label: 'Bonus to Hit',
+            value: this.options.roll.bonus
+            // value: Roll.replaceFormulaData('@attackBonus', this.data)
+        });
+    }
+
+    static async buildEvaluate(roll, config = {}, message = {}) {
+        if (config.evaluate !== false) await roll.evaluate();
+        const advantageState =
+            config.roll.advantage == this.ADV_MODE.ADVANTAGE
+                ? true
+                : config.roll.advantage == this.ADV_MODE.DISADVANTAGE
+                  ? false
+                  : null;
+        setDiceSoNiceForDualityRoll(roll, advantageState);
+        this.postEvaluate(roll, config);
     }
 
     static postEvaluate(roll, config = {}) {
@@ -264,21 +284,29 @@ export class D20Roll extends DHRoll {
                 const difficulty = config.roll.difficulty ?? target.difficulty ?? target.evasion;
                 target.hit = this.isCritical || roll.total >= difficulty;
             });
-        } else if (config.roll.difficulty) config.roll.success = roll.isCritical || roll.total >= config.roll.difficulty;
+        } else if (config.roll.difficulty)
+            config.roll.success = roll.isCritical || roll.total >= config.roll.difficulty;
         config.roll.advantage = {
             type: config.roll.advantage,
             dice: roll.dAdvantage?.denomination,
             value: roll.dAdvantage?.total
         };
-        config.roll.extra = roll.dice.filter(d => !roll.baseTerms.includes(d)).map(d => {
-            return {
-                dice: d.denomination,
-                value: d.total
-            }
-        })
+        config.roll.extra = roll.dice
+            .filter(d => !roll.baseTerms.includes(d))
+            .map(d => {
+                return {
+                    dice: d.denomination,
+                    value: d.total
+                };
+            });
         config.roll.modifierTotal = 0;
-        for(let i = 0; i < roll.terms.length; i++) {
-            if(roll.terms[i] instanceof foundry.dice.terms.NumericTerm && !!roll.terms[i-1] && roll.terms[i-1] instanceof foundry.dice.terms.OperatorTerm) config.roll.modifierTotal += Number(`${roll.terms[i-1].operator}${roll.terms[i].total}`);
+        for (let i = 0; i < roll.terms.length; i++) {
+            if (
+                roll.terms[i] instanceof foundry.dice.terms.NumericTerm &&
+                !!roll.terms[i - 1] &&
+                roll.terms[i - 1] instanceof foundry.dice.terms.OperatorTerm
+            )
+                config.roll.modifierTotal += Number(`${roll.terms[i - 1].operator}${roll.terms[i].total}`);
         }
     }
 
@@ -365,12 +393,13 @@ export class DualityRoll extends D20Roll {
         return game.i18n.localize(label);
     }
 
-    updateFormula() {
-
-    }
+    updateFormula() {}
 
     createBaseDice() {
-        if (this.dice[0] instanceof CONFIG.Dice.daggerheart.DualityDie && this.dice[1] instanceof CONFIG.Dice.daggerheart.DualityDie) {
+        if (
+            this.dice[0] instanceof CONFIG.Dice.daggerheart.DualityDie &&
+            this.dice[1] instanceof CONFIG.Dice.daggerheart.DualityDie
+        ) {
             this.terms = [this.terms[0], this.terms[1], this.terms[2]];
             return;
         }
@@ -383,7 +412,8 @@ export class DualityRoll extends D20Roll {
         const dieFaces = this.advantageFaces,
             bardRallyFaces = this.hasBarRally,
             advDie = new foundry.dice.terms.Die({ faces: dieFaces });
-        if (this.hasAdvantage || this.hasDisadvantage || bardRallyFaces) this.terms.push(new foundry.dice.terms.OperatorTerm({ operator: this.hasDisadvantage ? '-' : '+' }));
+        if (this.hasAdvantage || this.hasDisadvantage || bardRallyFaces)
+            this.terms.push(new foundry.dice.terms.OperatorTerm({ operator: this.hasDisadvantage ? '-' : '+' }));
         if (bardRallyFaces) {
             const rallyDie = new foundry.dice.terms.Die({ faces: bardRallyFaces });
             if (this.hasAdvantage) {
@@ -401,13 +431,11 @@ export class DualityRoll extends D20Roll {
 
     applyBaseBonus() {
         this.options.roll.modifiers = [];
-        if(!this.options.roll.trait) return;
-        this.options.roll.modifiers.push(
-            {
-                label: `DAGGERHEART.Abilities.${this.options.roll.trait}.name`,
-                value: Roll.replaceFormulaData(`@traits.${this.options.roll.trait}.total`, this.data)
-            }
-        );
+        if (!this.options.roll.trait) return;
+        this.options.roll.modifiers.push({
+            label: `DAGGERHEART.Abilities.${this.options.roll.trait}.name`,
+            value: Roll.replaceFormulaData(`@traits.${this.options.roll.trait}.total`, this.data)
+        });
     }
 
     static postEvaluate(roll, config = {}) {
