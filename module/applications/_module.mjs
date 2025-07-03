@@ -18,3 +18,4 @@ export { default as DhContextMenu } from './contextMenu.mjs';
 export { default as DhTooltipManager } from './tooltipManager.mjs';
 
 export * as api from './sheets/api/_modules.mjs';
+export * as ux from "./ux/_module.mjs";
