@@ -3709,11 +3709,15 @@ div.daggerheart.views.multiclass {
   text-align: center;
 }
 .themed.theme-dark .application.sheet.dh-style .character-header-sheet .trait,
-.themed.theme-dark.application.sheet.dh-style .character-header-sheet .trait {
+.themed.theme-dark.application.sheet.dh-style .character-header-sheet .trait,
+body.theme-dark .application .character-header-sheet .trait,
+body.theme-dark.application .character-header-sheet .trait {
   background: url(../assets/svg/trait-shield.svg) no-repeat;
 }
 .themed.theme-light .application.sheet.dh-style .character-header-sheet .trait,
-.themed.theme-light.application.sheet.dh-style .character-header-sheet .trait {
+.themed.theme-light.application.sheet.dh-style .character-header-sheet .trait,
+body.theme-light .application .character-header-sheet .trait,
+body.theme-light.application .character-header-sheet .trait {
   background: url('../assets/svg/trait-shield-light.svg') no-repeat;
 }
 .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet {
@@ -3877,19 +3881,27 @@ div.daggerheart.views.multiclass {
   text-align: center;
 }
 .themed.theme-dark .application.sheet.dh-style .character-sidebar-sheet,
-.themed.theme-dark.application.sheet.dh-style .character-sidebar-sheet {
+.themed.theme-dark.application.sheet.dh-style .character-sidebar-sheet,
+body.theme-dark .application .character-sidebar-sheet,
+body.theme-dark.application .character-sidebar-sheet {
   background-image: url('../assets/parchments/dh-parchment-dark.png');
 }
 .themed.theme-dark .application.sheet.dh-style .character-sidebar-sheet .experience-value,
-.themed.theme-dark.application.sheet.dh-style .character-sidebar-sheet .experience-value {
+.themed.theme-dark.application.sheet.dh-style .character-sidebar-sheet .experience-value,
+body.theme-dark .application .character-sidebar-sheet .experience-value,
+body.theme-dark.application .character-sidebar-sheet .experience-value {
   background: url(../assets/svg/experience-shield.svg) no-repeat;
 }
 .themed.theme-light .application.sheet.dh-style .character-sidebar-sheet,
-.themed.theme-light.application.sheet.dh-style .character-sidebar-sheet {
+.themed.theme-light.application.sheet.dh-style .character-sidebar-sheet,
+body.theme-light .application .character-sidebar-sheet,
+body.theme-light.application .character-sidebar-sheet {
   background: transparent;
 }
 .themed.theme-light .application.sheet.dh-style .character-sidebar-sheet .experience-value,
-.themed.theme-light.application.sheet.dh-style .character-sidebar-sheet .experience-value {
+.themed.theme-light.application.sheet.dh-style .character-sidebar-sheet .experience-value,
+body.theme-light .application .character-sidebar-sheet .experience-value,
+body.theme-light.application .character-sidebar-sheet .experience-value {
   background: url('../assets/svg/experience-shield-light.svg') no-repeat;
 }
 .application.sheet.dh-style .character-sidebar-sheet {
@@ -4814,11 +4826,15 @@ div.daggerheart.views.multiclass {
   padding: 0 20px;
 }
 .themed.theme-dark .application.sheet.dh-style.environment,
-.themed.theme-dark.application.sheet.dh-style.environment {
+.themed.theme-dark.application.sheet.dh-style.environment,
+body.theme-dark .application.environment,
+body.theme-dark.application.environment {
   background-image: url('../assets/parchments/dh-parchment-dark.png');
 }
 .themed.theme-light .application.sheet.dh-style.environment,
-.themed.theme-light.application.sheet.dh-style.environment {
+.themed.theme-light.application.sheet.dh-style.environment,
+body.theme-light .application.environment,
+body.theme-light.application.environment {
   background: url('../assets/parchments/dh-parchment-light.png');
 }
 .application.sheet.daggerheart.actor.dh-style.environment .tab {
@@ -5311,11 +5327,15 @@ div.daggerheart.views.multiclass {
   background: url('../assets/svg/experience-shield-light.svg') no-repeat;
 }
 .themed.theme-dark .application.sheet.dh-style.companion,
-.themed.theme-dark.application.sheet.dh-style.companion {
+.themed.theme-dark.application.sheet.dh-style.companion,
+body.theme-dark .application.companion,
+body.theme-dark.application.companion {
   background-image: url('../assets/parchments/dh-parchment-dark.png');
 }
 .themed.theme-light .application.sheet.dh-style.companion,
-.themed.theme-light.application.sheet.dh-style.companion {
+.themed.theme-light.application.sheet.dh-style.companion,
+body.theme-light .application.companion,
+body.theme-light.application.companion {
   background: url('../assets/parchments/dh-parchment-light.png');
 }
 .application.sheet.daggerheart.actor.dh-style.adversary .window-content {
@@ -5494,12 +5514,16 @@ div.daggerheart.views.multiclass {
  * @param {Rules}    @lightRules - Styles to apply when `.theme-light` is present
  */
 .themed.theme-dark .application.sheet.dh-style,
-.themed.theme-dark.application.sheet.dh-style {
+.themed.theme-dark.application.sheet.dh-style,
+body.theme-dark .application,
+body.theme-dark.application {
   background: rgba(24, 22, 46, 0.33);
   backdrop-filter: blur(9px);
 }
 .themed.theme-light .application.sheet.dh-style,
-.themed.theme-light.application.sheet.dh-style {
+.themed.theme-light.application.sheet.dh-style,
+body.theme-light .application,
+body.theme-light.application {
   background: url('../assets/parchments/dh-parchment-light.png') no-repeat center;
 }
 .application.sheet.dh-style {
@@ -5548,13 +5572,17 @@ div.daggerheart.views.multiclass {
   opacity: 1;
 }
 .themed.theme-dark .application.sheet.dh-style.dialog,
-.themed.theme-dark.application.sheet.dh-style.dialog {
+.themed.theme-dark.application.sheet.dh-style.dialog,
+body.theme-dark .application.dialog,
+body.theme-dark.application.dialog {
   background-image: url('../assets/parchments/dh-parchment-dark.png');
   background-repeat: no-repeat;
   background-position: center;
 }
 .themed.theme-light .application.sheet.dh-style.dialog,
-.themed.theme-light.application.sheet.dh-style.dialog {
+.themed.theme-light.application.sheet.dh-style.dialog,
+body.theme-light .application.dialog,
+body.theme-light.application.dialog {
   background-image: url('../assets/parchments/dh-parchment-light.png');
   background-repeat: no-repeat;
   background-position: center;
