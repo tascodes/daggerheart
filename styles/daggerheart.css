@@ -2329,6 +2329,29 @@ div.daggerheart.views.multiclass {
   width: 1.5rem;
   height: 1.5rem;
 }
+.daggerheart.views.action .action-category .action-category-data .hint-group {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+.daggerheart.views.action .action-category .action-category-data .hint-group .form-fields {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.daggerheart.views.action .action-category .action-category-data .hint-group .form-fields label {
+  flex: 1;
+}
+.daggerheart.views.action .action-category .action-category-data .hint-group .form-fields input,
+.daggerheart.views.action .action-category .action-category-data .hint-group .form-fields select {
+  flex: 3;
+}
+.daggerheart.views.action .action-category .action-category-data .hint-group .hint {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.6;
+}
 .daggerheart.views.action .action-category .action-category-data .data-form-array {
   border: 1px solid var(--color-fieldset-border);
   padding: 0.5rem;
@@ -5003,6 +5026,53 @@ div.daggerheart.views.multiclass {
   color: light-dark(#18162e50, #efe6d850);
   font-family: 'Montserrat', sans-serif;
 }
+.theme-light .application.daggerheart.dh-style.views.beastform-selection .beastforms-container .beastforms-tier .beastform-container .beastform-title {
+  background-image: url('../assets/parchments/dh-parchment-dark.png');
+}
+.application.daggerheart.dh-style.views.beastform-selection .beastforms-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.application.daggerheart.dh-style.views.beastform-selection .beastforms-container .beastforms-tier {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 4px;
+}
+.application.daggerheart.dh-style.views.beastform-selection .beastforms-container .beastforms-tier .beastform-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  border: 1px solid light-dark(#18162e, #f3c267);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.application.daggerheart.dh-style.views.beastform-selection .beastforms-container .beastforms-tier .beastform-container.inactive {
+  opacity: 0.4;
+}
+.application.daggerheart.dh-style.views.beastform-selection .beastforms-container .beastforms-tier .beastform-container img {
+  width: 100%;
+  border-radius: 6px;
+}
+.application.daggerheart.dh-style.views.beastform-selection .beastforms-container .beastforms-tier .beastform-container .beastform-title {
+  position: absolute;
+  top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 16px;
+  margin: 0 4px;
+  border: 1px solid light-dark(#18162e, #f3c267);
+  border-radius: 6px;
+  color: light-dark(#efe6d8, #222);
+  background-image: url('../assets/parchments/dh-parchment-light.png');
+}
+.application.daggerheart.dh-style.views.beastform-selection footer {
+  margin-top: 8px;
+  display: flex;
+}
+.application.daggerheart.dh-style.views.beastform-selection footer button {
+  flex: 1;
+}
 .application.sheet.daggerheart.actor.dh-style.companion .companion-header-sheet {
   display: flex;
   flex-direction: column;
@@ -5418,6 +5488,20 @@ div.daggerheart.views.multiclass {
   font-family: 'Montserrat', sans-serif;
   opacity: 0.8;
 }
+/**
+ * Applies theme-specific styles.
+ * @param {Rules}    @darkRules  - Styles to apply when `.theme-dark` is present
+ * @param {Rules}    @lightRules - Styles to apply when `.theme-light` is present
+ */
+.themed.theme-dark .application.sheet.dh-style,
+.themed.theme-dark.application.sheet.dh-style {
+  background: rgba(24, 22, 46, 0.33);
+  backdrop-filter: blur(9px);
+}
+.themed.theme-light .application.sheet.dh-style,
+.themed.theme-light.application.sheet.dh-style {
+  background: url('../assets/parchments/dh-parchment-light.png') no-repeat center;
+}
 .application.sheet.dh-style {
   border-radius: 10px;
 }
@@ -5462,15 +5546,6 @@ div.daggerheart.views.multiclass {
 }
 .application.sheet.dh-style:not(.minimized) .window-content {
   opacity: 1;
-}
-.themed.theme-dark .application.sheet.dh-style,
-.themed.theme-dark.application.sheet.dh-style {
-  background: rgba(24, 22, 46, 0.33);
-  backdrop-filter: blur(9px);
-}
-.themed.theme-light .application.sheet.dh-style,
-.themed.theme-light.application.sheet.dh-style {
-  background: url('../assets/parchments/dh-parchment-light.png') no-repeat center;
 }
 .themed.theme-dark .application.sheet.dh-style.dialog,
 .themed.theme-dark.application.sheet.dh-style.dialog {
@@ -5969,6 +6044,44 @@ div.daggerheart.views.multiclass {
   border: none;
 }
 .sheet.daggerheart.dh-style .tab.actions .actions-list .action-item .controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.sheet.daggerheart.dh-style .tab.features .features-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  gap: 5px;
+}
+.sheet.daggerheart.dh-style .tab.features .features-list .feature-item {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 4fr 1fr;
+  cursor: pointer;
+}
+.sheet.daggerheart.dh-style .tab.features .features-list .feature-item img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.sheet.daggerheart.dh-style .tab.features .features-list .feature-item h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: lighter;
+  color: #efe6d8;
+}
+.sheet.daggerheart.dh-style .tab.features .features-list .feature-item .image {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: none;
+}
+.sheet.daggerheart.dh-style .tab.features .features-list .feature-item .controls {
   display: flex;
   justify-content: center;
   gap: 10px;

@@ -69,6 +69,13 @@ export default class DHActionConfig extends DaggerheartSheet(ApplicationV2) {
         context.disableOption = this.disableOption.bind(this);
         context.isNPC = this.action.actor && this.action.actor.type !== 'character';
         context.hasRoll = this.action.hasRoll;
+
+        const settingsTiers = game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.LevelTiers).tiers;
+        context.tierOptions = [
+            { key: 1, label: game.i18n.localize('DAGGERHEART.Tiers.tier1') },
+            ...Object.values(settingsTiers).map(x => ({ key: x.tier, label: x.name }))
+        ];
+
         return context;
     }
 
