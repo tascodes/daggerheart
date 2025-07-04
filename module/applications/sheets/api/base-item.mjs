@@ -1,6 +1,6 @@
 import DHApplicationMixin from './application-mixin.mjs';
-import { actionsTypes } from '../../../data/_module.mjs';
-import DHActionConfig from '../../config/Action.mjs';
+import DHActionConfig from '../../sheets-configs/action-config.mjs';
+import { actionsTypes } from '../../../data/action/_module.mjs';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -69,8 +69,8 @@ export default class DHBaseItemSheet extends DHApplicationMixin(ItemSheetV2) {
      */
     static async selectActionType() {
         const content = await foundry.applications.handlebars.renderTemplate(
-                'systems/daggerheart/templates/views/actionType.hbs',
-                { types: SYSTEM.ACTIONS.actionTypes }
+                'systems/daggerheart/templates/actionTypes/actionType.hbs',
+                { types: CONFIG.DH.ACTIONS.actionTypes }
             ),
             title = 'Select Action Type';
 
@@ -98,7 +98,7 @@ export default class DHBaseItemSheet extends DHApplicationMixin(ItemSheetV2) {
                     {
                         _id: foundry.utils.randomID(),
                         type: actionType,
-                        name: game.i18n.localize(SYSTEM.ACTIONS.actionTypes[actionType].name),
+                        name: game.i18n.localize(CONFIG.DH.ACTIONS.actionTypes[actionType].name),
                         ...cls.getSourceConfig(this.document)
                     },
                     {

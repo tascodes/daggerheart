@@ -290,7 +290,7 @@ export const diceSetNumbers = {
 };
 
 export const getDiceSoNicePresets = () => {
-    const { diceSoNice } = game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.appearance);
+    const { diceSoNice } = game.settings.get(CONFIG.DH.id, CONFIG.DH.SETTINGS.gameSettings.appearance);
 
     return {
         hope: {

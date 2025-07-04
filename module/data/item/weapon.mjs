@@ -1,8 +1,5 @@
 import BaseDataItem from './base.mjs';
-import FormulaField from '../fields/formulaField.mjs';
 import ActionField from '../fields/actionField.mjs';
-import { weaponFeatures } from '../../config/itemConfig.mjs';
-import { actionsTypes } from '../action/_module.mjs';
 
 export default class DHWeapon extends BaseDataItem {
     /** @inheritDoc */
@@ -27,22 +24,26 @@ export default class DHWeapon extends BaseDataItem {
 
             //SETTINGS
             secondary: new fields.BooleanField({ initial: false }),
-            trait: new fields.StringField({ required: true, choices: SYSTEM.ACTOR.abilities, initial: 'agility' }),
-            range: new fields.StringField({ required: true, choices: SYSTEM.GENERAL.range, initial: 'melee' }),
-            burden: new fields.StringField({ required: true, choices: SYSTEM.GENERAL.burden, initial: 'oneHanded' }),
+            trait: new fields.StringField({ required: true, choices: CONFIG.DH.ACTOR.abilities, initial: 'agility' }),
+            range: new fields.StringField({ required: true, choices: CONFIG.DH.GENERAL.range, initial: 'melee' }),
+            burden: new fields.StringField({ required: true, choices: CONFIG.DH.GENERAL.burden, initial: 'oneHanded' }),
             //DAMAGE
             damage: new fields.SchemaField({
-                dice: new fields.StringField({ choices: SYSTEM.GENERAL.diceTypes, initial: 'd6' }),
+                dice: new fields.StringField({ choices: CONFIG.DH.GENERAL.diceTypes, initial: 'd6' }),
                 bonus: new fields.NumberField({ nullable: true, initial: null }),
                 type: new fields.StringField({
                     required: true,
-                    choices: SYSTEM.GENERAL.damageTypes,
+                    choices: CONFIG.DH.GENERAL.damageTypes,
                     initial: 'physical'
                 })
             }),
             features: new fields.ArrayField(
                 new fields.SchemaField({
-                    value: new fields.StringField({ required: true, choices: SYSTEM.ITEM.weaponFeatures, blank: true }),
+                    value: new fields.StringField({
+                        required: true,
+                        choices: CONFIG.DH.ITEM.weaponFeatures,
+                        blank: true
+                    }),
                     effectIds: new fields.ArrayField(new fields.StringField({ required: true })),
                     actionIds: new fields.ArrayField(new fields.StringField({ required: true }))
                 })
@@ -68,7 +69,7 @@ export default class DHWeapon extends BaseDataItem {
             }
 
             for (var feature of added) {
-                const featureData = weaponFeatures[feature.value];
+                const featureData = CONFIG.DH.ITEM.weaponFeatures[feature.value];
                 if (featureData.effects?.length > 0) {
                     const embeddedItems = await this.parent.createEmbeddedDocuments('ActiveEffect', [
                         {
@@ -81,7 +82,7 @@ export default class DHWeapon extends BaseDataItem {
                 }
                 if (featureData.actions?.length > 0) {
                     const newActions = featureData.actions.map(action => {
-                        const cls = actionsTypes[action.type];
+                        const cls = CONFIG.DH.ACTIONS.actionsTypes[action.type];
                         return new cls(
                             { ...action, _id: foundry.utils.randomID(), name: game.i18n.localize(action.name) },
                             { parent: this }

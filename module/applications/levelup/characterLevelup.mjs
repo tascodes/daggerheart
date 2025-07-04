@@ -7,7 +7,9 @@ export default class DhCharacterLevelUp extends LevelUpBase {
     constructor(actor) {
         super(actor);
 
-        this.levelTiers = this.addBonusChoices(game.settings.get(SYSTEM.id, SYSTEM.SETTINGS.gameSettings.LevelTiers));
+        this.levelTiers = this.addBonusChoices(
+            game.settings.get(CONFIG.DH.id, CONFIG.DH.SETTINGS.gameSettings.LevelTiers)
+        );
         const playerLevelupData = actor.system.levelData;
         this.levelup = new DhLevelup(DhLevelup.initializeData(this.levelTiers, playerLevelupData));
     }

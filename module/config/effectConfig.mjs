@@ -1,4 +1,4 @@
-import { range } from './generalConfig.mjs';
+import { range } from '../config/generalConfig.mjs';
 
 export const valueTypes = {
     numberString: {

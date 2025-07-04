@@ -1,5 +1,5 @@
 import DaggerheartSheet from '../daggerheart-sheet.mjs';
-import DHCompanionSettings from '../applications/companion-settings.mjs';
+import DHCompanionSettings from '../../sheets-configs/companion-settings.mjs';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 export default class DhCompanionSheet extends DaggerheartSheet(ActorSheetV2) {
@@ -90,7 +90,7 @@ export default class DhCompanionSheet extends DaggerheartSheet(ActorSheetV2) {
                 user: game.user.id,
                 system: systemData,
                 content: await foundry.applications.handlebars.renderTemplate(
-                    'systems/daggerheart/templates/chat/ability-use.hbs',
+                    'systems/daggerheart/templates/ui/chat/ability-use.hbs',
                     systemData
                 )
             });

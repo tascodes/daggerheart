@@ -1,6 +1,6 @@
-import DHActionConfig from '../../config/Action.mjs';
+import DHActionConfig from '../../sheets-configs/action-config.mjs';
 import DaggerheartSheet from '../daggerheart-sheet.mjs';
-import DHAdversarySettings from '../applications/adversary-settings.mjs';
+import DHAdversarySettings from '../../sheets-configs/adversary-settings.mjs';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 export default class AdversarySheet extends DaggerheartSheet(ActorSheetV2) {
@@ -92,7 +92,7 @@ export default class AdversarySheet extends DaggerheartSheet(ActorSheetV2) {
             },
             chatMessage: {
                 type: 'adversaryRoll',
-                template: 'systems/daggerheart/templates/chat/adversary-roll.hbs',
+                template: 'systems/daggerheart/templates/ui/chat/adversary-roll.hbs',
                 mute: true
             }
         };
@@ -127,7 +127,7 @@ export default class AdversarySheet extends DaggerheartSheet(ActorSheetV2) {
                 user: game.user.id,
                 system: systemData,
                 content: await foundry.applications.handlebars.renderTemplate(
-                    'systems/daggerheart/templates/chat/ability-use.hbs',
+                    'systems/daggerheart/templates/ui/chat/ability-use.hbs',
                     systemData
                 )
             });

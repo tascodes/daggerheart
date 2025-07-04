@@ -3,30 +3,23 @@ import * as applications from './module/applications/_module.mjs';
 import * as models from './module/data/_module.mjs';
 import * as documents from './module/documents/_module.mjs';
 import RegisterHandlebarsHelpers from './module/helpers/handlebarsHelper.mjs';
-import DhCombatTracker from './module/ui/combatTracker.mjs';
-import { handleSocketEvent, registerSocketHooks } from './module/helpers/socket.mjs';
-import { registerDHSettings } from './module/applications/settings.mjs';
-import DhpChatLog from './module/ui/chatLog.mjs';
-import DhpRuler from './module/ui/ruler.mjs';
-import DhpTokenRuler from './module/ui/tokenRuler.mjs';
 import { DhDualityRollEnricher, DhTemplateEnricher } from './module/enrichers/_module.mjs';
-import { getCommandTarget, rollCommandToJSON, setDiceSoNiceForDualityRoll } from './module/helpers/utils.mjs';
-import { abilities } from './module/config/actorConfig.mjs';
-import Resources from './module/applications/resources.mjs';
-import { NarrativeCountdowns, registerCountdownApplicationHooks } from './module/applications/countdowns.mjs';
-import DHDualityRoll from './module/data/chat-message/dualityRoll.mjs';
+import { getCommandTarget, rollCommandToJSON } from './module/helpers/utils.mjs';
+import { NarrativeCountdowns, registerCountdownApplicationHooks } from './module/applications/ui/countdowns.mjs';
 import { DualityRollColor } from './module/data/settings/Appearance.mjs';
-import { DHRoll, DualityRoll, D20Roll, DamageRoll, DualityDie } from './module/applications/roll.mjs';
-import { DhMeasuredTemplate } from './module/placeables/_module.mjs';
+import { DHRoll, DualityRoll, D20Roll, DamageRoll, DualityDie } from './module/dice/_module.mjs';
 import { renderDualityButton } from './module/enrichers/DualityRollEnricher.mjs';
 import { renderMeasuredTemplate } from './module/enrichers/TemplateEnricher.mjs';
 import { registerCountdownHooks } from './module/data/countdowns.mjs';
-
-globalThis.SYSTEM = SYSTEM;
+import {
+    handlebarsRegistration,
+    settingsRegistration,
+    socketRegistration
+} from './module/systemRegistration/_module.mjs';
+import { placeables } from './module/canvas/_module.mjs';
 
 Hooks.once('init', () => {
-    CONFIG.daggerheart = SYSTEM;
-
+    CONFIG.DH = SYSTEM;
     game.system.api = {
         applications,
         models,
@@ -60,7 +53,7 @@ Hooks.once('init', () => {
     };
 
     CONFIG.Dice.rolls = [...CONFIG.Dice.rolls, ...[DHRoll, DualityRoll, D20Roll, DamageRoll]];
-    CONFIG.MeasuredTemplate.objectClass = DhMeasuredTemplate;
+    CONFIG.MeasuredTemplate.objectClass = placeables.DhMeasuredTemplate;
 
     CONFIG.Item.documentClass = documents.DHItem;
 
@@ -69,26 +62,32 @@ Hooks.once('init', () => {
 
     const { Items, Actors } = foundry.documents.collections;
     Items.unregisterSheet('core', foundry.applications.sheets.ItemSheetV2);
-    Items.registerSheet(SYSTEM.id, applications.DhpAncestry, { types: ['ancestry'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpCommunity, { types: ['community'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpClassSheet, { types: ['class'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpSubclass, { types: ['subclass'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpFeatureSheet, { types: ['feature'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpDomainCardSheet, { types: ['domainCard'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpMiscellaneous, { types: ['miscellaneous'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpConsumable, { types: ['consumable'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpWeapon, { types: ['weapon'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhpArmor, { types: ['armor'], makeDefault: true });
-    Items.registerSheet(SYSTEM.id, applications.DhBeastform, { types: ['beastform'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Ancestry, { types: ['ancestry'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Community, { types: ['community'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Class, { types: ['class'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Subclass, { types: ['subclass'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Feature, { types: ['feature'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.DomainCard, { types: ['domainCard'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Miscellaneous, {
+        types: ['miscellaneous'],
+        makeDefault: true
+    });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Consumable, { types: ['consumable'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Weapon, { types: ['weapon'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Armor, { types: ['armor'], makeDefault: true });
+    Items.registerSheet(SYSTEM.id, applications.sheets.items.Beastform, { types: ['beastform'], makeDefault: true });
 
     CONFIG.Actor.documentClass = documents.DhpActor;
     CONFIG.Actor.dataModels = models.actors.config;
 
     Actors.unregisterSheet('core', foundry.applications.sheets.ActorSheetV2);
-    Actors.registerSheet(SYSTEM.id, applications.DhCharacterSheet, { types: ['character'], makeDefault: true });
-    Actors.registerSheet(SYSTEM.id, applications.DhCompanionSheet, { types: ['companion'], makeDefault: true });
-    Actors.registerSheet(SYSTEM.id, applications.DhpAdversarySheet, { types: ['adversary'], makeDefault: true });
-    Actors.registerSheet(SYSTEM.id, applications.DhpEnvironment, { types: ['environment'], makeDefault: true });
+    Actors.registerSheet(SYSTEM.id, applications.sheets.actors.Character, { types: ['character'], makeDefault: true });
+    Actors.registerSheet(SYSTEM.id, applications.sheets.actors.Companion, { types: ['companion'], makeDefault: true });
+    Actors.registerSheet(SYSTEM.id, applications.sheets.actors.Adversary, { types: ['adversary'], makeDefault: true });
+    Actors.registerSheet(SYSTEM.id, applications.sheets.actors.Environment, {
+        types: ['environment'],
+        makeDefault: true
+    });
 
     CONFIG.ActiveEffect.documentClass = documents.DhActiveEffect;
     CONFIG.ActiveEffect.dataModels = models.activeEffects.config;
@@ -101,7 +100,7 @@ Hooks.once('init', () => {
     foundry.applications.apps.DocumentSheetConfig.registerSheet(
         CONFIG.ActiveEffect.documentClass,
         SYSTEM.id,
-        applications.DhActiveEffectConfig,
+        applications.sheetConfigs.ActiveEffectConfig,
         {
             makeDefault: true
         }
@@ -115,29 +114,28 @@ Hooks.once('init', () => {
         base: models.DhCombatant
     };
 
-    CONFIG.ChatMessage.dataModels = models.messages.config;
-    CONFIG.ChatMessage.documentClass = applications.DhpChatMessage;
+    CONFIG.ChatMessage.dataModels = models.chatMessages.config;
+    CONFIG.ChatMessage.documentClass = documents.DhChatMessage;
 
-    CONFIG.Canvas.rulerClass = DhpRuler;
+    CONFIG.Canvas.rulerClass = placeables.DhRuler;
     CONFIG.Combat.documentClass = documents.DhpCombat;
-    CONFIG.ui.combat = DhCombatTracker;
-    CONFIG.ui.chat = DhpChatLog;
-    // CONFIG.ui.players = DhpPlayers;
-    CONFIG.Token.rulerClass = DhpTokenRuler;
+    CONFIG.ui.combat = applications.ui.DhCombatTracker;
+    CONFIG.ui.chat = applications.ui.DhChatLog;
+    CONFIG.Token.rulerClass = placeables.DhTokenRuler;
 
-    CONFIG.ui.resources = Resources;
-    CONFIG.ux.ContextMenu = applications.DhContextMenu;
-    CONFIG.ux.TooltipManager = applications.DhTooltipManager;
+    CONFIG.ui.resources = applications.ui.DhFearTracker;
+    CONFIG.ux.ContextMenu = applications.ux.ContextMenu;
+    CONFIG.ux.TooltipManager = documents.DhTooltipManager;
 
-    game.socket.on(`system.${SYSTEM.id}`, handleSocketEvent);
+    game.socket.on(`system.${SYSTEM.id}`, socketRegistration.handleSocketEvent);
 
     // Make Compendium Dialog resizable
     foundry.applications.sidebar.apps.Compendium.DEFAULT_OPTIONS.window.resizable = true;
 
-    registerDHSettings();
+    settingsRegistration.registerDHSettings();
     RegisterHandlebarsHelpers.registerHelpers();
 
-    return preloadHandlebarsTemplates();
+    return handlebarsRegistration();
 });
 
 Hooks.on('ready', () => {
@@ -152,7 +150,7 @@ Hooks.on('ready', () => {
     );
 
     registerCountdownHooks();
-    registerSocketHooks();
+    socketRegistration.registerSocketHooks();
     registerCountdownApplicationHooks();
 });
 
@@ -212,7 +210,7 @@ Hooks.on('chatMessage', (_, message) => {
 
                 const title = traitValue
                     ? game.i18n.format('DAGGERHEART.Chat.DualityRoll.AbilityCheckTitle', {
-                          ability: game.i18n.localize(abilities[traitValue].label)
+                          ability: game.i18n.localize(SYSTEM.ACTOR.abilities[traitValue].label)
                       })
                     : game.i18n.localize('DAGGERHEART.General.Duality');
 
@@ -266,46 +264,3 @@ Hooks.on('renderJournalDirectory', async (tab, html, _, options) => {
         };
     }
 });
-
-const preloadHandlebarsTemplates = async function () {
-    return foundry.applications.handlebars.loadTemplates([
-        'systems/daggerheart/templates/sheets/global/tabs/tab-navigation.hbs',
-        'systems/daggerheart/templates/sheets/global/partials/inventory-item.hbs',
-        'systems/daggerheart/templates/sheets/global/partials/action-item.hbs',
-        'systems/daggerheart/templates/sheets/global/partials/domain-card-item.hbs',
-        'systems/daggerheart/templates/sheets/global/partials/inventory-fieldset-items.hbs',
-        'systems/daggerheart/templates/sheets/parts/attributes.hbs',
-        'systems/daggerheart/templates/sheets/parts/defense.hbs',
-        'systems/daggerheart/templates/sheets/parts/armor.hbs',
-        'systems/daggerheart/templates/sheets/parts/experience.hbs',
-        'systems/daggerheart/templates/sheets/parts/features.hbs',
-        'systems/daggerheart/templates/sheets/parts/gold.hbs',
-        'systems/daggerheart/templates/sheets/parts/health.hbs',
-        'systems/daggerheart/templates/sheets/parts/hope.hbs',
-        'systems/daggerheart/templates/sheets/parts/weapons.hbs',
-        'systems/daggerheart/templates/sheets/parts/domainCard.hbs',
-        'systems/daggerheart/templates/sheets/parts/heritage.hbs',
-        'systems/daggerheart/templates/sheets/parts/subclassFeature.hbs',
-        'systems/daggerheart/templates/sheets/parts/effects.hbs',
-        'systems/daggerheart/templates/sheets/items/subclass/parts/subclass-features.hbs',
-        'systems/daggerheart/templates/sheets/items/subclass/parts/subclass-feature.hbs',
-        'systems/daggerheart/templates/components/card-preview.hbs',
-        'systems/daggerheart/templates/views/levelup/parts/selectable-card-preview.hbs',
-        'systems/daggerheart/templates/sheets/global/partials/feature-section-item.hbs',
-        'systems/daggerheart/templates/ui/combat/combatTrackerSection.hbs',
-        'systems/daggerheart/templates/views/actionTypes/damage.hbs',
-        'systems/daggerheart/templates/views/actionTypes/healing.hbs',
-        'systems/daggerheart/templates/views/actionTypes/resource.hbs',
-        'systems/daggerheart/templates/views/actionTypes/uuid.hbs',
-        'systems/daggerheart/templates/views/actionTypes/uses.hbs',
-        'systems/daggerheart/templates/views/actionTypes/roll.hbs',
-        'systems/daggerheart/templates/views/actionTypes/save.hbs',
-        'systems/daggerheart/templates/views/actionTypes/cost.hbs',
-        'systems/daggerheart/templates/views/actionTypes/range-target.hbs',
-        'systems/daggerheart/templates/views/actionTypes/effect.hbs',
-        'systems/daggerheart/templates/views/actionTypes/beastform.hbs',
-        'systems/daggerheart/templates/settings/components/settings-item-line.hbs',
-        'systems/daggerheart/templates/chat/parts/damage-chat.hbs',
-        'systems/daggerheart/templates/chat/parts/target-chat.hbs'
-    ]);
-};

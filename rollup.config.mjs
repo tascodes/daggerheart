@@ -14,10 +14,7 @@ export default {
             config: {
                 path: './postcss.config.js'
             },
-            use: {
-                less: { javascriptEnabled: true }
-            },
-            extensions: ['.less'],
+            extensions: ['.css'],
             extract: false
         }),
         commonjs({

@@ -1,4 +1,4 @@
-import { DHBaseAction } from '../action/action.mjs';
+import DHBaseAction from '../../data/action/baseAction.mjs';
 
 const fields = foundry.data.fields;
 
@@ -37,7 +37,7 @@ export default class DHAdversaryRoll extends foundry.abstract.TypeDataModel {
     }
 
     get messageTemplate() {
-        return 'systems/daggerheart/templates/chat/adversary-roll.hbs';
+        return 'systems/daggerheart/templates/ui/chat/adversary-roll.hbs';
     }
 
     prepareDerivedData() {
