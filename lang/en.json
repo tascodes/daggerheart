@@ -25,7 +25,9 @@
             "notifications": {
                 "adversaryMissing": "The linked adversary doesn't exist in the world.",
                 "beastformInapplicable": "A beastform can only be applied to a Character.",
-                "beastformAlreadyApplied": "The character already has a beastform applied!"
+                "beastformAlreadyApplied": "The character already has a beastform applied!",
+                "featureIsMissing": "The feature doesn't exist. You should remove it.",
+                "featureIsFull": "You can only have 1 entry of this feature"
             }
         },
         "Settings": {
@@ -964,29 +966,6 @@
                 "Description": "This weapon can also be used with these statistics—{characterTrait}, {range}, {damage}."
             }
         },
-        "Feature": {
-            "Type": {
-                "ancestry": "Ancestry",
-                "community": "Community",
-                "class": "Class",
-                "subclass": "Subclass",
-                "classHope": "Class Hope",
-                "domainCard": "Domain Card",
-                "equipment": "Equipment"
-            },
-            "ValueType": {
-                "Normal": "Normal",
-                "Input": "Input",
-                "Dice": "Dice"
-            },
-            "Max": "Max",
-            "NewEffect": "New Effect"
-        },
-        "FeatureType": {
-            "Normal": "Normal",
-            "Input": "Input",
-            "Ticks": "Ticks"
-        },
         "Application": {
             "Downtime": {
                 "TakeDowntime": "Take Downtime"
@@ -1499,7 +1478,7 @@
                 "Features": "Features",
                 "Effects": "Effects",
                 "activeEffects": "Active Effects",
-                "inativeEffects": "Inative Effects"
+                "inactiveEffects": "Inactive Effects"
             },
             "DomainCard": {
                 "Type": "Type",

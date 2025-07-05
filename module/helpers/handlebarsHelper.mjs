@@ -8,7 +8,7 @@ export default class RegisterHandlebarsHelpers {
             add: this.add,
             subtract: this.subtract,
             includes: this.includes,
-            case: this.case,
+            case: this.case
         });
     }
 
@@ -34,11 +34,9 @@ export default class RegisterHandlebarsHelpers {
         return (Number.isNaN(aNum) ? 0 : aNum) - (Number.isNaN(bNum) ? 0 : bNum);
     }
 
-
     static includes(list, item) {
         return list.includes(item);
     }
-
 
     static case(value, options) {
         if (value == this.switch_value) {

@@ -97,7 +97,6 @@ export default class DhCharacter extends BaseDataActor {
                 value: new ForeignDocumentUUIDField({ type: 'Item', nullable: true }),
                 subclass: new ForeignDocumentUUIDField({ type: 'Item', nullable: true })
             }),
-            actions: new fields.ArrayField(new ActionField()),
             levelData: new fields.EmbeddedDataField(DhLevelData),
             bonuses: new fields.SchemaField({
                 armorScore: new fields.NumberField({ integer: true, initial: 0 }),
@@ -196,6 +195,68 @@ export default class DhCharacter extends BaseDataActor {
 
     get armor() {
         return this.parent.items.find(x => x.type === 'armor' && x.system.equipped);
+    }
+
+    get sheetLists() {
+        const ancestryFeatures = [],
+            communityFeatures = [],
+            classFeatures = [],
+            subclassFeatures = [],
+            companionFeatures = [],
+            features = [];
+
+        for (let item of this.parent.items) {
+            if (item.system.type === CONFIG.DH.ITEM.featureTypes.ancestry.id) {
+                ancestryFeatures.push(item);
+            } else if (item.system.type === CONFIG.DH.ITEM.featureTypes.community.id) {
+                communityFeatures.push(item);
+            } else if (item.system.type === CONFIG.DH.ITEM.featureTypes.class.id) {
+                classFeatures.push(item);
+            } else if (item.system.type === CONFIG.DH.ITEM.featureTypes.subclass.id) {
+                const subclassState = this.class.subclass.system.featureState;
+                const identifier = item.system.identifier;
+                if (
+                    identifier === 'foundationFeature' ||
+                    (identifier === 'specializationFeature' && subclassState >= 2) ||
+                    (identifier === 'masterFeature' && subclassState >= 3)
+                ) {
+                    subclassFeatures.push(item);
+                }
+            } else if (item.system.type === CONFIG.DH.ITEM.featureTypes.companion.id) {
+                companionFeatures.push(item);
+            } else if (item.type === 'feature' && !item.system.type) {
+                features.push(item);
+            }
+        }
+
+        return {
+            ancestryFeatures: {
+                title: `${game.i18n.localize('TYPES.Item.ancestry')} - ${this.ancestry?.name}`,
+                type: 'ancestry',
+                values: ancestryFeatures
+            },
+            communityFeatures: {
+                title: `${game.i18n.localize('TYPES.Item.community')} - ${this.community?.name}`,
+                type: 'community',
+                values: communityFeatures
+            },
+            classFeatures: {
+                title: `${game.i18n.localize('TYPES.Item.class')} - ${this.class.value?.name}`,
+                type: 'class',
+                values: classFeatures
+            },
+            subclassFeatures: {
+                title: `${game.i18n.localize('TYPES.Item.subclass')} - ${this.class.subclass?.name}`,
+                type: 'subclass',
+                values: subclassFeatures
+            },
+            companionFeatures: {
+                title: game.i18n.localize('DAGGERHEART.Sheets.PC.CompanionFeatures'),
+                type: 'companion',
+                values: companionFeatures
+            },
+            features: { title: game.i18n.localize('DAGGERHEART.Sheets.PC.Features'), type: 'feature', values: features }
+        };
     }
 
     get primaryWeapon() {

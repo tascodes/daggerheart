@@ -199,11 +199,7 @@ export default class FilterMenu extends foundry.applications.ux.ContextMenu {
 
         const sort = arr => game.i18n.sortObjects(arr, 'name');
 
-        return [
-            ...sort(typesFilters, 'name'),
-            ...sort(burdenFilter, 'name'),
-            ...sort(damageTypeFilter, 'name')
-        ];
+        return [...sort(typesFilters, 'name'), ...sort(burdenFilter, 'name'), ...sort(damageTypeFilter, 'name')];
     }
 
     /**

@@ -156,8 +156,8 @@ export default class DhpChatLog extends foundry.applications.sidebar.tabs.ChatLo
 
     getTargetList = (event, message) => {
         const targetSelection = event.target
-            .closest('.message-content')
-            .querySelector('.button-target-selection.target-selected'),
+                .closest('.message-content')
+                .querySelector('.button-target-selection.target-selected'),
             isHit = Boolean(targetSelection.dataset.targetHit);
         return {
             isHit,
@@ -255,7 +255,6 @@ export default class DhpChatLog extends foundry.applications.sidebar.tabs.ChatLo
         });
     }
 
-
     /**
      * Handle selecting an advantage and disable further selection.
      * @param {MouseEvent} event
@@ -276,7 +275,6 @@ export default class DhpChatLog extends foundry.applications.sidebar.tabs.ChatLo
             el.replaceWith(el.cloneNode(true));
         });
     }
-
 
     abilityUseButton = async (event, message) => {
         event.stopPropagation();

@@ -1,5 +1,3 @@
-import { actionsTypes } from '../action/_module.mjs';
-
 /**
  * Describes metadata about the item data model type
  * @typedef {Object} ItemDataModelMetadata
@@ -61,8 +59,8 @@ export default class BaseDataItem extends foundry.abstract.TypeDataModel {
         if (!this.constructor.metadata.hasInitialAction || !foundry.utils.isEmpty(this.actions)) return;
 
         const metadataType = this.constructor.metadata.type;
-        const actionType = { weapon: "attack" }[metadataType];
-        const ActionClass = actionsTypes[actionType];
+        const actionType = { weapon: 'attack' }[metadataType];
+        const ActionClass = game.system.api.models.actions.actionsTypes[actionType];
 
         const action = new ActionClass(
             {
@@ -79,4 +77,31 @@ export default class BaseDataItem extends foundry.abstract.TypeDataModel {
         this.updateSource({ actions: [action] });
     }
 
+    _onCreate(data) {
+        if (!this.actor || this.actor.type !== 'character' || !this.features) return;
+
+        this.actor.createEmbeddedDocuments(
+            'Item',
+            this.features.map(feature => ({
+                ...feature,
+                system: {
+                    ...feature.system,
+                    type: this.parent.type,
+                    originId: data._id,
+                    identifier: feature.identifier
+                }
+            }))
+        );
+    }
+
+    async _preDelete() {
+        if (!this.actor || this.actor.type !== 'character') return;
+
+        const items = this.actor.items.filter(item => item.system.originId === this.parent.id);
+        if (items.length > 0)
+            await this.actor.deleteEmbeddedDocuments(
+                'Item',
+                items.map(x => x.id)
+            );
+    }
 }
