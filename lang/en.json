@@ -486,13 +486,9 @@
                     "name": "Impenetrable",
                     "description": "Once per short rest, when you would mark your last Hit Point, you can instead mark a Stress."
                 },
-                "magic": {
-                    "name": "Magic",
+                "magical": {
+                    "name": "Magical",
                     "description": "You can't mark an Armor Slot to reduce physical damage."
-                },
-                "painful": {
-                    "name": "Painful",
-                    "description": "Each time you mark an Armor Slot, you must mark a Stress."
                 },
                 "physical": {
                     "name": "Physical",
@@ -896,6 +892,10 @@
                 "scary": {
                     "name": "Scary",
                     "description": "On a successful attack, the target must mark a Stress."
+                },
+                "selfCorrecting": {
+                    "name": "Self Correcting",
+                    "description": "When you roll a 1 on a damage die, it deals 6 damage instead."
                 },
                 "serrated": {
                     "name": "Serrated",

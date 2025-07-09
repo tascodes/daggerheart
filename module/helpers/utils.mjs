@@ -159,7 +159,8 @@ export const tagifyElement = (element, options, onChange, tagifyOptions = {}) =>
             return {
                 value: key,
                 name: game.i18n.localize(option.label),
-                src: option.src
+                src: option.src,
+                description: option.description
             };
         }),
         maxTags: maxTags,
@@ -173,11 +174,12 @@ export const tagifyElement = (element, options, onChange, tagifyOptions = {}) =>
         },
         templates: {
             tag(tagData) {
-                return `<tag title="${tagData.title || tagData.value}"
+                return `<tag
                             contenteditable='false'
                             spellcheck='false'
                             tabIndex="${this.settings.a11y.focusableTags ? 0 : -1}"
                             class="${this.settings.classNames.tag} ${tagData.class ? tagData.class : ''}"
+                            data-tooltip="${tagData.description || tagData.name}"
                             ${this.getAttributes(tagData)}> 
                     <x class="${this.settings.classNames.tagX}" role='button' aria-label='remove tag'></x>
                     <div>
@@ -190,6 +192,8 @@ export const tagifyElement = (element, options, onChange, tagifyOptions = {}) =>
     });
 
     tagifyElement.on('add', event => {
+        if (event.detail.data.__isValid === 'not allowed') return;
+
         const input = event.detail.tagify.DOM.originalInput;
         const currentList = input.value ? JSON.parse(input.value) : [];
         onChange([...currentList, event.detail.data], { option: event.detail.data.value, removed: false }, input);
@@ -233,17 +237,21 @@ Roll.replaceFormulaData = function (formula, data = {}, { missing, warn = false 
     return nativeReplaceFormulaData(formula, data, { missing, warn });
 };
 
-export const getDamageLabel = damage => {
+export const getDamageKey = damage => {
     switch (damage) {
         case 3:
-            return game.i18n.localize('DAGGERHEART.GENERAL.Damage.severe');
+            return 'severe';
         case 2:
-            return game.i18n.localize('DAGGERHEART.GENERAL.Damage.major');
+            return 'major';
         case 1:
-            return game.i18n.localize('DAGGERHEART.GENERAL.Damage.minor');
+            return 'minor';
         case 0:
-            return game.i18n.localize('DAGGERHEART.GENERAL.Damage.none');
+            return 'none';
     }
+};
+
+export const getDamageLabel = damage => {
+    return game.i18n.localize(`DAGGERHEART.GENERAL.Damage.${getDamageKey(damage)}`);
 };
 
 export const damageKeyToNumber = key => {
