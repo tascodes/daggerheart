@@ -1,9 +1,8 @@
-import DamageSelectionDialog from '../applications/dialogs/damageSelectionDialog.mjs';
-import { emitAsGM, emitAsOwner, GMUpdateEvent, socketEvent } from '../systemRegistration/socket.mjs';
+import { emitAsGM, GMUpdateEvent } from '../systemRegistration/socket.mjs';
 import DamageReductionDialog from '../applications/dialogs/damageReductionDialog.mjs';
 import { LevelOptionType } from '../data/levelTier.mjs';
 import DHFeature from '../data/item/feature.mjs';
-import { damageKeyToNumber, getDamageKey } from '../helpers/utils.mjs';
+import { damageKeyToNumber } from '../helpers/utils.mjs';
 
 export default class DhpActor extends Actor {
     /**

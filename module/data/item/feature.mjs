@@ -22,6 +22,7 @@ export default class DHFeature extends BaseDataItem {
                 nullable: true,
                 initial: null
             }),
+            subType: new fields.StringField({ choices: CONFIG.DH.ITEM.featureSubTypes, nullable: true, initial: null }),
             originId: new fields.StringField({ nullable: true, initial: null }),
             identifier: new fields.StringField(),
             actions: new fields.ArrayField(new ActionField())
