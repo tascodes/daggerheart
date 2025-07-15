@@ -364,7 +364,7 @@ export default class DHBaseAction extends foundry.abstract.DataModel {
     }
 
     get modifiers() {
-        if(!this.actor) return [];
+        if (!this.actor) return [];
         const modifiers = [];
         /** Placeholder for specific bonuses **/
         return modifiers;
