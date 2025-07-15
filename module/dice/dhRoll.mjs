@@ -175,9 +175,10 @@ export default class DHRoll extends Roll {
 
 export const registerRollDiceHooks = () => {
     Hooks.on(`${CONFIG.DH.id}.postRollDuality`, async (config, message) => {
+        const hopeFearAutomation = game.settings.get(CONFIG.DH.id, CONFIG.DH.SETTINGS.gameSettings.Automation).hopeFear;
         if (
             !config.source?.actor ||
-            !game.settings.get(CONFIG.DH.id, CONFIG.DH.SETTINGS.gameSettings.Automation).hope ||
+            (game.user.isGM ? !hopeFearAutomation.gm : !hopeFearAutomation.players) ||
             config.roll.type === 'reaction'
         )
             return;
@@ -185,9 +186,9 @@ export const registerRollDiceHooks = () => {
         const actor = await fromUuid(config.source.actor),
             updates = [];
         if (!actor) return;
-        if (config.roll.isCritical || config.roll.result.duality === 1) updates.push({ type: 'hope', value: 1 });
-        if (config.roll.isCritical) updates.push({ type: 'stress', value: -1 });
-        if (config.roll.result.duality === -1) updates.push({ type: 'fear', value: 1 });
+        if (config.roll.isCritical || config.roll.result.duality === 1) updates.push({ key: 'hope', value: 1 });
+        if (config.roll.isCritical) updates.push({ key: 'stress', value: -1 });
+        if (config.roll.result.duality === -1) updates.push({ key: 'fear', value: 1 });
 
         if (updates.length) actor.modifyResource(updates);
 
