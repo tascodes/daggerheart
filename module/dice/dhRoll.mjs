@@ -87,7 +87,7 @@ export default class DHRoll extends Roll {
                 system: config,
                 rolls: [roll]
             };
-        return await cls.create(msg);
+        return await cls.create(msg, { rollMode: config.selectedRollMode });
     }
 
     static applyKeybindings(config) {
