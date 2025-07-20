@@ -113,7 +113,7 @@ export class DHResourceData extends foundry.abstract.DataModel {
             }),
             value: new fields.EmbeddedDataField(DHActionDiceData),
             valueAlt: new fields.EmbeddedDataField(DHActionDiceData)
-        }
+        };
     }
 }
 
@@ -134,6 +134,6 @@ export class DHDamageData extends DHResourceData {
                     label: 'Type'
                 }
             )
-        }
+        };
     }
 }

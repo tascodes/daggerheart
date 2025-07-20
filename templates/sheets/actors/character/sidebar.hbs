@@ -47,7 +47,7 @@
                     <p>{{document.system.proficiency}}</p>
                 </div>
                 <div class="status-label">
-                    <h4>{{localize "DAGGERHEART.GENERAL.proficienc"}}</h4>
+                    <h4>{{localize "DAGGERHEART.GENERAL.proficiency"}}</h4>
                 </div>
             </div>
 
@@ -95,6 +95,9 @@
             <side-line-div></side-line-div>
         </div>
         <ul class="items-sidebar-list">
+            {{#if document.system.usedUnarmed}}
+                {{> 'daggerheart.inventory-item' item=document.system.usedUnarmed type='attack' isSidebar=true}}
+            {{/if}}
             {{#each document.items as |item|}}
             {{#if item.system.equipped}}
             {{> 'daggerheart.inventory-item'
@@ -132,7 +135,7 @@
     <div class="experience-section">
         <div class="title">
             <side-line-div class="invert"></side-line-div>
-            <h3>{{localize "DAGGERHEART.GENERAL.experience.Single"}}</h3>
+            <h3>{{localize "DAGGERHEART.GENERAL.experience.single"}}</h3>
             <side-line-div></side-line-div>
         </div>
         <div class="experience-list">
