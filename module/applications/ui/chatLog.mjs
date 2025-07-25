@@ -255,7 +255,7 @@ export default class DhpChatLog extends foundry.applications.sidebar.tabs.ChatLo
         const action = message.system.actions[Number.parseInt(event.currentTarget.dataset.index)];
         const actor = game.actors.get(message.system.source.actor);
         await actor.use(action);
-    };
+    }
 
     async actionUseButton(event, message) {
         const { moveIndex, actionIndex } = event.currentTarget.dataset;

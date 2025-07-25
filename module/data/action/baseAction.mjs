@@ -37,7 +37,7 @@ export default class DHBaseAction extends ActionMixin(foundry.abstract.DataModel
 
         this.extraSchemas.forEach(s => {
             let clsField;
-            if(clsField = this.getActionField(s)) schemaFields[s] = new clsField();
+            if ((clsField = this.getActionField(s))) schemaFields[s] = new clsField();
         });
 
         return schemaFields;
@@ -117,14 +117,14 @@ export default class DHBaseAction extends ActionMixin(foundry.abstract.DataModel
     async use(event, ...args) {
         if (!this.actor) throw new Error("An Action can't be used outside of an Actor context.");
 
-        if(this.chatDisplay) this.toChat();
+        if (this.chatDisplay) this.toChat();
 
         let config = this.prepareConfig(event);
-        for(let i = 0; i < this.constructor.extraSchemas.length; i++) {
+        for (let i = 0; i < this.constructor.extraSchemas.length; i++) {
             let clsField = this.constructor.getActionField(this.constructor.extraSchemas[i]);
-            if(clsField?.prepareConfig) {
+            if (clsField?.prepareConfig) {
                 const keep = clsField.prepareConfig.call(this, config);
-                if(config.isFastForward && !keep) return;
+                if (config.isFastForward && !keep) return;
             }
         }
 

@@ -1,7 +1,7 @@
 const fields = foundry.data.fields;
 
 export default class CostField extends fields.ArrayField {
-    constructor(options={}, context={}) {
+    constructor(options = {}, context = {}) {
         const element = new fields.SchemaField({
             key: new fields.StringField({
                 nullable: false,
@@ -20,7 +20,7 @@ export default class CostField extends fields.ArrayField {
         const costs = this.cost?.length ? foundry.utils.deepClone(this.cost) : [];
         config.costs = CostField.calcCosts.call(this, costs);
         const hasCost = CostField.hasCost.call(this, config.costs);
-        if(config.isFastForward && !hasCost)
+        if (config.isFastForward && !hasCost)
             return ui.notifications.warn("You don't have the resources to use that action.");
         return hasCost;
     }

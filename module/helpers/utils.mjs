@@ -241,6 +241,50 @@ export function getDocFromElement(element) {
     return foundry.utils.fromUuidSync(target.dataset.itemUuid) ?? null;
 }
 
+/**
+ * Adds the update diff on a linkedItem property to update.options for use
+ * in _onUpdate via the updateLinkedItemApps function.
+ * @param {Array} changedItems            The candidate changed list
+ * @param {Array} currentItems            The current list
+ * @param {object} options                Additional options which modify the update request
+ */
+export function addLinkedItemsDiff(changedItems, currentItems, options) {
+    if (changedItems) {
+        const prevItems = new Set(currentItems);
+        const newItems = new Set(changedItems);
+        options.toLink = Array.from(
+            newItems
+                .difference(prevItems)
+                .map(item => item?.item ?? item)
+                .filter(x => (typeof x === 'object' ? x.item : x))
+        );
+
+        options.toUnlink = Array.from(
+            prevItems
+                .difference(newItems)
+                .map(item => item?.item?.uuid ?? item?.uuid ?? item)
+                .filter(x => (typeof x === 'object' ? x.item : x))
+        );
+    }
+}
+
+/**
+ * Adds or removes the current Application from linked document apps
+ * depending on an update diff in the linked item list.
+ * @param {object} options                Additional options which modify the update requests
+ * @param {object} sheet                  The application to add or remove from document apps
+ */
+export function updateLinkedItemApps(options, sheet) {
+    options.toLink?.forEach(featureUuid => {
+        const doc = foundry.utils.fromUuidSync(featureUuid);
+        doc.apps[sheet.id] = sheet;
+    });
+    options.toUnlink?.forEach(featureUuid => {
+        const doc = foundry.utils.fromUuidSync(featureUuid);
+        delete doc.apps[sheet.id];
+    });
+}
+
 export const itemAbleRollParse = (value, actor, item) => {
     if (!value) return value;
 

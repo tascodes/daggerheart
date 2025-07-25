@@ -68,7 +68,10 @@ export default class D20RollDialog extends HandlebarsApplicationMixin(Applicatio
         }));
 
         if (this.config.costs?.length) {
-            const updatedCosts = game.system.api.fields.ActionFields.CostField.calcCosts.call(this.action, this.config.costs);
+            const updatedCosts = game.system.api.fields.ActionFields.CostField.calcCosts.call(
+                this.action,
+                this.config.costs
+            );
             context.costs = updatedCosts.map(x => ({
                 ...x,
                 label: x.keyIsID
@@ -80,7 +83,9 @@ export default class D20RollDialog extends HandlebarsApplicationMixin(Applicatio
         }
         if (this.config.uses?.max) {
             context.uses = game.system.api.fields.ActionFields.UsesField.calcUses.call(this.action, this.config.uses);
-            context.canRoll = context.canRoll && game.system.api.fields.ActionFields.UsesField.hasUses.call(this.action, context.uses);
+            context.canRoll =
+                context.canRoll &&
+                game.system.api.fields.ActionFields.UsesField.hasUses.call(this.action, context.uses);
         }
         if (this.roll) {
             context.roll = this.roll;

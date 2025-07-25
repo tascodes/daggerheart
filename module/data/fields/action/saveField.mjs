@@ -1,7 +1,7 @@
 const fields = foundry.data.fields;
 
 export default class SaveField extends fields.SchemaField {
-    constructor(options={}, context={}) {
+    constructor(options = {}, context = {}) {
         const saveFields = {
             trait: new fields.StringField({
                 nullable: true,

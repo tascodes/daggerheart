@@ -26,15 +26,15 @@ export default class DhpActor extends Actor {
     /** @inheritDoc */
     getEmbeddedDocument(embeddedName, id, options) {
         let doc;
-        switch ( embeddedName ) {
-            case "Action":
+        switch (embeddedName) {
+            case 'Action':
                 doc = this.system.actions?.get(id);
-                if(!doc && this.system.attack?.id === id) doc = this.system.attack; 
+                if (!doc && this.system.attack?.id === id) doc = this.system.attack;
                 break;
             default:
                 return super.getEmbeddedDocument(embeddedName, id, options);
         }
-        if ( options?.strict && !doc ) {
+        if (options?.strict && !doc) {
             throw new Error(`The key ${id} does not exist in the ${embeddedName} Collection`);
         }
         return doc;

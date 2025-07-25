@@ -1,4 +1,4 @@
-import { DHDamageData } from "./damageField.mjs";
+import { DHDamageData } from './damageField.mjs';
 
 const fields = foundry.data.fields;
 

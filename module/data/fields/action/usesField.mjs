@@ -1,7 +1,7 @@
 const fields = foundry.data.fields;
 
 export default class UsesField extends fields.SchemaField {
-    constructor(options={}, context={}) {
+    constructor(options = {}, context = {}) {
         const usesFields = {
             value: new fields.NumberField({ nullable: true, initial: null }),
             max: new fields.NumberField({ nullable: true, initial: null }),
@@ -19,8 +19,7 @@ export default class UsesField extends fields.SchemaField {
         if (uses && !uses.value) uses.value = 0;
         config.uses = uses;
         const hasUses = UsesField.hasUses.call(this, config.uses);
-        if(config.isFastForward && !hasUses)
-            return ui.notifications.warn("That action doesn't have remaining uses.");
+        if (config.isFastForward && !hasUses) return ui.notifications.warn("That action doesn't have remaining uses.");
         return hasUses;
     }
 

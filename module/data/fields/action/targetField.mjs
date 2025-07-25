@@ -1,7 +1,7 @@
 const fields = foundry.data.fields;
 
 export default class TargetField extends fields.SchemaField {
-    constructor(options={}, context={}) {
+    constructor(options = {}, context = {}) {
         const targetFields = {
             type: new fields.StringField({
                 choices: CONFIG.DH.ACTIONS.targetTypes,
@@ -26,13 +26,13 @@ export default class TargetField extends fields.SchemaField {
         }
         config.targets = targets.map(t => TargetField.formatTarget.call(this, t));
         const hasTargets = TargetField.checkTargets.call(this, this.target.amount, config.targets);
-        if(config.isFastForward && !hasTargets)
+        if (config.isFastForward && !hasTargets)
             return ui.notifications.warn('Too many targets selected for that actions.');
         return hasTargets;
     }
 
     static checkTargets(amount, targets) {
-        return true
+        return true;
         // return !amount || (targets.length > amount);
     }
 

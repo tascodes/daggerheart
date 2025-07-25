@@ -8,7 +8,8 @@
  * @property {boolean} isInventoryItem- Indicates whether items of this type is a Inventory Item
  */
 
-import { ActionsField } from "../fields/actionField.mjs";
+import { addLinkedItemsDiff, updateLinkedItemApps } from '../../helpers/utils.mjs';
+import { ActionsField } from '../fields/actionField.mjs';
 
 const fields = foundry.data.fields;
 
@@ -72,8 +73,7 @@ export default class BaseDataItem extends foundry.abstract.TypeDataModel {
         if (this.metadata.isQuantifiable)
             schema.quantity = new fields.NumberField({ integer: true, initial: 1, min: 0, required: true });
 
-        if (this.metadata.hasActions)
-            schema.actions = new ActionsField()
+        if (this.metadata.hasActions) schema.actions = new ActionsField();
 
         return schema;
     }
@@ -124,18 +124,21 @@ export default class BaseDataItem extends foundry.abstract.TypeDataModel {
         }
     }
 
-    _onCreate(data) {
+    _onCreate(data, _, userId) {
+        if (userId !== game.user.id) return;
+
         if (!this.actor || this.actor.type !== 'character' || !this.features) return;
 
         this.actor.createEmbeddedDocuments(
             'Item',
             this.features.map(feature => ({
-                ...feature,
+                ...(feature.item ?? feature),
                 system: {
-                    ...feature.system,
+                    ...(feature.item?.system ?? feature.system),
                     originItemType: this.parent.type,
                     originId: data._id,
-                    identifier: feature.identifier
+                    identifier: feature.identifier,
+                    subType: feature.item ? feature.type : undefined
                 }
             }))
         );
@@ -150,5 +153,18 @@ export default class BaseDataItem extends foundry.abstract.TypeDataModel {
                 'Item',
                 items.map(x => x.id)
             );
+    }
+
+    async _preUpdate(changed, options, userId) {
+        const allowed = await super._preUpdate(changed, options, userId);
+        if (allowed === false) return false;
+
+        addLinkedItemsDiff(changed.system?.features, this.features, options);
+    }
+
+    _onUpdate(changed, options, userId) {
+        super._onUpdate(changed, options, userId);
+
+        updateLinkedItemApps(options, this.parent.sheet);
     }
 }

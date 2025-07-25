@@ -107,6 +107,13 @@ export default function DHApplicationMixin(Base) {
             tagifyConfigs: []
         };
 
+        /**
+         * Related documents that should cause a rerender of this application when updated.
+         */
+        get relatedDocs() {
+            return [];
+        }
+
         /* -------------------------------------------- */
 
         /**@inheritdoc */
@@ -117,7 +124,15 @@ export default function DHApplicationMixin(Base) {
         /**@inheritdoc */
         async _onFirstRender(context, options) {
             await super._onFirstRender(context, options);
+            this.relatedDocs.filter(doc => doc).map(doc => (doc.apps[this.id] = this));
+
             if (!!this.options.contextMenus.length) this._createContextMenus();
+        }
+
+        /** @inheritDoc */
+        _onClose(options) {
+            super._onClose(options);
+            this.relatedDocs.filter(doc => doc).map(doc => delete doc.apps[this.id]);
         }
 
         /**@inheritdoc */
@@ -285,7 +300,7 @@ export default function DHApplicationMixin(Base) {
                     icon: 'fa-solid fa-pen-to-square',
                     condition: target => {
                         const doc = getDocFromElement(target);
-                        return !doc.hasOwnProperty('systemPath') || doc.inCollection
+                        return !doc.hasOwnProperty('systemPath') || doc.inCollection;
                     },
                     callback: target => getDocFromElement(target).sheet.render({ force: true })
                 }

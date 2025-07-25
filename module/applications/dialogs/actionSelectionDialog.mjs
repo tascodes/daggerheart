@@ -1,7 +1,7 @@
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export default class ActionSelectionDialog extends HandlebarsApplicationMixin(ApplicationV2) {
-    constructor(item, event, options={}) {
+    constructor(item, event, options = {}) {
         super(options);
         this.#item = item;
         this.#event = event;
@@ -24,7 +24,7 @@ export default class ActionSelectionDialog extends HandlebarsApplicationMixin(Ap
 
     static PARTS = {
         actions: {
-            template: "systems/daggerheart/templates/dialogs/actionSelect.hbs"
+            template: 'systems/daggerheart/templates/dialogs/actionSelect.hbs'
         }
     };
 
@@ -60,10 +60,10 @@ export default class ActionSelectionDialog extends HandlebarsApplicationMixin(Ap
         const actions = this.#item.system.actionsList,
             itemName = this.#item.name;
         return {
-            ...await super._prepareContext(options),
+            ...(await super._prepareContext(options)),
             actions,
             itemName
-        }
+        };
     }
 
     static async #onChooseAction(event, button) {
@@ -80,7 +80,7 @@ export default class ActionSelectionDialog extends HandlebarsApplicationMixin(Ap
     static create(item, event, options) {
         return new Promise(resolve => {
             const dialog = new this(item, event, options);
-            dialog.addEventListener("close", () => resolve(dialog.action), { once: true });
+            dialog.addEventListener('close', () => resolve(dialog.action), { once: true });
             dialog.render({ force: true });
         });
     }

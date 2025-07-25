@@ -1,4 +1,4 @@
-import ActionSelectionDialog from "../applications/dialogs/actionSelectionDialog.mjs";
+import ActionSelectionDialog from '../applications/dialogs/actionSelectionDialog.mjs';
 
 /**
  * Override and extend the basic Item implementation.
