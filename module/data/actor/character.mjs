@@ -202,6 +202,11 @@ export default class DhCharacter extends BaseDataActor {
                             hint: 'DAGGERHEART.GENERAL.Bonuses.rest.longRest.longRestMoves.hint'
                         })
                     })
+                }),
+                maxLoadout : new fields.NumberField({
+                    integer: true,
+                    initial: 0,
+                    label: 'DAGGERHEART.GENERAL.Bonuses.maxLoadout.label'
                 })
             }),
             companion: new ForeignDocumentUUIDField({ type: 'Actor', nullable: true, initial: null }),
@@ -319,6 +324,17 @@ export default class DhCharacter extends BaseDataActor {
             vault: vault,
             total: [...loadout, ...vault]
         };
+    }
+
+    get loadoutSlot() {
+        const loadoutCount = this.domainCards.loadout?.length ?? 0,
+            max = game.settings.get(CONFIG.DH.id, CONFIG.DH.SETTINGS.gameSettings.Homebrew).maxLoadout + this.bonuses.maxLoadout;
+
+        return {
+            current: loadoutCount,
+            available: Math.max(max - loadoutCount, 0),
+            max
+        }
     }
 
     get armor() {

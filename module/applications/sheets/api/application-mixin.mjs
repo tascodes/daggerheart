@@ -310,6 +310,10 @@ export default function DHApplicationMixin(Base) {
                 options.unshift({
                     name: 'DAGGERHEART.APPLICATIONS.ContextMenu.useItem',
                     icon: 'fa-solid fa-burst',
+                    condition: target => {
+                        const doc = getDocFromElement(target);
+                        return !(doc.type === 'domainCard' && doc.system.inVault)
+                    },
                     callback: (target, event) => getDocFromElement(target).use(event)
                 });
 
