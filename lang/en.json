@@ -713,7 +713,7 @@
                     "abbreviation": "HO"
                 },
                 "armorStack": {
-                    "name": "Armor Stack",
+                    "name": "Armor Slot",
                     "abbreviation": "AS"
                 },
                 "fear": {
@@ -1029,6 +1029,9 @@
                 },
                 "damageRoll": {
                     "name": "Damage Roll"
+                },
+                "healingRoll": {
+                    "name": "Healing Roll"
                 }
             },
             "Duration": {
@@ -1671,8 +1674,9 @@
                     "subclassFeatureTitle": "Subclass Feature"
                 },
                 "healingRoll": {
-                    "title": "Heal - {healing}",
-                    "heal": "Heal"
+                    "title": "Heal - {damage}",
+                    "heal": "Heal",
+                    "applyHealing": "Apply Healing"
                 },
                 "reroll": {
                     "confirmTitle": "Reroll Dice",
