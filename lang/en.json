@@ -716,7 +716,7 @@
                     "name": "Hope",
                     "abbreviation": "HO"
                 },
-                "armorStack": {
+                "armorSlot": {
                     "name": "Armor Slot",
                     "abbreviation": "AS"
                 },
@@ -1381,6 +1381,7 @@
             "imagePath": "Image Path",
             "inactiveEffects": "Inactive Effects",
             "inventory": "Inventory",
+            "itemResource": "Item Resource",
             "level": "Level",
             "levelUp": "Level Up",
             "loadout": "Loadout",
