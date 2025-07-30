@@ -235,3 +235,48 @@ Hooks.on('renderJournalDirectory', async (tab, html, _, options) => {
         };
     }
 });
+
+Hooks.on('moveToken', async (movedToken, data) => {
+    const effectsAutomation = game.settings.get(CONFIG.DH.id, CONFIG.DH.SETTINGS.gameSettings.Automation).effects;
+    if (!effectsAutomation.rangeDependent) return;
+
+    const rangeDependantEffects = movedToken.actor.effects.filter(effect => effect.system.rangeDependence.enabled);
+
+    const updateEffects = async (disposition, token, effects, effectUpdates) => {
+        const rangeMeasurement = game.settings.get(CONFIG.DH.id, CONFIG.DH.SETTINGS.gameSettings.RangeMeasurement);
+
+        for (let effect of effects.filter(x => x.system.rangeDependence.enabled)) {
+            const { target, range, type } = effect.system.rangeDependence;
+            if ((target === 'friendly' && disposition !== 1) || (target === 'hostile' && disposition !== -1))
+                return false;
+
+            const distanceBetween = canvas.grid.measurePath([
+                { ...movedToken.toObject(), x: data.destination.x, y: data.destination.y },
+                token
+            ]).distance;
+            const distance = rangeMeasurement[range];
+
+            const reverse = type === CONFIG.DH.GENERAL.rangeInclusion.outsideRange.id;
+            const newDisabled = reverse ? distanceBetween <= distance : distanceBetween > distance;
+            const oldDisabled = effectUpdates[effect.uuid] ? effectUpdates[effect.uuid].disabled : newDisabled;
+            effectUpdates[effect.uuid] = {
+                disabled: oldDisabled || newDisabled,
+                value: effect
+            };
+        }
+    };
+
+    const effectUpdates = {};
+    for (let token of game.scenes.find(x => x.active).tokens) {
+        if (token.id !== movedToken.id) {
+            await updateEffects(token.disposition, token, rangeDependantEffects, effectUpdates);
+        }
+
+        if (token.actor) await updateEffects(movedToken.disposition, token, token.actor.effects, effectUpdates);
+    }
+
+    for (let key in effectUpdates) {
+        const effect = effectUpdates[key];
+        await effect.value.update({ disabled: effect.disabled });
+    }
+});

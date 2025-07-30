@@ -43,6 +43,40 @@ export const range = {
     }
 };
 
+export const rangeInclusion = {
+    withinRange: {
+        id: 'withinRange',
+        label: 'DAGGERHEART.CONFIG.RangeInclusion.withinRange'
+    },
+    outsideRange: {
+        id: 'outsideRange',
+        label: 'DAGGERHEART.CONFIG.RangeInclusion.outsideRange'
+    }
+};
+
+export const otherTargetTypes = {
+    friendly: {
+        id: 'friendly',
+        label: 'Friendly'
+    },
+    hostile: {
+        id: 'hostile',
+        label: 'Hostile'
+    },
+    any: {
+        id: 'any',
+        label: 'Any'
+    }
+};
+
+export const targetTypes = {
+    self: {
+        id: 'self',
+        label: 'Self'
+    },
+    ...otherTargetTypes
+};
+
 export const burden = {
     oneHanded: {
         value: 'oneHanded',
