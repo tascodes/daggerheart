@@ -41,7 +41,7 @@ export default class RegisterHandlebarsHelpers {
     }
 
     static formulaValue(formula, item) {
-        if(isNaN(formula)) {
+        if (isNaN(formula)) {
             const data = item.getRollData.bind(item)(),
                 roll = new Roll(Roll.replaceFormulaData(formula, data)).evaluateSync();
             formula = roll.total;

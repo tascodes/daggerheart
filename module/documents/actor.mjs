@@ -481,7 +481,9 @@ export default class DhpActor extends Actor {
                 this.system.armor &&
                 this.#canReduceDamage(hpDamage.value, hpDamage.damageTypes)
             ) {
-                const armorSlotResult = await this.owner.query('armorSlot', {
+                const armorSlotResult = await this.owner.query(
+                    'armorSlot',
+                    {
                         actorId: this.uuid,
                         damage: hpDamage.value,
                         type: [...hpDamage.damageTypes]
@@ -569,7 +571,7 @@ export default class DhpActor extends Actor {
             armor: { target: this.system.armor, resources: {} },
             items: {}
         };
-        
+
         resources.forEach(r => {
             if (r.keyIsID) {
                 updates.items[r.key] = {

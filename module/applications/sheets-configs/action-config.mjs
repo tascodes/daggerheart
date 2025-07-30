@@ -133,7 +133,7 @@ export default class DHActionConfig extends DaggerheartSheet(ApplicationV2) {
         const resource = this.action.parent.resource;
         if (resource) {
             options[this.action.parent.parent.id] = {
-                label: "DAGGERHEART.GENERAL.itemResource",
+                label: 'DAGGERHEART.GENERAL.itemResource',
                 group: 'Global'
             };
         }
@@ -143,10 +143,10 @@ export default class DHActionConfig extends DaggerheartSheet(ApplicationV2) {
 
     getRollTypeOptions() {
         const types = foundry.utils.deepClone(CONFIG.DH.GENERAL.rollTypes);
-        if(!this.action.actor) return types;
+        if (!this.action.actor) return types;
         Object.values(types).forEach(t => {
-            if(this.action.actor.type !== 'character' && t.playerOnly) delete types[t.id];
-        })
+            if (this.action.actor.type !== 'character' && t.playerOnly) delete types[t.id];
+        });
         return types;
     }
 

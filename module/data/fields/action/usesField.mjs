@@ -1,4 +1,4 @@
-import FormulaField from "../formulaField.mjs";
+import FormulaField from '../formulaField.mjs';
 
 const fields = foundry.data.fields;
 
@@ -36,7 +36,7 @@ export default class UsesField extends fields.SchemaField {
     static hasUses(uses) {
         if (!uses) return true;
         let max = uses.max ?? 0;
-        if(isNaN(max)) {
+        if (isNaN(max)) {
             const roll = new Roll(Roll.replaceFormulaData(uses.max, this.getRollData())).evaluateSync();
             max = roll.total;
         }
