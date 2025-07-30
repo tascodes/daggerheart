@@ -123,26 +123,21 @@ export default class BaseDataItem extends foundry.abstract.TypeDataModel {
 
             this.updateSource({ actions: [action] });
         }
-    }
 
-    _onCreate(data, _, userId) {
-        if (userId !== game.user.id) return;
-
-        if (!this.actor || this.actor.type !== 'character' || !this.features) return;
-
-        this.actor.createEmbeddedDocuments(
-            'Item',
-            this.features.map(feature => ({
-                ...(feature.item ?? feature),
-                system: {
-                    ...(feature.item?.system ?? feature.system),
-                    originItemType: this.parent.type,
-                    originId: data._id,
-                    identifier: feature.identifier,
-                    subType: feature.item ? feature.type : undefined
-                }
-            }))
-        );
+        if (this.actor && this.actor.type === 'character' && this.features) {
+            for (let f of this.features) {
+                const feature = f.item ?? f;
+                const createData = foundry.utils.mergeObject(feature.toObject(), {
+                    system: {
+                        originItemType: this.parent.type,
+                        originId: data._id,
+                        identifier: feature.identifier,
+                        subType: feature.item ? feature.type : undefined
+                    }
+                }, { inplace: false });
+                await this.actor.createEmbeddedDocuments('Item', [createData]);
+            }
+        }
     }
 
     async _preDelete() {
