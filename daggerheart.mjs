@@ -187,12 +187,15 @@ Hooks.on('renderHandlebarsApplication', (_, element) => {
 
 Hooks.on('chatMessage', (_, message) => {
     if (message.startsWith('/dr')) {
-        const rollCommand = rollCommandToJSON(message.replace(/\/dr\s?/, ''));
-        if (!rollCommand) {
+        const result = rollCommandToJSON(message.replace(/\/dr\s?/, ''));
+        if (!result) {
             ui.notifications.error(game.i18n.localize('DAGGERHEART.UI.Notifications.dualityParsing'));
             return false;
         }
 
+        const { result: rollCommand, flavor } = result;
+
+        const reaction = rollCommand.reaction;
         const traitValue = rollCommand.trait?.toLowerCase();
         const advantage = rollCommand.advantage
             ? CONFIG.DH.ACTIONS.advantageState.advantage.value
@@ -208,7 +211,16 @@ Hooks.on('chatMessage', (_, message) => {
               })
             : game.i18n.localize('DAGGERHEART.GENERAL.duality');
 
-        enrichedDualityRoll({ traitValue, target, difficulty, title, label: 'test', actionType: null, advantage });
+        enrichedDualityRoll({
+            reaction,
+            traitValue,
+            target,
+            difficulty,
+            title,
+            label: 'test',
+            actionType: null,
+            advantage
+        });
         return false;
     }
 });
