@@ -1,10 +1,10 @@
 {
-  "name": "Patchwork Zombie Hulk",
+  "name": "Acid Burrower",
   "img": "icons/svg/mystery-man.svg",
   "type": "adversary",
   "folder": "sxvlEwi25uAoB2C5",
   "system": {
-    "difficulty": 13,
+    "difficulty": 14,
     "damageThresholds": {
       "major": 8,
       "severe": 15
@@ -12,7 +12,7 @@
     "resources": {
       "hitPoints": {
         "value": 0,
-        "max": 10,
+        "max": 8,
         "isReversed": true
       },
       "stress": {
@@ -21,7 +21,7 @@
         "isReversed": true
       }
     },
-    "motivesAndTactics": "Absorb corpses, flail, hunger, terrify",
+    "motivesAndTactics": "Burrow, drag away, feed, reposition",
     "resistance": {
       "physical": {
         "resistance": false,
@@ -38,12 +38,8 @@
     "notes": "",
     "hordeHp": 1,
     "experiences": {
-      "rLPEhboQmaD7QV7T": {
-        "name": "Intimidation",
-        "value": 2
-      },
-      "ejtjcqd5oW6eKnav": {
-        "name": "Tear Things Apart",
+      "pe7OIoJsqlpMXEvs": {
+        "name": "Tremor Sense",
         "value": 2
       }
     },
@@ -74,12 +70,24 @@
       }
     },
     "tier": 1,
-    "description": "<p>A towering gestalt of corpses moving as one, with torso-sized limbs and fists as large as a grown halfling.</p>",
+    "description": "<p>A horse-sized insect with digging claws and acidic blood.</p>",
     "attack": {
-      "name": "Too Many Arms",
+      "name": "Claws",
       "range": "veryClose",
       "roll": {
-        "bonus": 4
+        "bonus": 3,
+        "type": "attack",
+        "trait": null,
+        "difficulty": null,
+        "advState": "neutral",
+        "diceRolling": {
+          "multiplier": "prof",
+          "flatMultiplier": 1,
+          "dice": "d6",
+          "compare": null,
+          "treshold": null
+        },
+        "useDefault": false
       },
       "damage": {
         "parts": [
@@ -88,8 +96,8 @@
               "custom": {
                 "enabled": false
               },
-              "dice": "d20",
-              "bonus": null,
+              "dice": "d12",
+              "bonus": 2,
               "multiplier": "flat",
               "flatMultiplier": 1
             },
@@ -109,9 +117,32 @@
             },
             "base": false
           }
-        ]
+        ],
+        "includeBase": false
       },
-      "img": "icons/commodities/biological/hand-clawed-blue.webp"
+      "_id": "TCKVaVweyJzhEArX",
+      "systemPath": "actions",
+      "type": "",
+      "description": "",
+      "img": "icons/creatures/claws/claw-curved-jagged-yellow.webp",
+      "chatDisplay": true,
+      "actionType": "action",
+      "cost": [],
+      "uses": {
+        "value": null,
+        "max": null,
+        "recovery": null
+      },
+      "target": {
+        "type": "any",
+        "amount": 1
+      },
+      "effects": [],
+      "save": {
+        "trait": null,
+        "difficulty": null,
+        "damageMod": "none"
+      }
     }
   },
   "flags": {},
@@ -122,19 +153,18 @@
     "coreVersion": "13.346",
     "systemId": "daggerheart",
     "systemVersion": "0.0.1",
-    "createdTime": 1753922784322,
-    "modifiedTime": 1754051426324,
+    "createdTime": 1754010222829,
+    "modifiedTime": 1754010222919,
     "lastModifiedBy": "MQSznptE5yLT7kj8"
   },
-  "_id": "EQTOAOUrkIvS2z88",
-  "sort": 2500000,
   "ownership": {
     "default": 0,
     "ei8OkswTzyDp4IGC": 3,
-    "WafZqd6qLGpBRGTt": 3
+    "WafZqd6qLGpBRGTt": 3,
+    "MQSznptE5yLT7kj8": 3
   },
   "prototypeToken": {
-    "name": "Patchwork Zombie Hulk",
+    "name": "Acid Burrower",
     "displayName": 0,
     "actorLink": false,
     "width": 1,
@@ -229,12 +259,12 @@
   },
   "items": [
     {
-      "name": "Destructible",
+      "name": "Relentless (3)",
       "type": "feature",
-      "_id": "rEJ1kAfhHQZWhrZj",
-      "img": "icons/commodities/biological/hand-clawed-tan.webp",
+      "_id": "MFmGN6Tbf5GYxrQ9",
+      "img": "icons/magic/unholy/silhouette-evil-horned-giant.webp",
       "system": {
-        "description": "<p>When the Zombie takes Major or greater damage, they mark an additional HP.</p>",
+        "description": "<p>The Burrower can be spotlighted up to three times per GM turn. Spend Fear as usual to spotlight them.</p>",
         "resource": null,
         "actions": {},
         "originItemType": null,
@@ -256,185 +286,22 @@
         "coreVersion": "13.346",
         "systemId": "daggerheart",
         "systemVersion": "0.0.1",
-        "createdTime": 1754051427428,
-        "modifiedTime": 1754051450294,
-        "lastModifiedBy": "MQSznptE5yLT7kj8"
+        "lastModifiedBy": null
       },
-      "_key": "!actors.items!EQTOAOUrkIvS2z88.rEJ1kAfhHQZWhrZj"
+      "_key": "!actors.items!89yAh30vaNQOALlz.MFmGN6Tbf5GYxrQ9"
     },
     {
-      "name": "Flailing Limbs",
+      "name": "Earth Eruption",
       "type": "feature",
-      "_id": "0fn7rVLwBnyCyvTA",
-      "img": "icons/skills/melee/strike-slashes-orange.webp",
+      "_id": "ctXYwil2D1zfsekT",
+      "img": "icons/magic/earth/barrier-stone-explosion-red.webp",
       "system": {
-        "description": "<p>When the Zombie makes a standard attack, they can attack all targets within Very Close range.</p><p>@Template[type:emanation|range:vc]</p>",
-        "resource": null,
-        "actions": {},
-        "originItemType": null,
-        "subType": null,
-        "originId": null
-      },
-      "effects": [],
-      "folder": null,
-      "sort": 0,
-      "ownership": {
-        "default": 0,
-        "MQSznptE5yLT7kj8": 3
-      },
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.346",
-        "systemId": "daggerheart",
-        "systemVersion": "0.0.1",
-        "createdTime": 1754051453609,
-        "modifiedTime": 1754051485833,
-        "lastModifiedBy": "MQSznptE5yLT7kj8"
-      },
-      "_key": "!actors.items!EQTOAOUrkIvS2z88.0fn7rVLwBnyCyvTA"
-    },
-    {
-      "name": "Another for the Pile",
-      "type": "feature",
-      "_id": "gw1Z2VazlRXYCiCK",
-      "img": "icons/magic/death/skull-trio-badge-purple.webp",
-      "system": {
-        "description": "<p>When the Zombie is within Very Close range of a corpse, they can incorporate it into themselves, clearing a HP and a Stress.</p>",
+        "description": "<p><strong>Mark a Stress</strong> to have the Burrower burst out of the ground. All creatures within Very Close range must succeed on an Agility Reaction Roll or be knocked over, making them Vulnerable until they next act.</p><p>@Template[type:emanation|range:vc]</p>",
         "resource": null,
         "actions": {
-          "PfaFRZKFnHGg6mU4": {
-            "type": "healing",
-            "_id": "PfaFRZKFnHGg6mU4",
-            "systemPath": "actions",
-            "description": "",
-            "chatDisplay": true,
-            "actionType": "action",
-            "cost": [],
-            "uses": {
-              "value": null,
-              "max": "",
-              "recovery": null
-            },
-            "damage": {
-              "parts": [
-                {
-                  "value": {
-                    "custom": {
-                      "enabled": true,
-                      "formula": "1"
-                    },
-                    "multiplier": "flat",
-                    "flatMultiplier": 1,
-                    "dice": "d6",
-                    "bonus": null
-                  },
-                  "applyTo": "hitPoints",
-                  "base": false,
-                  "resultBased": false,
-                  "valueAlt": {
-                    "multiplier": "prof",
-                    "flatMultiplier": 1,
-                    "dice": "d6",
-                    "bonus": null,
-                    "custom": {
-                      "enabled": false
-                    }
-                  },
-                  "type": []
-                },
-                {
-                  "value": {
-                    "custom": {
-                      "enabled": true,
-                      "formula": "1"
-                    },
-                    "multiplier": "flat",
-                    "flatMultiplier": 1,
-                    "dice": "d6",
-                    "bonus": null
-                  },
-                  "applyTo": "stress",
-                  "base": false,
-                  "resultBased": false,
-                  "valueAlt": {
-                    "multiplier": "prof",
-                    "flatMultiplier": 1,
-                    "dice": "d6",
-                    "bonus": null,
-                    "custom": {
-                      "enabled": false
-                    }
-                  },
-                  "type": []
-                }
-              ],
-              "includeBase": false
-            },
-            "target": {
-              "type": "self",
-              "amount": null
-            },
-            "effects": [],
-            "roll": {
-              "type": null,
-              "trait": null,
-              "difficulty": null,
-              "bonus": null,
-              "advState": "neutral",
-              "diceRolling": {
-                "multiplier": "prof",
-                "flatMultiplier": 1,
-                "dice": "d6",
-                "compare": null,
-                "treshold": null
-              },
-              "useDefault": false
-            },
-            "name": "Heal",
-            "img": "icons/magic/death/skull-trio-badge-purple.webp",
-            "range": ""
-          }
-        },
-        "originItemType": null,
-        "subType": null,
-        "originId": null
-      },
-      "effects": [],
-      "folder": null,
-      "sort": 0,
-      "ownership": {
-        "default": 0,
-        "MQSznptE5yLT7kj8": 3
-      },
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.346",
-        "systemId": "daggerheart",
-        "systemVersion": "0.0.1",
-        "createdTime": 1754051528475,
-        "modifiedTime": 1754051573226,
-        "lastModifiedBy": "MQSznptE5yLT7kj8"
-      },
-      "_key": "!actors.items!EQTOAOUrkIvS2z88.gw1Z2VazlRXYCiCK"
-    },
-    {
-      "name": "Tormented Screams",
-      "type": "feature",
-      "_id": "uTtQwNg46NAjgzuD",
-      "img": "icons/magic/death/skeleton-skull-soul-blue.webp",
-      "system": {
-        "description": "<p><strong>Mark a Stress</strong> to cause all PCs within Far range to make a Presence Reaction Roll (13). Targets who fail lose a Hope and you gain a Fear for each. Targets who succeed must mark a Stress.</p><p>@Template[type:emanation|range:f]</p>",
-        "resource": null,
-        "actions": {
-          "2NYC0D7wkBNrUAKl": {
+          "4ppSeiTdbqnMzWAs": {
             "type": "attack",
-            "_id": "2NYC0D7wkBNrUAKl",
+            "_id": "4ppSeiTdbqnMzWAs",
             "systemPath": "actions",
             "description": "",
             "chatDisplay": true,
@@ -454,7 +321,163 @@
               "recovery": null
             },
             "damage": {
+              "parts": [],
+              "includeBase": false
+            },
+            "target": {
+              "type": "any",
+              "amount": null
+            },
+            "effects": [
+              {
+                "_id": "9PsnogEPsp1OOK64",
+                "onSave": false
+              }
+            ],
+            "roll": {
+              "type": null,
+              "trait": null,
+              "difficulty": null,
+              "bonus": null,
+              "advState": "neutral",
+              "diceRolling": {
+                "multiplier": "prof",
+                "flatMultiplier": 1,
+                "dice": "d6",
+                "compare": null,
+                "treshold": null
+              },
+              "useDefault": false
+            },
+            "save": {
+              "trait": "agility",
+              "difficulty": null,
+              "damageMod": "none"
+            },
+            "name": "Use",
+            "img": "icons/magic/earth/barrier-stone-explosion-red.webp",
+            "range": "veryClose"
+          }
+        },
+        "originItemType": null,
+        "subType": null,
+        "originId": null
+      },
+      "effects": [
+        {
+          "name": "Earth Eruption",
+          "img": "icons/magic/earth/barrier-stone-explosion-red.webp",
+          "origin": "Compendium.daggerheart.adversaries.Actor.aKVLLjMb35om4QbJ.Item.ctXYwil2D1zfsekT",
+          "transfer": false,
+          "_id": "9PsnogEPsp1OOK64",
+          "type": "base",
+          "system": {
+            "rangeDependence": {
+              "enabled": false,
+              "type": "withinRange",
+              "target": "hostile",
+              "range": "melee"
+            }
+          },
+          "changes": [],
+          "disabled": false,
+          "duration": {
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "description": "",
+          "tint": "#ffffff",
+          "statuses": [
+            "vulnerable"
+          ],
+          "sort": 0,
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.346",
+            "systemId": "daggerheart",
+            "systemVersion": "0.0.1",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!89yAh30vaNQOALlz.ctXYwil2D1zfsekT.9PsnogEPsp1OOK64"
+        }
+      ],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "MQSznptE5yLT7kj8": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "daggerheart",
+        "systemVersion": "0.0.1",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!89yAh30vaNQOALlz.ctXYwil2D1zfsekT"
+    },
+    {
+      "name": "Spit Acid",
+      "type": "feature",
+      "_id": "UpFsnlbZkyvM2Ftv",
+      "img": "icons/magic/acid/projectile-smoke-glowing.webp",
+      "system": {
+        "description": "<p>Make an attack against all targets in front of the Burrower within Close range. Targets the Burrower succeeds against take <strong>2d6</strong> physical damage and must mark an Armor Slot without receiving its benefi ts (they can still use armor to reduce the damage). If they can’t mark an Armor Slot, they must mark an additional HP and you gain a Fear.</p><p>@Template[type:inFront|range:c]</p>",
+        "resource": null,
+        "actions": {
+          "yd10HwK6Wa3OEvv2": {
+            "type": "attack",
+            "_id": "yd10HwK6Wa3OEvv2",
+            "systemPath": "actions",
+            "description": "",
+            "chatDisplay": true,
+            "actionType": "action",
+            "cost": [],
+            "uses": {
+              "value": null,
+              "max": "",
+              "recovery": null
+            },
+            "damage": {
               "parts": [
+                {
+                  "value": {
+                    "custom": {
+                      "enabled": true,
+                      "formula": "2d6"
+                    },
+                    "multiplier": "flat",
+                    "flatMultiplier": 1,
+                    "dice": "d6",
+                    "bonus": null
+                  },
+                  "applyTo": "hitPoints",
+                  "type": [
+                    "physical"
+                  ],
+                  "base": false,
+                  "resultBased": false,
+                  "valueAlt": {
+                    "multiplier": "prof",
+                    "flatMultiplier": 1,
+                    "dice": "d6",
+                    "bonus": null,
+                    "custom": {
+                      "enabled": false
+                    }
+                  }
+                },
                 {
                   "value": {
                     "custom": {
@@ -466,7 +489,7 @@
                     "dice": "d6",
                     "bonus": null
                   },
-                  "applyTo": "hope",
+                  "applyTo": "armorSlot",
                   "base": false,
                   "resultBased": false,
                   "valueAlt": {
@@ -489,7 +512,7 @@
             },
             "effects": [],
             "roll": {
-              "type": null,
+              "type": "attack",
               "trait": null,
               "difficulty": null,
               "bonus": null,
@@ -504,13 +527,13 @@
               "useDefault": false
             },
             "save": {
-              "trait": "presence",
+              "trait": null,
               "difficulty": null,
               "damageMod": "none"
             },
-            "name": "Mark Stress",
-            "img": "icons/magic/death/skeleton-skull-soul-blue.webp",
-            "range": "far"
+            "name": "Attack",
+            "img": "icons/magic/acid/projectile-smoke-glowing.webp",
+            "range": "close"
           }
         },
         "originItemType": null,
@@ -532,13 +555,155 @@
         "coreVersion": "13.346",
         "systemId": "daggerheart",
         "systemVersion": "0.0.1",
-        "createdTime": 1754051580022,
-        "modifiedTime": 1754051676926,
-        "lastModifiedBy": "MQSznptE5yLT7kj8"
+        "lastModifiedBy": "MQSznptE5yLT7kj8",
+        "modifiedTime": 1754012083498
       },
-      "_key": "!actors.items!EQTOAOUrkIvS2z88.uTtQwNg46NAjgzuD"
+      "_key": "!actors.items!89yAh30vaNQOALlz.UpFsnlbZkyvM2Ftv"
+    },
+    {
+      "name": "Acid Bath",
+      "type": "feature",
+      "_id": "aNIVT5LKhwLyjKpI",
+      "img": "icons/magic/acid/dissolve-drip-droplet-smoke.webp",
+      "system": {
+        "description": "<p>When the Burrower takes Severe damage, all creatures within Close range are bathed in their acidic blood, taking <strong>1d10</strong> physical damage. This splash covers the ground within Very Close range with blood, and all creatures other than the Burrower who move through it take <strong>1d6</strong> physical damage.</p><p>@Template[type:emanation|range:c]</p>",
+        "resource": null,
+        "actions": {
+          "XbtTzOBvlTaxOKTy": {
+            "type": "damage",
+            "_id": "XbtTzOBvlTaxOKTy",
+            "systemPath": "actions",
+            "description": "",
+            "chatDisplay": true,
+            "actionType": "action",
+            "cost": [],
+            "uses": {
+              "value": null,
+              "max": "",
+              "recovery": null
+            },
+            "damage": {
+              "parts": [
+                {
+                  "value": {
+                    "custom": {
+                      "enabled": true,
+                      "formula": "1d10"
+                    },
+                    "multiplier": "flat",
+                    "flatMultiplier": 1,
+                    "dice": "d6",
+                    "bonus": null
+                  },
+                  "applyTo": "hitPoints",
+                  "type": [
+                    "physical"
+                  ],
+                  "base": false,
+                  "resultBased": false,
+                  "valueAlt": {
+                    "multiplier": "prof",
+                    "flatMultiplier": 1,
+                    "dice": "d6",
+                    "bonus": null,
+                    "custom": {
+                      "enabled": false
+                    }
+                  }
+                }
+              ],
+              "includeBase": false
+            },
+            "target": {
+              "type": "any",
+              "amount": null
+            },
+            "effects": [],
+            "name": "Splash",
+            "img": "icons/magic/acid/dissolve-drip-droplet-smoke.webp",
+            "range": "close"
+          },
+          "xpcp1ECTWF20kxve": {
+            "type": "damage",
+            "_id": "xpcp1ECTWF20kxve",
+            "systemPath": "actions",
+            "description": "",
+            "chatDisplay": true,
+            "actionType": "action",
+            "cost": [],
+            "uses": {
+              "value": null,
+              "max": "",
+              "recovery": null
+            },
+            "damage": {
+              "parts": [
+                {
+                  "value": {
+                    "custom": {
+                      "enabled": true,
+                      "formula": "1d6"
+                    },
+                    "multiplier": "flat",
+                    "flatMultiplier": 1,
+                    "dice": "d6",
+                    "bonus": null
+                  },
+                  "applyTo": "hitPoints",
+                  "type": [
+                    "physical"
+                  ],
+                  "base": false,
+                  "resultBased": false,
+                  "valueAlt": {
+                    "multiplier": "prof",
+                    "flatMultiplier": 1,
+                    "dice": "d6",
+                    "bonus": null,
+                    "custom": {
+                      "enabled": false
+                    }
+                  }
+                }
+              ],
+              "includeBase": false
+            },
+            "target": {
+              "type": "any",
+              "amount": null
+            },
+            "effects": [],
+            "name": "Acid Ground",
+            "img": "icons/magic/acid/dissolve-pool-bubbles.webp",
+            "range": ""
+          }
+        },
+        "originItemType": null,
+        "subType": null,
+        "originId": null
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "MQSznptE5yLT7kj8": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "daggerheart",
+        "systemVersion": "0.0.1",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!89yAh30vaNQOALlz.aNIVT5LKhwLyjKpI"
     }
   ],
   "effects": [],
-  "_key": "!actors!EQTOAOUrkIvS2z88"
+  "_id": "89yAh30vaNQOALlz",
+  "sort": 500000,
+  "_key": "!actors!89yAh30vaNQOALlz"
 }
