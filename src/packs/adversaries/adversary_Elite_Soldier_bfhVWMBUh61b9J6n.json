@@ -1,13 +1,13 @@
 {
-  "name": "Spy",
+  "name": "Elite Soldier",
   "img": "icons/svg/mystery-man.svg",
   "type": "adversary",
   "folder": "OgzrmfH1ZbpljX7k",
   "system": {
     "difficulty": 15,
     "damageThresholds": {
-      "major": 8,
-      "severe": 17
+      "major": 9,
+      "severe": 18
     },
     "resources": {
       "hitPoints": {
@@ -21,6 +21,7 @@
         "isReversed": true
       }
     },
+    "motivesAndTactics": "Gain glory, keep order, make alliances",
     "resistance": {
       "physical": {
         "resistance": false,
@@ -33,16 +34,10 @@
         "reduction": 0
       }
     },
-    "type": "social",
+    "type": "standard",
     "notes": "",
     "hordeHp": 1,
-    "experiences": {
-      "EhtLh4vyQvoZaL83": {
-        "name": "Espionage",
-        "description": "",
-        "value": 3
-      }
-    },
+    "experiences": {},
     "bonuses": {
       "roll": {
         "attack": {
@@ -70,12 +65,37 @@
       }
     },
     "tier": 2,
-    "description": "<p>A skilled espionage agent with a knack for being in the right place to overhear secrets.</p>",
-    "motivesAndTactics": "Cut and run, disguise appearance, eavesdrop",
+    "description": "<p>An armored squire or experienced commoner looking to advance.</p>",
     "attack": {
-      "name": "Dagger",
+      "name": "Spear",
+      "range": "veryClose",
       "roll": {
-        "bonus": -2
+        "bonus": 1,
+        "type": null,
+        "trait": null,
+        "difficulty": null,
+        "advState": "neutral",
+        "diceRolling": {
+          "multiplier": "prof",
+          "flatMultiplier": 1,
+          "dice": "d6",
+          "compare": null,
+          "treshold": null
+        },
+        "useDefault": false
+      },
+      "img": "icons/weapons/polearms/spear-flared-steel.webp",
+      "_id": "jmrgFi8AUL6LTbtU",
+      "systemPath": "actions",
+      "type": "",
+      "description": "",
+      "chatDisplay": true,
+      "actionType": "action",
+      "cost": [],
+      "uses": {
+        "value": null,
+        "max": null,
+        "recovery": null
       },
       "damage": {
         "parts": [
@@ -85,8 +105,8 @@
                 "enabled": false
               },
               "flatMultiplier": 2,
-              "dice": "d6",
-              "bonus": 3,
+              "dice": "d8",
+              "bonus": 4,
               "multiplier": "flat"
             },
             "applyTo": "hitPoints",
@@ -105,10 +125,19 @@
             },
             "base": false
           }
-        ]
+        ],
+        "includeBase": false
       },
-      "img": "icons/weapons/daggers/dagger-curved-purple.webp",
-      "range": ""
+      "target": {
+        "type": "any",
+        "amount": null
+      },
+      "effects": [],
+      "save": {
+        "trait": null,
+        "difficulty": null,
+        "damageMod": "none"
+      }
     }
   },
   "flags": {},
@@ -119,19 +148,18 @@
     "coreVersion": "13.346",
     "systemId": "daggerheart",
     "systemVersion": "0.0.1",
-    "createdTime": 1753922784354,
-    "modifiedTime": 1754090770938,
+    "createdTime": 1754090776362,
+    "modifiedTime": 1754090776362,
     "lastModifiedBy": "MQSznptE5yLT7kj8"
   },
-  "_id": "8zlynOhnVA59KpKT",
-  "sort": 1100000,
   "ownership": {
     "default": 0,
     "ei8OkswTzyDp4IGC": 3,
-    "WafZqd6qLGpBRGTt": 3
+    "WafZqd6qLGpBRGTt": 3,
+    "MQSznptE5yLT7kj8": 3
   },
   "prototypeToken": {
-    "name": "Spy",
+    "name": "Elite Soldier",
     "displayName": 0,
     "actorLink": false,
     "width": 1,
@@ -226,15 +254,15 @@
   },
   "items": [
     {
-      "name": "Gathering Secrets",
+      "name": "Reinforce",
       "type": "feature",
       "system": {
-        "description": "<p><strong>Spend a Fear</strong> to describe how the Spy knows a secret about a PC in the scene.</p>",
+        "description": "<p><strong>Mark a Stress</strong> to move into Melee range of an ally and make a standard attack against a target within Very Close range. On a success, deal <strong>2d10+2</strong> physical damage and the ally can clear a Stress.</p>",
         "resource": null,
         "actions": {
-          "iq5KzP5hgA4377fO": {
-            "type": "effect",
-            "_id": "iq5KzP5hgA4377fO",
+          "XquYMA2xJZUKSmXQ": {
+            "type": "attack",
+            "_id": "XquYMA2xJZUKSmXQ",
             "systemPath": "actions",
             "description": "",
             "chatDisplay": true,
@@ -242,7 +270,7 @@
             "cost": [
               {
                 "scalable": false,
-                "key": "fear",
+                "key": "stress",
                 "value": 1,
                 "keyIsID": false,
                 "step": null
@@ -253,21 +281,72 @@
               "max": "",
               "recovery": null
             },
-            "effects": [],
+            "damage": {
+              "parts": [
+                {
+                  "value": {
+                    "custom": {
+                      "enabled": false
+                    },
+                    "flatMultiplier": 2,
+                    "dice": "d10",
+                    "bonus": 2,
+                    "multiplier": "flat"
+                  },
+                  "applyTo": "hitPoints",
+                  "type": [
+                    "physical"
+                  ],
+                  "base": false,
+                  "resultBased": false,
+                  "valueAlt": {
+                    "multiplier": "prof",
+                    "flatMultiplier": 1,
+                    "dice": "d6",
+                    "bonus": null,
+                    "custom": {
+                      "enabled": false
+                    }
+                  }
+                }
+              ],
+              "includeBase": false
+            },
             "target": {
-              "type": "self",
+              "type": "any",
               "amount": null
             },
-            "name": "Spend Fear",
-            "img": "icons/magic/perception/orb-eye-scrying.webp",
+            "effects": [],
+            "roll": {
+              "type": "attack",
+              "trait": null,
+              "difficulty": null,
+              "bonus": null,
+              "advState": "neutral",
+              "diceRolling": {
+                "multiplier": "prof",
+                "flatMultiplier": 1,
+                "dice": "d6",
+                "compare": null,
+                "treshold": null
+              },
+              "useDefault": false
+            },
+            "save": {
+              "trait": null,
+              "difficulty": null,
+              "damageMod": "none"
+            },
+            "name": "Mark Stress",
+            "img": "icons/skills/melee/hand-grip-sword-orange.webp",
             "range": ""
           }
         },
         "originItemType": null,
         "originId": null
       },
-      "_id": "csCWQuSqic5ckHeO",
-      "img": "icons/magic/perception/orb-eye-scrying.webp",
+      "_id": "ojiIZHBd0sMLxSUE",
+      "img": "icons/skills/melee/hand-grip-sword-orange.webp",
       "effects": [],
       "folder": null,
       "sort": 0,
@@ -283,22 +362,20 @@
         "coreVersion": "13.346",
         "systemId": "daggerheart",
         "systemVersion": "0.0.1",
-        "createdTime": 1754084722024,
-        "modifiedTime": 1754084779191,
-        "lastModifiedBy": "MQSznptE5yLT7kj8"
+        "lastModifiedBy": null
       },
-      "_key": "!actors.items!8zlynOhnVA59KpKT.csCWQuSqic5ckHeO"
+      "_key": "!actors.items!bfhVWMBUh61b9J6n.ojiIZHBd0sMLxSUE"
     },
     {
-      "name": "Fly on the Wall",
+      "name": "Vassal's Loyalty",
       "type": "feature",
       "system": {
-        "description": "<p>When a PC or group is discussing something sensitive, you can <strong>mark a Stress</strong> to reveal that the Spy is present in the scene, observing them. If the Spy escapes the scene to report their findings, you gain <strong>1d4</strong> Fear.</p>",
+        "description": "<p>When the Soldier is within Very Close range of a knight or other noble who would take damage, you can mark a Stress to move into Melee range of them and take the damage instead.</p>",
         "resource": null,
         "actions": {
-          "Ml8nt7SPNFc2iQno": {
+          "dwpQNx63V6hL1mXZ": {
             "type": "effect",
-            "_id": "Ml8nt7SPNFc2iQno",
+            "_id": "dwpQNx63V6hL1mXZ",
             "systemPath": "actions",
             "description": "",
             "chatDisplay": true,
@@ -323,81 +400,15 @@
               "amount": null
             },
             "name": "Mark Stress",
-            "img": "icons/magic/perception/silhouette-stealth-shadow.webp",
-            "range": ""
-          },
-          "qCA2hTMIYGW0FhGy": {
-            "type": "healing",
-            "_id": "qCA2hTMIYGW0FhGy",
-            "systemPath": "actions",
-            "description": "",
-            "chatDisplay": true,
-            "actionType": "action",
-            "cost": [],
-            "uses": {
-              "value": null,
-              "max": "",
-              "recovery": null
-            },
-            "damage": {
-              "parts": [
-                {
-                  "value": {
-                    "custom": {
-                      "enabled": false
-                    },
-                    "flatMultiplier": 1,
-                    "dice": "d4",
-                    "bonus": null,
-                    "multiplier": "flat"
-                  },
-                  "applyTo": "fear",
-                  "base": false,
-                  "resultBased": false,
-                  "valueAlt": {
-                    "multiplier": "prof",
-                    "flatMultiplier": 1,
-                    "dice": "d6",
-                    "bonus": null,
-                    "custom": {
-                      "enabled": false
-                    }
-                  },
-                  "type": []
-                }
-              ],
-              "includeBase": false
-            },
-            "target": {
-              "type": "self",
-              "amount": null
-            },
-            "effects": [],
-            "roll": {
-              "type": null,
-              "trait": null,
-              "difficulty": null,
-              "bonus": null,
-              "advState": "neutral",
-              "diceRolling": {
-                "multiplier": "prof",
-                "flatMultiplier": 1,
-                "dice": "d6",
-                "compare": null,
-                "treshold": null
-              },
-              "useDefault": false
-            },
-            "name": "Gain Fear",
-            "img": "icons/magic/perception/silhouette-stealth-shadow.webp",
+            "img": "icons/magic/defensive/shield-barrier-blue.webp",
             "range": ""
           }
         },
         "originItemType": null,
         "originId": null
       },
-      "_id": "UvgVDn0YjISLdKE4",
-      "img": "icons/magic/perception/silhouette-stealth-shadow.webp",
+      "_id": "zcfyEY29yWqJtZbl",
+      "img": "icons/magic/defensive/shield-barrier-blue.webp",
       "effects": [],
       "folder": null,
       "sort": 0,
@@ -413,13 +424,13 @@
         "coreVersion": "13.346",
         "systemId": "daggerheart",
         "systemVersion": "0.0.1",
-        "createdTime": 1754084782425,
-        "modifiedTime": 1754084860717,
-        "lastModifiedBy": "MQSznptE5yLT7kj8"
+        "lastModifiedBy": null
       },
-      "_key": "!actors.items!8zlynOhnVA59KpKT.UvgVDn0YjISLdKE4"
+      "_key": "!actors.items!bfhVWMBUh61b9J6n.zcfyEY29yWqJtZbl"
     }
   ],
   "effects": [],
-  "_key": "!actors!8zlynOhnVA59KpKT"
+  "_id": "bfhVWMBUh61b9J6n",
+  "sort": 0,
+  "_key": "!actors!bfhVWMBUh61b9J6n"
 }
