@@ -7,8 +7,8 @@
     "rollup": "^4.40.0"
   },
   "scripts": {
-    "start": "concurrently \"rollup -c --watch\" \"node \"$HOME/Applications/Foundry Virtual Tabletop.app/Contents/Resources/app/main.js\" --dataPath=\"$HOME/Library/Application Support/FoundryVTT/Data\" --noupnp\"  \"gulp\"",
-    "start-test": "node \"$HOME/Applications/Foundry Virtual Tabletop.app/Contents/Resources/app/main.js\" --dataPath=\"$HOME/Library/Application Support/FoundryVTT/Data\" && rollup -c --watch && gulp",
+    "start": "concurrently \"rollup -c --watch\" \"node '$HOME/foundry/main.js' --dataPath='$HOME/foundrydata' --noupnp\"  \"gulp\"",
+    "start-test": "node '$HOME/foundry/main.js' --dataPath='$HOME/foundrydata' && rollup -c --watch && gulp",
     "build": "npm run rollup && npm run gulp",
     "rollup": "rollup -c",
     "gulp": "gulp less",
