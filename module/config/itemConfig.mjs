@@ -675,7 +675,7 @@ export const weaponFeatures = {
                 },
                 cost: [
                     {
-                        type: 'armorSlot',
+                        type: 'armor',
                         value: 1
                     }
                 ],

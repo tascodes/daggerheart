@@ -148,10 +148,10 @@ export const healingTypes = {
         label: 'DAGGERHEART.CONFIG.HealingType.hope.name',
         abbreviation: 'DAGGERHEART.CONFIG.HealingType.hope.abbreviation'
     },
-    armorSlot: {
-        id: 'armorSlot',
-        label: 'DAGGERHEART.CONFIG.HealingType.armorSlot.name',
-        abbreviation: 'DAGGERHEART.CONFIG.HealingType.armorSlot.abbreviation'
+    armor: {
+        id: 'armor',
+        label: 'DAGGERHEART.CONFIG.HealingType.armor.name',
+        abbreviation: 'DAGGERHEART.CONFIG.HealingType.armor.abbreviation'
     },
     fear: {
         id: 'fear',
@@ -262,7 +262,7 @@ export const defaultRestOptions = {
                     actionType: 'action',
                     chatDisplay: false,
                     healing: {
-                        applyTo: healingTypes.armorSlot.id,
+                        applyTo: healingTypes.armor.id,
                         value: {
                             custom: {
                                 enabled: true,
@@ -350,7 +350,7 @@ export const defaultRestOptions = {
                     actionType: 'action',
                     chatDisplay: false,
                     healing: {
-                        applyTo: healingTypes.armorSlot.id,
+                        applyTo: healingTypes.armor.id,
                         value: {
                             custom: {
                                 enabled: true,

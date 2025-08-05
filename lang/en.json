@@ -897,7 +897,7 @@
                     "name": "Hope",
                     "abbreviation": "HO"
                 },
-                "armorSlot": {
+                "armor": {
                     "name": "Armor Slot",
                     "abbreviation": "AS"
                 },
