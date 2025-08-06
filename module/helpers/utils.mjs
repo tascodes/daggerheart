@@ -83,15 +83,16 @@ export const chunkify = (array, chunkSize, mappingFunc) => {
     return chunkifiedArray;
 };
 
-export const tagifyElement = (element, options, onChange, tagifyOptions = {}) => {
+export const tagifyElement = (element, baseOptions, onChange, tagifyOptions = {}) => {
     const { maxTags } = tagifyOptions;
+    const options = typeof baseOptions === 'object' ? Object.values(baseOptions) : baseOptions;
+
     const tagifyElement = new Tagify(element, {
         tagTextProp: 'name',
         enforceWhitelist: true,
-        whitelist: Object.keys(options).map(key => {
-            const option = options[key];
+        whitelist: options.map(option => {
             return {
-                value: key,
+                value: option.id,
                 name: game.i18n.localize(option.label),
                 src: option.src,
                 description: option.description
@@ -100,7 +101,7 @@ export const tagifyElement = (element, options, onChange, tagifyOptions = {}) =>
         maxTags: typeof maxTags === 'function' ? maxTags() : maxTags,
         dropdown: {
             mapValueTo: 'name',
-            searchKeys: ['name'],
+            searchKeys: ['value'],
             enabled: 0,
             maxItems: 100,
             closeOnSelect: true,
@@ -324,3 +325,52 @@ export const arraysEqual = (a, b) =>
     [...new Set([...a, ...b])].every(v => a.filter(e => e === v).length === b.filter(e => e === v).length);
 
 export const setsEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value));
+
+export function getScrollTextData(resources, resource, key) {
+    const { reversed, label } = CONFIG.DH.ACTOR.scrollingTextResource[key];
+    const { BOTTOM, TOP } = CONST.TEXT_ANCHOR_POINTS;
+    const increased = resources[key].value < resource.value;
+    const value = -1 * (resources[key].value - resource.value);
+
+    const text = `${game.i18n.localize(label)} ${value.signedString()}`;
+
+    const stroke = increased ? (reversed ? 0xffffff : 0x000000) : reversed ? 0x000000 : 0xffffff;
+    const fill = increased ? (reversed ? 0x0032b1 : 0xffe760) : reversed ? 0xffe760 : 0x0032b1;
+    const direction = increased ? (reversed ? BOTTOM : TOP) : reversed ? TOP : BOTTOM;
+
+    return { text, stroke, fill, direction };
+}
+
+export function createScrollText(actor, optionsData) {
+    if (actor && optionsData?.length) {
+        actor.getDependentTokens().forEach(token => {
+            optionsData.forEach(data => {
+                const { text, ...options } = data;
+                canvas.interface.createScrollingText(token.getCenterPoint(), data.text, {
+                    duration: 2000,
+                    distance: token.h,
+                    jitter: 0,
+                    ...options
+                });
+            });
+        });
+    }
+}
+
+export async function createEmbeddedItemWithEffects(actor, baseData, update) {
+    const data = baseData.uuid.startsWith('Compendium') ? await foundry.utils.fromUuid(baseData.uuid) : baseData;
+    const [doc] = await actor.createEmbeddedDocuments('Item', [
+        {
+            ...(update ?? data),
+            id: data.id,
+            uuid: data.uuid,
+            effects: data.effects?.map(effect => effect.toObject())
+        }
+    ]);
+
+    return doc;
+}
+
+export const slugify = name => {
+    return name.toLowerCase().replaceAll(' ', '-').replaceAll('.', '');
+};

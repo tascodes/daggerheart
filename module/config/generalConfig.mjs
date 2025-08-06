@@ -148,10 +148,10 @@ export const healingTypes = {
         label: 'DAGGERHEART.CONFIG.HealingType.hope.name',
         abbreviation: 'DAGGERHEART.CONFIG.HealingType.hope.abbreviation'
     },
-    armorSlot: {
-        id: 'armorSlot',
-        label: 'DAGGERHEART.CONFIG.HealingType.armorSlot.name',
-        abbreviation: 'DAGGERHEART.CONFIG.HealingType.armorSlot.abbreviation'
+    armor: {
+        id: 'armor',
+        label: 'DAGGERHEART.CONFIG.HealingType.armor.name',
+        abbreviation: 'DAGGERHEART.CONFIG.HealingType.armor.abbreviation'
     },
     fear: {
         id: 'fear',
@@ -209,14 +209,21 @@ export const defaultRestOptions = {
                     img: 'icons/magic/life/cross-worn-green.webp',
                     actionType: 'action',
                     chatDisplay: false,
-                    healing: {
-                        applyTo: healingTypes.hitPoints.id,
-                        value: {
-                            custom: {
-                                enabled: true,
-                                formula: '1d4 + @tier'
+                    target: {
+                        type: 'self'
+                    },
+                    damage: {
+                        parts: [
+                            {
+                                applyTo: healingTypes.hitPoints.id,
+                                value: {
+                                    custom: {
+                                        enabled: true,
+                                        formula: '1d4 + @tier'
+                                    }
+                                }
                             }
-                        }
+                        ]
                     }
                 }
             }
@@ -235,14 +242,21 @@ export const defaultRestOptions = {
                     img: 'icons/magic/perception/eye-ringed-green.webp',
                     actionType: 'action',
                     chatDisplay: false,
-                    healing: {
-                        applyTo: healingTypes.stress.id,
-                        value: {
-                            custom: {
-                                enabled: true,
-                                formula: '1d4 + @tier'
+                    target: {
+                        type: 'self'
+                    },
+                    damage: {
+                        parts: [
+                            {
+                                applyTo: healingTypes.stress.id,
+                                value: {
+                                    custom: {
+                                        enabled: true,
+                                        formula: '1d4 + @tier'
+                                    }
+                                }
                             }
-                        }
+                        ]
                     }
                 }
             }
@@ -261,14 +275,21 @@ export const defaultRestOptions = {
                     img: 'icons/skills/trades/smithing-anvil-silver-red.webp',
                     actionType: 'action',
                     chatDisplay: false,
-                    healing: {
-                        applyTo: healingTypes.armorSlot.id,
-                        value: {
-                            custom: {
-                                enabled: true,
-                                formula: '1d4 + @tier'
+                    target: {
+                        type: 'self'
+                    },
+                    damage: {
+                        parts: [
+                            {
+                                applyTo: healingTypes.armor.id,
+                                value: {
+                                    custom: {
+                                        enabled: true,
+                                        formula: '1d4 + @tier'
+                                    }
+                                }
                             }
-                        }
+                        ]
                     }
                 }
             }
@@ -297,14 +318,21 @@ export const defaultRestOptions = {
                     img: 'icons/magic/life/cross-worn-green.webp',
                     actionType: 'action',
                     chatDisplay: false,
-                    healing: {
-                        applyTo: healingTypes.hitPoints.id,
-                        value: {
-                            custom: {
-                                enabled: true,
-                                formula: '@system.resources.hitPoints.max'
+                    target: {
+                        type: 'self'
+                    },
+                    damage: {
+                        parts: [
+                            {
+                                applyTo: healingTypes.hitPoints.id,
+                                value: {
+                                    custom: {
+                                        enabled: true,
+                                        formula: '@system.resources.hitPoints.max'
+                                    }
+                                }
                             }
-                        }
+                        ]
                     }
                 }
             }
@@ -323,14 +351,21 @@ export const defaultRestOptions = {
                     img: 'icons/magic/perception/eye-ringed-green.webp',
                     actionType: 'action',
                     chatDisplay: false,
-                    healing: {
-                        applyTo: healingTypes.stress.id,
-                        value: {
-                            custom: {
-                                enabled: true,
-                                formula: '@system.resources.stress.max'
+                    target: {
+                        type: 'self'
+                    },
+                    damage: {
+                        parts: [
+                            {
+                                applyTo: healingTypes.stress.id,
+                                value: {
+                                    custom: {
+                                        enabled: true,
+                                        formula: '@system.resources.stress.max'
+                                    }
+                                }
                             }
-                        }
+                        ]
                     }
                 }
             }
@@ -349,14 +384,21 @@ export const defaultRestOptions = {
                     img: 'icons/skills/trades/smithing-anvil-silver-red.webp',
                     actionType: 'action',
                     chatDisplay: false,
-                    healing: {
-                        applyTo: healingTypes.armorSlot.id,
-                        value: {
-                            custom: {
-                                enabled: true,
-                                formula: '@system.armorScore'
+                    target: {
+                        type: 'self'
+                    },
+                    damage: {
+                        parts: [
+                            {
+                                applyTo: healingTypes.armor.id,
+                                value: {
+                                    custom: {
+                                        enabled: true,
+                                        formula: '@system.armorScore'
+                                    }
+                                }
                             }
-                        }
+                        ]
                     }
                 }
             }
@@ -451,8 +493,20 @@ export const getDiceSoNicePresets = async (hopeFaces, fearFaces, advantageFaces 
     const { diceSoNice } = game.settings.get(CONFIG.DH.id, CONFIG.DH.SETTINGS.gameSettings.appearance);
     const getPreset = async (type, faces) => {
         const system = game.dice3d.DiceFactory.systems.get(type.system).dice.get(faces);
-        if (!system.modelLoaded) {
+        if (!system) {
+            ui.notifications.error(
+                game.i18n.format('DAGGERHEART.UI.Notifications.noDiceSystem', {
+                    system: game.dice3d.DiceFactory.systems.get(type.system).name,
+                    faces: faces
+                })
+            );
+            return;
+        }
+
+        if (system.modelFile && !system.modelLoaded) {
             await system.loadModel(game.dice3d.DiceFactory.loaderGLTF);
+        } else {
+            await system.loadTextures();
         }
 
         return {
